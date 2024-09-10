@@ -102,7 +102,7 @@ export default function GlobalContextsProvider(
               fontSize: "14px",
               fontWeight: "400",
               lineHeight: "21px",
-              color: "#9898AB",
+              color: "#000000",
               letterSpacing: "-0.6%"
             }
           : undefined
