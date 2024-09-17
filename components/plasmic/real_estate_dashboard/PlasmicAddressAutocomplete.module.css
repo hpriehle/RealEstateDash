@@ -8,10 +8,3 @@
   align-items: center;
   min-width: 0;
 }
-.img {
-  object-fit: cover;
-  max-width: 100%;
-}
-.img > picture > img {
-  object-fit: cover;
-}

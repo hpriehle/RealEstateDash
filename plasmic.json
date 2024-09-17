@@ -41,8 +41,7 @@
           "componentImportPath": "@plasmicpkgs/react-youtube"
         }
       ],
-      "customFunctions": [],
-      "jsBundleThemes": []
+      "customFunctions": []
     },
     {
       "projectId": "58GpZjZCWTaJ8AUhpCwt2K",
@@ -64,8 +63,7 @@
           "componentImportPath": "@plasmicpkgs/react-awesome-reveal"
         }
       ],
-      "customFunctions": [],
-      "jsBundleThemes": []
+      "customFunctions": []
     },
     {
       "projectId": "caTPwKxj5ZrD9LQ7DMdK4Z",
@@ -145,8 +143,7 @@
           "componentImportPath": "@plasmicpkgs/react-chartjs-2"
         }
       ],
-      "customFunctions": [],
-      "jsBundleThemes": []
+      "customFunctions": []
     },
     {
       "projectId": "9Vr5YWkf3w7jj6SsTcCEta",
@@ -168,8 +165,7 @@
           "componentImportPath": "@plasmicpkgs/plasmic-basic-components"
         }
       ],
-      "customFunctions": [],
-      "jsBundleThemes": []
+      "customFunctions": []
     },
     {
       "projectId": "jkU633o1Cz7HrJdwdxhVHk",
@@ -223,8 +219,7 @@
           }
         }
       ],
-      "customFunctions": [],
-      "jsBundleThemes": []
+      "customFunctions": []
     },
     {
       "projectId": "ohDidvG9XsCeFumugENU3J",
@@ -624,8 +619,7 @@
           "componentImportPath": "@plasmicpkgs/antd5/skinny/registerBreadcrumb"
         }
       ],
-      "customFunctions": [],
-      "jsBundleThemes": []
+      "customFunctions": []
     },
     {
       "projectId": "tkmnpDqLBPFkHbb2kiGN2p",
@@ -733,7 +727,7 @@
           "projectId": "tkmnpDqLBPFkHbb2kiGN2p",
           "renderModuleFilePath": "plasmic/real_estate_dashboard/PlasmicProperties.tsx",
           "importSpec": {
-            "modulePath": "../pages/home/[id].tsx"
+            "modulePath": "../pages/home/[contactId]/[id].tsx"
           },
           "cssFilePath": "plasmic/real_estate_dashboard/PlasmicProperties.module.css",
           "scheme": "blackbox",
@@ -796,15 +790,28 @@
           "path": "/adminsettings"
         },
         {
-          "id": "VIubIYJ-bkSA",
-          "name": "LinkPreview",
+          "id": "tuY1E1btiVZ1",
+          "name": "AddressAutocomplete",
           "type": "managed",
           "projectId": "tkmnpDqLBPFkHbb2kiGN2p",
-          "renderModuleFilePath": "plasmic/real_estate_dashboard/PlasmicLinkPreview.tsx",
+          "renderModuleFilePath": "plasmic/real_estate_dashboard/PlasmicAddressAutocomplete.tsx",
           "importSpec": {
-            "modulePath": "LinkPreview.tsx"
+            "modulePath": "AddressAutocomplete.tsx"
           },
-          "cssFilePath": "plasmic/real_estate_dashboard/PlasmicLinkPreview.module.css",
+          "cssFilePath": "plasmic/real_estate_dashboard/PlasmicAddressAutocomplete.module.css",
+          "scheme": "blackbox",
+          "componentType": "component"
+        },
+        {
+          "id": "jBduVDN7iRsf",
+          "name": "Drawer",
+          "type": "managed",
+          "projectId": "tkmnpDqLBPFkHbb2kiGN2p",
+          "renderModuleFilePath": "plasmic/real_estate_dashboard/PlasmicDrawer.tsx",
+          "importSpec": {
+            "modulePath": "Drawer.tsx"
+          },
+          "cssFilePath": "plasmic/real_estate_dashboard/PlasmicDrawer.module.css",
           "scheme": "blackbox",
           "componentType": "component"
         }
@@ -1406,6 +1413,16 @@
           "id": "RGNjIV2IYtbM",
           "name": "Blocks 1x 1.0s 200px.gif",
           "filePath": "../public/plasmic/real_estate_dashboard/images/blocks1X10S200PxGif.gif"
+        },
+        {
+          "id": "0-PrBNUYkjp8",
+          "name": "image 10",
+          "filePath": "../public/plasmic/real_estate_dashboard/images/image10.png"
+        },
+        {
+          "id": "6TOaRiSDk0nS",
+          "name": "DALL·E Sep 14 Image Vibe Large.jpeg",
+          "filePath": "../public/plasmic/real_estate_dashboard/images/dallESep14ImageVibeLargeJpeg.jpg"
         }
       ],
       "indirect": false,

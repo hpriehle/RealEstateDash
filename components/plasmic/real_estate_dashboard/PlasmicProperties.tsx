@@ -66,15 +66,21 @@ import {
   usePlasmicInvalidate
 } from "@plasmicapp/react-web/lib/data-sources";
 
+import { RichTable } from "@plasmicpkgs/plasmic-rich-components/skinny/rich-table";
+import { tableHelpers as RichTable_Helpers } from "@plasmicpkgs/plasmic-rich-components/skinny/rich-table";
+import { AntdInputNumber } from "@plasmicpkgs/antd5/skinny/registerInput";
+import { AntdSelect } from "@plasmicpkgs/antd5/skinny/registerSelect";
+import Drawer from "../../Drawer"; // plasmic-import: jBduVDN7iRsf/component
+import Button from "../../Button"; // plasmic-import: otmq_-sWwXFs/component
 import { AntdButton } from "@plasmicpkgs/antd5/skinny/registerButton";
 import { AntdModal } from "@plasmicpkgs/antd5/skinny/registerModal";
 import { AntdCheckbox } from "@plasmicpkgs/antd5/skinny/registerCheckbox";
 import { AntdInput } from "@plasmicpkgs/antd5/skinny/registerInput";
 import { inputHelpers as AntdInput_Helpers } from "@plasmicpkgs/antd5/skinny/registerInput";
 import { Iframe } from "@plasmicpkgs/plasmic-basic-components";
-import { AntdSelect } from "@plasmicpkgs/antd5/skinny/registerSelect";
 import { SimpleChart } from "@plasmicpkgs/react-chartjs-2";
 import YouTube from "@plasmicpkgs/react-youtube";
+import MapComponent from "../../MapComponent"; // plasmic-import: aSaTcETCxkUE/component
 import { Fetcher } from "@plasmicapp/react-web/lib/data-sources";
 
 import { useScreenVariants as useScreenVariants_90LdDEgHyil } from "./PlasmicGlobalVariant__Screen"; // plasmic-import: 90Ld_DEgHYIL/globalVariant
@@ -86,6 +92,8 @@ import plasmic_plasmic_rich_components_css from "../plasmic_rich_components/plas
 import projectcss from "./plasmic.module.css"; // plasmic-import: tkmnpDqLBPFkHbb2kiGN2p/projectcss
 import sty from "./PlasmicProperties.module.css"; // plasmic-import: LEnLfYYbGIPr/css
 
+import Icon5Icon from "./icons/PlasmicIcon__Icon5"; // plasmic-import: xrjf5RPtuahF/icon
+import Icon6Icon from "./icons/PlasmicIcon__Icon6"; // plasmic-import: dqZVEtD_E7L4/icon
 import Elements19Icon from "./icons/PlasmicIcon__Elements19"; // plasmic-import: uCDZdALb3qxF/icon
 import Idea01Icon from "./icons/PlasmicIcon__Idea01"; // plasmic-import: IawKc8dKqxVV/icon
 import Elements9Icon from "./icons/PlasmicIcon__Elements9"; // plasmic-import: zpmeAeUqH5SS/icon
@@ -124,6 +132,14 @@ export const PlasmicProperties__ArgProps = new Array<ArgPropType>();
 
 export type PlasmicProperties__OverridesType = {
   root?: Flex__<"div">;
+  adminMode?: Flex__<"section">;
+  table?: Flex__<typeof RichTable>;
+  homeId?: Flex__<typeof AntdInputNumber>;
+  header?: Flex__<"div">;
+  select3?: Flex__<typeof AntdSelect>;
+  drawer?: Flex__<typeof Drawer>;
+  body?: Flex__<"section">;
+  dash?: Flex__<"div">;
   modal3?: Flex__<typeof AntdModal>;
   checkbox2?: Flex__<typeof AntdCheckbox>;
   input2?: Flex__<typeof AntdInput>;
@@ -209,6 +225,7 @@ export type PlasmicProperties__OverridesType = {
   _8881SAspenViewDr3?: Flex__<"div">;
   _8881SAspenViewDr4?: Flex__<"div">;
   frame427318736?: Flex__<"div">;
+  mapComponent?: Flex__<typeof MapComponent>;
   frame427318725?: Flex__<"div">;
   frame73?: Flex__<"div">;
   bathtub023?: Flex__<"div">;
@@ -244,14 +261,9 @@ export type PlasmicProperties__OverridesType = {
   frame427318813?: Flex__<"div">;
   mail022?: Flex__<"div">;
   testimonials7?: Flex__<"div">;
-  frame427318805?: Flex__<"div">;
-  frame427318806?: Flex__<"div">;
-  star?: Flex__<"div">;
-  star2?: Flex__<"div">;
-  star3?: Flex__<"div">;
-  star4?: Flex__<"div">;
-  star5?: Flex__<"div">;
-  section?: Flex__<"section">;
+  onItsWay?: Flex__<"section">;
+  loading?: Flex__<"section">;
+  footer?: Flex__<"div">;
 };
 
 export interface DefaultPropertiesProps {}
@@ -308,7 +320,11 @@ function PlasmicProperties__RenderFunc(props: {
         initFunc: ({ $props, $state, $queries, $ctx }) =>
           (() => {
             try {
-              return $queries.getProperty.data[0].county || "Salt Lake";
+              return (
+                $queries.getProperty.data.find(
+                  entry => entry.id == $state.homeId.value
+                ).county || "Salt Lake"
+              );
             } catch (e) {
               if (
                 e instanceof TypeError ||
@@ -341,7 +357,11 @@ function PlasmicProperties__RenderFunc(props: {
                 const uniqueCountyKeyValuePairs =
                   mapToUniqueKeyValuePairs(data);
                 return uniqueCountyKeyValuePairs.find(
-                  entry => entry.key != $queries.getProperty.data[0].county
+                  entry =>
+                    entry.key !=
+                    $queries.getProperty.data.find(
+                      entry => entry.id == $state.homeId.value
+                    ).county
                 ).value;
               })();
             } catch (e) {
@@ -446,7 +466,7 @@ function PlasmicProperties__RenderFunc(props: {
         initFunc: ({ $props, $state, $queries, $ctx }) =>
           (() => {
             try {
-              return $queries.getProperty.data[0].onboarding_done;
+              return !$queries.getProperty.data[0].onboarding_done;
             } catch (e) {
               if (
                 e instanceof TypeError ||
@@ -457,6 +477,84 @@ function PlasmicProperties__RenderFunc(props: {
               throw e;
             }
           })()
+      },
+      {
+        path: "table.selectedRowKey",
+        type: "private",
+        variableType: "text",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
+
+        onMutate: generateOnMutateForSpec("selectedRowKey", RichTable_Helpers)
+      },
+      {
+        path: "table.selectedRow",
+        type: "private",
+        variableType: "object",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
+
+        onMutate: generateOnMutateForSpec("selectedRow", RichTable_Helpers)
+      },
+      {
+        path: "table.selectedRows",
+        type: "private",
+        variableType: "array",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
+
+        onMutate: generateOnMutateForSpec("selectedRows", RichTable_Helpers)
+      },
+      {
+        path: "table.selectedRowKeys",
+        type: "private",
+        variableType: "array",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
+
+        onMutate: generateOnMutateForSpec("selectedRowKeys", RichTable_Helpers)
+      },
+      {
+        path: "select3.value",
+        type: "private",
+        variableType: "text",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined
+      },
+      {
+        path: "homeId.value",
+        type: "private",
+        variableType: "text",
+        initFunc: ({ $props, $state, $queries, $ctx }) =>
+          (() => {
+            try {
+              return (() => {
+                const pathParam = $ctx.params.id;
+                const selectValue = $state.select3.value;
+                const fallbackValue = $queries.getProperty.data.find(
+                  entry => entry.done == true
+                ).id;
+                let resultValue;
+                if (pathParam !== undefined && pathParam !== null) {
+                  resultValue = pathParam;
+                } else if (selectValue !== undefined && selectValue !== null) {
+                  resultValue = selectValue;
+                } else {
+                  resultValue = fallbackValue;
+                }
+                return resultValue;
+              })();
+            } catch (e) {
+              if (
+                e instanceof TypeError ||
+                e?.plasmicType === "PlasmicUndefinedDataError"
+              ) {
+                return undefined;
+              }
+              throw e;
+            }
+          })()
+      },
+      {
+        path: "drawer.open",
+        type: "private",
+        variableType: "boolean",
+        initFunc: ({ $props, $state, $queries, $ctx }) => false
       }
     ],
     [$props, $ctx, $refs]
@@ -474,9 +572,9 @@ function PlasmicProperties__RenderFunc(props: {
     getProperty: usePlasmicDataOp(() => {
       return {
         sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
-        opId: "841bf782-bb18-4157-b5dd-23ef89b469b9",
+        opId: "8c092b6d-8518-4253-b08a-8df79e0921fb",
         userArgs: {
-          filters: [$ctx.params.id]
+          filters: [$ctx.params.contactId]
         },
         cacheKey: `plasmic.$.${(() => {
           try {
@@ -490,7 +588,7 @@ function PlasmicProperties__RenderFunc(props: {
             }
             throw e;
           }
-        })()}.$.841bf782-bb18-4157-b5dd-23ef89b469b9.$.`,
+        })()}.$.8c092b6d-8518-4253-b08a-8df79e0921fb.$.`,
         invalidatedKeys: null,
         roleId: null
       };
@@ -510,7 +608,7 @@ function PlasmicProperties__RenderFunc(props: {
         sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
         opId: "66abac06-bce2-41f2-bcf8-ba873bd50d0c",
         userArgs: {
-          filters: [$ctx.params.id]
+          filters: [$state.homeId.value]
         },
         cacheKey: `plasmic.$.66abac06-bce2-41f2-bcf8-ba873bd50d0c.$.`,
         invalidatedKeys: null,
@@ -522,7 +620,7 @@ function PlasmicProperties__RenderFunc(props: {
         sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
         opId: "cf4a3a4d-4114-44ba-873e-64b55e05b9dd",
         userArgs: {
-          filters: [$ctx.params.id]
+          filters: [$state.homeId.value]
         },
         cacheKey: `plasmic.$.cf4a3a4d-4114-44ba-873e-64b55e05b9dd.$.`,
         invalidatedKeys: null,
@@ -546,7 +644,7 @@ function PlasmicProperties__RenderFunc(props: {
         sourceId: "94DwF4GLwVL8D9jt9sN8Dy",
         opId: "f16cb19b-e095-441b-b3c4-13bda4c16e8c",
         userArgs: {
-          params: [$ctx.params.id]
+          params: [$state.homeId.value]
         },
         cacheKey: `plasmic.$.f16cb19b-e095-441b-b3c4-13bda4c16e8c.$.`,
         invalidatedKeys: null,
@@ -573,6 +671,18 @@ function PlasmicProperties__RenderFunc(props: {
           filters: [$queries.getEntity.data[0].id]
         },
         cacheKey: `plasmic.$.b6ec37a2-68fe-4539-b462-ba42176dbf8d.$.`,
+        invalidatedKeys: null,
+        roleId: null
+      };
+    }),
+    getLogs: usePlasmicDataOp(() => {
+      return {
+        sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
+        opId: "287362fe-f4f7-4fcb-9ccf-10fc10b1237e",
+        userArgs: {
+          filters: [$state.homeId.value]
+        },
+        cacheKey: `plasmic.$.287362fe-f4f7-4fcb-9ccf-10fc10b1237e.$.`,
         invalidatedKeys: null,
         roleId: null
       };
@@ -615,7 +725,301 @@ function PlasmicProperties__RenderFunc(props: {
             sty.root
           )}
         >
-          <div className={classNames(projectcss.all, sty.freeBox__nIw2Y)}>
+          {(() => {
+            try {
+              return $ctx.query.admin == "true";
+            } catch (e) {
+              if (
+                e instanceof TypeError ||
+                e?.plasmicType === "PlasmicUndefinedDataError"
+              ) {
+                return true;
+              }
+              throw e;
+            }
+          })() ? (
+            <section
+              data-plasmic-name={"adminMode"}
+              data-plasmic-override={overrides.adminMode}
+              className={classNames(projectcss.all, sty.adminMode)}
+            >
+              <div
+                className={classNames(
+                  projectcss.all,
+                  projectcss.__wab_text,
+                  sty.text__ayoco
+                )}
+              >
+                {"Admin Mode"}
+              </div>
+              <div
+                className={classNames(
+                  projectcss.all,
+                  projectcss.__wab_text,
+                  sty.text__fNocf
+                )}
+              >
+                <React.Fragment>
+                  {(() => {
+                    try {
+                      return "time= " + $queries.getProperty.data[0].created_at;
+                    } catch (e) {
+                      if (
+                        e instanceof TypeError ||
+                        e?.plasmicType === "PlasmicUndefinedDataError"
+                      ) {
+                        return "Admin Mode";
+                      }
+                      throw e;
+                    }
+                  })()}
+                </React.Fragment>
+              </div>
+              <div
+                className={classNames(
+                  projectcss.all,
+                  projectcss.__wab_text,
+                  sty.text__l9Kyb
+                )}
+              >
+                <React.Fragment>
+                  {(() => {
+                    try {
+                      return "user= " + $queries.getClient.data[0].email;
+                    } catch (e) {
+                      if (
+                        e instanceof TypeError ||
+                        e?.plasmicType === "PlasmicUndefinedDataError"
+                      ) {
+                        return "Admin Mode";
+                      }
+                      throw e;
+                    }
+                  })()}
+                </React.Fragment>
+              </div>
+              <div
+                className={classNames(
+                  projectcss.all,
+                  projectcss.__wab_text,
+                  sty.text__zHzzh
+                )}
+              >
+                <React.Fragment>
+                  {(() => {
+                    try {
+                      return "propid= " + $state.homeId.value;
+                    } catch (e) {
+                      if (
+                        e instanceof TypeError ||
+                        e?.plasmicType === "PlasmicUndefinedDataError"
+                      ) {
+                        return "Admin Mode";
+                      }
+                      throw e;
+                    }
+                  })()}
+                </React.Fragment>
+              </div>
+              {(() => {
+                const child$Props = {
+                  className: classNames("__wab_instance", sty.table),
+                  data: (() => {
+                    try {
+                      return $queries.getLogs;
+                    } catch (e) {
+                      if (
+                        e instanceof TypeError ||
+                        e?.plasmicType === "PlasmicUndefinedDataError"
+                      ) {
+                        return undefined;
+                      }
+                      throw e;
+                    }
+                  })(),
+                  fields: (() => {
+                    const __composite = [
+                      { key: "id", fieldId: "id", isHidden: null },
+                      { key: "clientId", fieldId: "clientId", isHidden: null },
+                      { key: "propId", fieldId: "propId", isHidden: null },
+                      { key: "created_at", fieldId: "created_at" },
+                      { key: "admin", fieldId: "admin", isHidden: null },
+                      { key: "type", fieldId: "type" },
+                      { key: "description", fieldId: "description" }
+                    ];
+                    __composite["0"]["isHidden"] = true;
+                    __composite["1"]["isHidden"] = true;
+                    __composite["2"]["isHidden"] = true;
+                    __composite["4"]["isHidden"] = true;
+                    return __composite;
+                  })(),
+
+                  hideColumnPicker: true,
+                  hideDensity: true,
+                  hideExports: true,
+                  hideSearch: true,
+                  onRowSelectionChanged: async (...eventArgs: any) => {
+                    generateStateOnChangePropForCodeComponents(
+                      $state,
+                      "selectedRowKey",
+                      ["table", "selectedRowKey"],
+                      RichTable_Helpers
+                    ).apply(null, eventArgs);
+                    generateStateOnChangePropForCodeComponents(
+                      $state,
+                      "selectedRow",
+                      ["table", "selectedRow"],
+                      RichTable_Helpers
+                    ).apply(null, eventArgs);
+                    generateStateOnChangePropForCodeComponents(
+                      $state,
+                      "selectedRows",
+                      ["table", "selectedRows"],
+                      RichTable_Helpers
+                    ).apply(null, eventArgs);
+                    generateStateOnChangePropForCodeComponents(
+                      $state,
+                      "selectedRowKeys",
+                      ["table", "selectedRowKeys"],
+                      RichTable_Helpers
+                    ).apply(null, eventArgs);
+                  },
+                  scopeClassName: sty["table__instance"],
+                  selectedRowKey: generateStateValueProp($state, [
+                    "table",
+                    "selectedRowKey"
+                  ]),
+                  selectedRowKeys: generateStateValueProp($state, [
+                    "table",
+                    "selectedRowKeys"
+                  ]),
+                  themeResetClassName: classNames(
+                    projectcss.root_reset,
+                    projectcss.root_reset_tags,
+                    projectcss.plasmic_default_styles,
+                    projectcss.plasmic_mixins,
+                    projectcss.plasmic_tokens,
+                    plasmic_antd_5_hostless_css.plasmic_tokens,
+                    plasmic_plasmic_rich_components_css.plasmic_tokens
+                  )
+                };
+                initializeCodeComponentStates(
+                  $state,
+                  [
+                    {
+                      name: "selectedRowKey",
+                      plasmicStateName: "table.selectedRowKey"
+                    },
+                    {
+                      name: "selectedRow",
+                      plasmicStateName: "table.selectedRow"
+                    },
+                    {
+                      name: "selectedRows",
+                      plasmicStateName: "table.selectedRows"
+                    },
+                    {
+                      name: "selectedRowKeys",
+                      plasmicStateName: "table.selectedRowKeys"
+                    }
+                  ],
+                  [],
+                  RichTable_Helpers ?? {},
+                  child$Props
+                );
+
+                return (
+                  <RichTable
+                    data-plasmic-name={"table"}
+                    data-plasmic-override={overrides.table}
+                    {...child$Props}
+                  />
+                );
+              })()}
+              <div className={classNames(projectcss.all, sty.freeBox__kTvdF)}>
+                {(() => {
+                  const child$Props = {
+                    className: classNames("__wab_instance", sty.homeId),
+                    onChange: generateStateOnChangeProp($state, [
+                      "homeId",
+                      "value"
+                    ]),
+                    type: "number",
+                    value: generateStateValueProp($state, ["homeId", "value"])
+                  };
+                  initializeCodeComponentStates(
+                    $state,
+                    [
+                      {
+                        name: "value",
+                        plasmicStateName: "homeId.value"
+                      }
+                    ],
+                    [],
+                    undefined ?? {},
+                    child$Props
+                  );
+                  initializePlasmicStates(
+                    $state,
+                    [
+                      {
+                        name: "homeId.value",
+                        initFunc: ({ $props, $state, $queries }) =>
+                          (() => {
+                            try {
+                              return (() => {
+                                const pathParam = $ctx.params.id;
+                                const selectValue = $state.select3.value;
+                                const fallbackValue =
+                                  $queries.getProperty.data.find(
+                                    entry => entry.done == true
+                                  ).id;
+                                let resultValue;
+                                if (
+                                  pathParam !== undefined &&
+                                  pathParam !== null
+                                ) {
+                                  resultValue = pathParam;
+                                } else if (
+                                  selectValue !== undefined &&
+                                  selectValue !== null
+                                ) {
+                                  resultValue = selectValue;
+                                } else {
+                                  resultValue = fallbackValue;
+                                }
+                                return resultValue;
+                              })();
+                            } catch (e) {
+                              if (
+                                e instanceof TypeError ||
+                                e?.plasmicType === "PlasmicUndefinedDataError"
+                              ) {
+                                return undefined;
+                              }
+                              throw e;
+                            }
+                          })()
+                      }
+                    ],
+                    []
+                  );
+                  return (
+                    <AntdInputNumber
+                      data-plasmic-name={"homeId"}
+                      data-plasmic-override={overrides.homeId}
+                      {...child$Props}
+                    />
+                  );
+                })()}
+              </div>
+            </section>
+          ) : null}
+          <div
+            data-plasmic-name={"header"}
+            data-plasmic-override={overrides.header}
+            className={classNames(projectcss.all, sty.header)}
+          >
             <PlasmicImg__
               alt={""}
               className={classNames(sty.img___9J9Bc)}
@@ -630,3297 +1034,177 @@ function PlasmicProperties__RenderFunc(props: {
                   : "20.69%"
               }
               loading={"lazy"}
-              src={
-                "https://cflare.smarteragent.com/rest/Resizer?url=https://storage.googleapis.com/attachment-prod-e2ad/bosulgd9r14crmbbnotg&quality=0.8&webp=true&sig_id=69"
-              }
-            />
-          </div>
-          <div className={classNames(projectcss.all, sty.freeBox__ccO8Q)}>
-            <div
-              className={classNames(
-                projectcss.all,
-                projectcss.__wab_text,
-                sty.text__qFm9D
-              )}
-            >
-              {"Welcome to your Personalized Home Analytics Dashboard"}
-            </div>
-          </div>
-          {(
-            hasVariant(globalVariants, "screen", "mobileOnly")
-              ? true
-              : (() => {
-                  try {
-                    return (() => {
-                      const isLoading =
-                        $queries.getProperty.isLoading ||
-                        $queries.getClient.isLoading ||
-                        $queries.getComps.isLoading ||
-                        $queries.getCountyData.isLoading ||
-                        $queries.getValuations.isLoading;
-                      return !isLoading;
-                    })();
-                  } catch (e) {
-                    if (
-                      e instanceof TypeError ||
-                      e?.plasmicType === "PlasmicUndefinedDataError"
-                    ) {
-                      return true;
-                    }
-                    throw e;
+              src={(() => {
+                try {
+                  return $queries.getEntity.data[0].logo;
+                } catch (e) {
+                  if (
+                    e instanceof TypeError ||
+                    e?.plasmicType === "PlasmicUndefinedDataError"
+                  ) {
+                    return "https://cflare.smarteragent.com/rest/Resizer?url=https://storage.googleapis.com/attachment-prod-e2ad/bosulgd9r14crmbbnotg&quality=0.8&webp=true&sig_id=69";
                   }
-                })()
-          ) ? (
-            <div className={classNames(projectcss.all, sty.freeBox__uXcY)}>
-              <Stack__
-                as={"div"}
-                hasGap={true}
-                className={classNames(projectcss.all, sty.columns__zSguD)}
-              >
-                <div className={classNames(projectcss.all, sty.column__dMuc)}>
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__lI85)}
+                  throw e;
+                }
+              })()}
+            />
+
+            <div className={classNames(projectcss.all, sty.freeBox___39CmT)}>
+              {(() => {
+                try {
+                  return (() => {
+                    const properties = $queries.getProperty.data.filter(
+                      entry => entry.done === true
+                    );
+                    return properties.length > 0;
+                  })();
+                } catch (e) {
+                  if (
+                    e instanceof TypeError ||
+                    e?.plasmicType === "PlasmicUndefinedDataError"
+                  ) {
+                    return true;
+                  }
+                  throw e;
+                }
+              })() ? (
+                <AntdSelect
+                  data-plasmic-name={"select3"}
+                  data-plasmic-override={overrides.select3}
+                  className={classNames("__wab_instance", sty.select3)}
+                  defaultStylesClassName={classNames(
+                    projectcss.root_reset,
+                    projectcss.plasmic_default_styles,
+                    projectcss.plasmic_mixins,
+                    projectcss.plasmic_tokens,
+                    plasmic_antd_5_hostless_css.plasmic_tokens,
+                    plasmic_plasmic_rich_components_css.plasmic_tokens
+                  )}
+                  defaultValue={undefined}
+                  onChange={generateStateOnChangeProp($state, [
+                    "select3",
+                    "value"
+                  ])}
+                  options={(() => {
+                    try {
+                      return (() => {
+                        const properties = $queries.getProperty.data.filter(
+                          entry => entry.done === true
+                        );
+                        const output = properties.map(property => ({
+                          label: property.address1,
+                          value: property.id
+                        }));
+                        return output;
+                      })();
+                    } catch (e) {
+                      if (
+                        e instanceof TypeError ||
+                        e?.plasmicType === "PlasmicUndefinedDataError"
+                      ) {
+                        return [];
+                      }
+                      throw e;
+                    }
+                  })()}
+                  placeholder={"Select Another Home"}
+                  popupScopeClassName={sty["select3__popup"]}
+                  value={generateStateValueProp($state, ["select3", "value"])}
+                />
+              ) : null}
+              <Drawer
+                data-plasmic-name={"drawer"}
+                data-plasmic-override={overrides.drawer}
+                className={classNames("__wab_instance", sty.drawer)}
+                onOpenChange={generateStateOnChangeProp($state, [
+                  "drawer",
+                  "open"
+                ])}
+                open={generateStateValueProp($state, ["drawer", "open"])}
+                slot={
+                  <Stack__
+                    as={"div"}
+                    hasGap={true}
+                    className={classNames(projectcss.all, sty.freeBox__tqWkb)}
                   >
                     <div
-                      className={classNames(projectcss.all, sty.freeBox__gX107)}
+                      className={classNames(projectcss.all, sty.freeBox__fXozg)}
                     >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__voFv
-                        )}
-                      >
-                        <PlasmicImg__
-                          alt={""}
-                          className={classNames(sty.img__rMeKd)}
-                          displayHeight={"115px"}
-                          displayMaxHeight={"none"}
-                          displayMaxWidth={"100%"}
-                          displayMinHeight={"0"}
-                          displayMinWidth={"0"}
-                          displayWidth={"178px"}
-                          loading={"lazy"}
-                          src={(() => {
-                            try {
-                              return $queries.getProperty.data[0].streetPhoto;
-                            } catch (e) {
-                              if (
-                                e instanceof TypeError ||
-                                e?.plasmicType === "PlasmicUndefinedDataError"
-                              ) {
-                                return {
-                                  src: "/plasmic/real_estate_dashboard/images/rectangle66.png",
-                                  fullWidth: 768,
-                                  fullHeight: 576,
-                                  aspectRatio: undefined
-                                };
-                              }
-                              throw e;
-                            }
-                          })()}
-                        />
-                      </div>
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox__wkfDy)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__jn3Fk
-                        )}
-                      >
-                        <h1
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.h1,
-                            projectcss.__wab_text,
-                            sty.h1__wrM8D
-                          )}
-                        >
-                          <React.Fragment>
-                            {(() => {
-                              try {
-                                return (
-                                  $queries.getProperty.data[0].address1 +
-                                  " " +
-                                  $queries.getProperty.data[0].city +
-                                  ", " +
-                                  $queries.getProperty.data[0].state +
-                                  " " +
-                                  $queries.getProperty.data[0].zipCode
-                                );
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return " ";
-                                }
-                                throw e;
-                              }
-                            })()}
-                          </React.Fragment>
-                        </h1>
-                        <AntdButton
-                          className={classNames(
-                            "__wab_instance",
-                            sty.button__bCfjN
-                          )}
-                          onClick={async () => {
-                            const $steps = {};
-
-                            $steps["updateModal3Open"] = true
-                              ? (() => {
-                                  const actionArgs = {
-                                    variable: {
-                                      objRoot: $state,
-                                      variablePath: ["modal3", "open"]
-                                    },
-                                    operation: 4
-                                  };
-                                  return (({
-                                    variable,
-                                    value,
-                                    startIndex,
-                                    deleteCount
-                                  }) => {
-                                    if (!variable) {
-                                      return;
-                                    }
-                                    const { objRoot, variablePath } = variable;
-
-                                    const oldValue = $stateGet(
-                                      objRoot,
-                                      variablePath
-                                    );
-                                    $stateSet(objRoot, variablePath, !oldValue);
-                                    return !oldValue;
-                                  })?.apply(null, [actionArgs]);
-                                })()
-                              : undefined;
-                            if (
-                              $steps["updateModal3Open"] != null &&
-                              typeof $steps["updateModal3Open"] === "object" &&
-                              typeof $steps["updateModal3Open"].then ===
-                                "function"
-                            ) {
-                              $steps["updateModal3Open"] = await $steps[
-                                "updateModal3Open"
-                              ];
-                            }
-                          }}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__kt7Nz
-                            )}
-                          >
-                            {"Edit Preferences"}
-                          </div>
-                        </AntdButton>
-                      </div>
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__lXtlW
-                        )}
-                      >
-                        {(() => {
+                      {(_par =>
+                        !_par ? [] : Array.isArray(_par) ? _par : [_par])(
+                        (() => {
                           try {
                             return (() => {
-                              const checkbox2 = $state.checkbox2;
-                              const checkbox3 = $state.checkbox3;
-                              function anyChecked(
-                                checkboxArray1,
-                                checkboxArray2
-                              ) {
-                                return (
-                                  checkboxArray1.some(item => item.checked) ||
-                                  checkboxArray2.some(item => item.checked)
+                              const properties =
+                                $queries.getProperty.data.filter(
+                                  entry => entry.done === true
                                 );
-                              }
-                              const result = anyChecked(checkbox2, checkbox3);
-                              return result;
+                              const output = properties.map(property => ({
+                                label: property.address1,
+                                value: property.id
+                              }));
+                              return output;
                             })();
                           } catch (e) {
                             if (
                               e instanceof TypeError ||
                               e?.plasmicType === "PlasmicUndefinedDataError"
                             ) {
-                              return true;
+                              return [];
                             }
                             throw e;
                           }
-                        })() ? (
+                        })()
+                      ).map((__plasmic_item_0, __plasmic_idx_0) => {
+                        const currentItem = __plasmic_item_0;
+                        const currentIndex = __plasmic_idx_0;
+                        return (
                           <div
                             className={classNames(
                               projectcss.all,
-                              sty.freeBox__fbS7J
+                              sty.freeBox__l50Dz
                             )}
+                            key={currentIndex}
                           >
-                            {(() => {
-                              try {
-                                return (() => {
-                                  const checkbox2 = $state.checkbox2;
-                                  function anyChecked(checkboxArray) {
-                                    return checkboxArray.some(
-                                      item => item.checked
-                                    );
-                                  }
-                                  const result = anyChecked(checkbox2);
-                                  return result;
-                                })();
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return true;
-                                }
-                                throw e;
-                              }
-                            })() ? (
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.freeBox__ripFj
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__lLgAq
-                                  )}
-                                >
-                                  {
-                                    "The current status of this property is you are"
-                                  }
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__uBUj7
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const checkbox2 = $state.checkbox2;
-                                          const keyValuePairs = [
-                                            {
-                                              key: "open to receiving a cash offer",
-                                              value: 0
-                                            },
-                                            {
-                                              key: "willing to sell if price and timing is right",
-                                              value: 1
-                                            },
-                                            {
-                                              key: "looking to sell in 0-2 years",
-                                              value: 2
-                                            },
-                                            {
-                                              key: "looking to sell in 2+ years",
-                                              value: 3
-                                            },
-                                            {
-                                              key: $state.input2,
-                                              value: 4
-                                            }
-                                          ];
-
-                                          function listTrues(checkboxArray) {
-                                            const checkedItems = checkboxArray
-                                              .map((item, index) =>
-                                                item.checked
-                                                  ? keyValuePairs[index].key
-                                                  : null
-                                              )
-                                              .filter(Boolean);
-                                            if (checkedItems.length === 0) {
-                                              return "No items checked";
-                                            } else if (
-                                              checkedItems.length === 1
-                                            ) {
-                                              return checkedItems[0];
-                                            } else if (
-                                              checkedItems.length === 2
-                                            ) {
-                                              return checkedItems.join(" and ");
-                                            } else {
-                                              const lastItem =
-                                                checkedItems.pop();
-                                              return `${checkedItems.join(
-                                                ", "
-                                              )}, and ${lastItem}`;
-                                            }
-                                          }
-                                          const result = listTrues(checkbox2);
-                                          return result + ".";
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                              </div>
-                            ) : null}
-                            {(() => {
-                              try {
-                                return (() => {
-                                  const checkbox2 = $state.checkbox3;
-                                  function anyChecked(checkboxArray) {
-                                    return checkboxArray.some(
-                                      item => item.checked
-                                    );
-                                  }
-                                  const result = anyChecked(checkbox2);
-                                  return result;
-                                })();
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return true;
-                                }
-                                throw e;
-                              }
-                            })() ? (
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.freeBox__xCk1G
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__ueBls
-                                  )}
-                                >
-                                  {"You are interested in "}
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__lhcyS
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const checkbox2 = $state.checkbox3;
-                                          const keyValuePairs = [
-                                            {
-                                              key: "upgrading to a larger home",
-                                              label: 0
-                                            },
-                                            {
-                                              key: "downsizing to a smaller home",
-                                              label: 1
-                                            },
-                                            {
-                                              key: "purchasing an investment property",
-                                              label: 2
-                                            },
-                                            {
-                                              key: "purchasing another property",
-                                              label: 3
-                                            },
-                                            {
-                                              key: $state.input2,
-                                              label: 4
-                                            }
-                                          ];
-
-                                          function listTrues(checkboxArray) {
-                                            const checkedItems = checkboxArray
-                                              .map((item, index) =>
-                                                item.checked
-                                                  ? keyValuePairs[index].key
-                                                  : null
-                                              )
-                                              .filter(Boolean);
-                                            if (checkedItems.length === 0) {
-                                              return "No items checked";
-                                            } else if (
-                                              checkedItems.length === 1
-                                            ) {
-                                              return checkedItems[0];
-                                            } else if (
-                                              checkedItems.length === 2
-                                            ) {
-                                              return checkedItems.join(" and ");
-                                            } else {
-                                              const lastItem =
-                                                checkedItems.pop();
-                                              return `${checkedItems.join(
-                                                ", "
-                                              )}, and ${lastItem}`;
-                                            }
-                                          }
-                                          const result = listTrues(checkbox2);
-                                          return result + ".";
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                              </div>
-                            ) : null}
-                          </div>
-                        ) : null}
-                        {(() => {
-                          try {
-                            return (() => {
-                              const checkbox2 = $state.checkbox2;
-                              const checkbox3 = $state.checkbox3;
-                              function anyChecked(
-                                checkboxArray1,
-                                checkboxArray2
-                              ) {
-                                return (
-                                  checkboxArray1.some(item => item.checked) ||
-                                  checkboxArray2.some(item => item.checked)
-                                );
-                              }
-                              const result = anyChecked(checkbox2, checkbox3);
-                              return !result;
-                            })();
-                          } catch (e) {
-                            if (
-                              e instanceof TypeError ||
-                              e?.plasmicType === "PlasmicUndefinedDataError"
-                            ) {
-                              return true;
-                            }
-                            throw e;
-                          }
-                        })() ? (
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox___7GdZd
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text__yjWsI
-                              )}
-                            >
-                              {
-                                "Manage your real estate preferences to personalize your experience."
-                              }
-                            </div>
-                          </div>
-                        ) : null}
-                        <AntdModal
-                          data-plasmic-name={"modal3"}
-                          data-plasmic-override={overrides.modal3}
-                          className={classNames("__wab_instance", sty.modal3)}
-                          defaultStylesClassName={classNames(
-                            projectcss.root_reset,
-                            projectcss.plasmic_default_styles,
-                            projectcss.plasmic_mixins,
-                            projectcss.plasmic_tokens,
-                            plasmic_antd_5_hostless_css.plasmic_tokens,
-                            plasmic_plasmic_rich_components_css.plasmic_tokens
-                          )}
-                          hideFooter={true}
-                          maskClosable={false}
-                          modalScopeClassName={sty["modal3__modal"]}
-                          onOpenChange={generateStateOnChangeProp($state, [
-                            "modal3",
-                            "open"
-                          ])}
-                          open={generateStateValueProp($state, [
-                            "modal3",
-                            "open"
-                          ])}
-                          title={
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text__t85FJ
-                              )}
-                            >
-                              {"Manage your Real Estate Preferences"}
-                            </div>
-                          }
-                          trigger={null}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__jokl
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text__x64Wb
-                              )}
-                            >
-                              {"My Property Status"}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox___5RuAh
-                              )}
-                            >
-                              {(_par =>
-                                !_par
-                                  ? []
-                                  : Array.isArray(_par)
-                                  ? _par
-                                  : [_par])(
-                                (() => {
-                                  try {
-                                    return [
-                                      {
-                                        key: "Open to receiving a cash offer",
-                                        label: 0
-                                      },
-                                      {
-                                        key: "If Price and Timing is right, I would sell",
-                                        label: 1
-                                      },
-                                      {
-                                        key: "Looking to sell in 0-2 years",
-                                        label: 2
-                                      },
-                                      {
-                                        key: "Looking to sell in 2+ years",
-                                        label: 3
-                                      },
-                                      {
-                                        key: "Other",
-                                        label: 4
-                                      }
-                                    ];
-                                  } catch (e) {
-                                    if (
-                                      e instanceof TypeError ||
-                                      e?.plasmicType ===
-                                        "PlasmicUndefinedDataError"
-                                    ) {
-                                      return [];
-                                    }
-                                    throw e;
-                                  }
-                                })()
-                              ).map((__plasmic_item_0, __plasmic_idx_0) => {
-                                const currentItem = __plasmic_item_0;
-                                const currentIndex = __plasmic_idx_0;
-                                return (() => {
-                                  const child$Props = {
-                                    checked: generateStateValueProp($state, [
-                                      "checkbox2",
-                                      __plasmic_idx_0,
-                                      "checked"
-                                    ]),
-                                    className: classNames(
-                                      "__wab_instance",
-                                      sty.checkbox2
-                                    ),
-                                    defaultChecked: (() => {
-                                      try {
-                                        return $queries.getProperty.data[0].prop_status.includes(
-                                          currentItem.label
-                                        );
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return false;
-                                        }
-                                        throw e;
-                                      }
-                                    })(),
-                                    key: currentIndex,
-                                    onChange: async (...eventArgs: any) => {
-                                      generateStateOnChangeProp($state, [
-                                        "checkbox2",
-                                        __plasmic_idx_0,
-                                        "checked"
-                                      ]).apply(null, eventArgs);
-                                      (async checked => {
-                                        const $steps = {};
-
-                                        $steps["postgresUpdateById"] = true
-                                          ? (() => {
-                                              const actionArgs = {
-                                                dataOp: {
-                                                  sourceId:
-                                                    "33LCJKUUYeeeZEYXFqVtgQ",
-                                                  opId: "71a3d6e9-8b2a-4545-b2e9-75d138bb1762",
-                                                  userArgs: {
-                                                    keys: [$ctx.params.id],
-                                                    variables: [
-                                                      (() => {
-                                                        const result =
-                                                          $state.checkbox2
-                                                            .map(
-                                                              (item, index) =>
-                                                                item.checked
-                                                                  ? index
-                                                                  : null
-                                                            )
-                                                            .filter(
-                                                              index =>
-                                                                index !== null
-                                                            );
-                                                        return result;
-                                                      })()
-                                                    ]
-                                                  },
-                                                  cacheKey: null,
-                                                  invalidatedKeys: [],
-                                                  roleId: null
-                                                }
-                                              };
-                                              return (async ({
-                                                dataOp,
-                                                continueOnError
-                                              }) => {
-                                                try {
-                                                  const response =
-                                                    await executePlasmicDataOp(
-                                                      dataOp,
-                                                      {
-                                                        userAuthToken:
-                                                          dataSourcesCtx?.userAuthToken,
-                                                        user: dataSourcesCtx?.user
-                                                      }
-                                                    );
-                                                  await plasmicInvalidate(
-                                                    dataOp.invalidatedKeys
-                                                  );
-                                                  return response;
-                                                } catch (e) {
-                                                  if (!continueOnError) {
-                                                    throw e;
-                                                  }
-                                                  return e;
-                                                }
-                                              })?.apply(null, [actionArgs]);
-                                            })()
-                                          : undefined;
-                                        if (
-                                          $steps["postgresUpdateById"] !=
-                                            null &&
-                                          typeof $steps[
-                                            "postgresUpdateById"
-                                          ] === "object" &&
-                                          typeof $steps["postgresUpdateById"]
-                                            .then === "function"
-                                        ) {
-                                          $steps["postgresUpdateById"] =
-                                            await $steps["postgresUpdateById"];
-                                        }
-                                      }).apply(null, eventArgs);
-                                    }
-                                  };
-                                  initializeCodeComponentStates(
-                                    $state,
-                                    [
-                                      {
-                                        name: "checked",
-                                        plasmicStateName: "checkbox2[].checked"
-                                      }
-                                    ],
-                                    [__plasmic_idx_0],
-                                    undefined ?? {},
-                                    child$Props
-                                  );
-                                  initializePlasmicStates(
-                                    $state,
-                                    [
-                                      {
-                                        name: "checkbox2[].checked",
-                                        initFunc: ({
-                                          $props,
-                                          $state,
-                                          $queries
-                                        }) =>
-                                          (() => {
-                                            try {
-                                              return $queries.getProperty.data[0].prop_status.includes(
-                                                currentItem.label
-                                              );
-                                            } catch (e) {
-                                              if (
-                                                e instanceof TypeError ||
-                                                e?.plasmicType ===
-                                                  "PlasmicUndefinedDataError"
-                                              ) {
-                                                return false;
-                                              }
-                                              throw e;
-                                            }
-                                          })()
-                                      }
-                                    ],
-                                    [__plasmic_idx_0]
-                                  );
-                                  return (
-                                    <AntdCheckbox
-                                      data-plasmic-name={"checkbox2"}
-                                      data-plasmic-override={
-                                        overrides.checkbox2
-                                      }
-                                      {...child$Props}
-                                    >
-                                      <div
-                                        className={classNames(
-                                          projectcss.all,
-                                          projectcss.__wab_text,
-                                          sty.text__nDzh
-                                        )}
-                                      >
-                                        <React.Fragment>
-                                          {(() => {
-                                            try {
-                                              return currentItem.key;
-                                            } catch (e) {
-                                              if (
-                                                e instanceof TypeError ||
-                                                e?.plasmicType ===
-                                                  "PlasmicUndefinedDataError"
-                                              ) {
-                                                return "Sell My Home";
-                                              }
-                                              throw e;
-                                            }
-                                          })()}
-                                        </React.Fragment>
-                                      </div>
-                                    </AntdCheckbox>
-                                  );
-                                })();
-                              })}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__gWr83
-                              )}
-                            >
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input2
-                                  ),
-                                  onChange: async (...eventArgs: any) => {
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input2", "value"],
-                                      AntdInput_Helpers
-                                    ).apply(null, eventArgs);
-                                    (async event => {
-                                      const $steps = {};
-
-                                      $steps["useIntegration"] = true
-                                        ? (() => {
-                                            const actionArgs = {};
-                                            return (async ({
-                                              dataOp,
-                                              continueOnError
-                                            }) => {
-                                              try {
-                                                const response =
-                                                  await executePlasmicDataOp(
-                                                    dataOp,
-                                                    {
-                                                      userAuthToken:
-                                                        dataSourcesCtx?.userAuthToken,
-                                                      user: dataSourcesCtx?.user
-                                                    }
-                                                  );
-                                                await plasmicInvalidate(
-                                                  dataOp.invalidatedKeys
-                                                );
-                                                return response;
-                                              } catch (e) {
-                                                if (!continueOnError) {
-                                                  throw e;
-                                                }
-                                                return e;
-                                              }
-                                            })?.apply(null, [actionArgs]);
-                                          })()
-                                        : undefined;
-                                      if (
-                                        $steps["useIntegration"] != null &&
-                                        typeof $steps["useIntegration"] ===
-                                          "object" &&
-                                        typeof $steps["useIntegration"].then ===
-                                          "function"
-                                      ) {
-                                        $steps["useIntegration"] = await $steps[
-                                          "useIntegration"
-                                        ];
-                                      }
-                                    }).apply(null, eventArgs);
-                                  },
-                                  value: generateStateValueProp($state, [
-                                    "input2",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input2.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input2"}
-                                    data-plasmic-override={overrides.input2}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                          </div>
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__o76Df
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text__pm34
-                              )}
-                            >
-                              {"My Next Real Estate Move"}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__zpmLw
-                              )}
-                            >
-                              {(_par =>
-                                !_par
-                                  ? []
-                                  : Array.isArray(_par)
-                                  ? _par
-                                  : [_par])(
-                                (() => {
-                                  try {
-                                    return (() => {
-                                      const keyValuePairs = [
-                                        {
-                                          key: "Upgrading to a larger home",
-                                          label: 0
-                                        },
-                                        {
-                                          key: "Downsizing to a smaller home",
-                                          label: 1
-                                        },
-                                        {
-                                          key: "Purchasing an investment property",
-                                          label: 2
-                                        },
-                                        {
-                                          key: "Purchasing another property",
-                                          label: 3
-                                        },
-                                        {
-                                          key: "Other",
-                                          label: 4
-                                        }
-                                      ];
-
-                                      return keyValuePairs;
-                                    })();
-                                  } catch (e) {
-                                    if (
-                                      e instanceof TypeError ||
-                                      e?.plasmicType ===
-                                        "PlasmicUndefinedDataError"
-                                    ) {
-                                      return [];
-                                    }
-                                    throw e;
-                                  }
-                                })()
-                              ).map((__plasmic_item_0, __plasmic_idx_0) => {
-                                const currentItem = __plasmic_item_0;
-                                const currentIndex = __plasmic_idx_0;
-                                return (() => {
-                                  const child$Props = {
-                                    checked: generateStateValueProp($state, [
-                                      "checkbox3",
-                                      __plasmic_idx_0,
-                                      "checked"
-                                    ]),
-                                    className: classNames(
-                                      "__wab_instance",
-                                      sty.checkbox3
-                                    ),
-                                    defaultChecked: (() => {
-                                      try {
-                                        return $queries.getProperty.data[0].prop_status.includes(
-                                          currentItem.label
-                                        );
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return false;
-                                        }
-                                        throw e;
-                                      }
-                                    })(),
-                                    key: currentIndex,
-                                    onChange: async (...eventArgs: any) => {
-                                      generateStateOnChangeProp($state, [
-                                        "checkbox3",
-                                        __plasmic_idx_0,
-                                        "checked"
-                                      ]).apply(null, eventArgs);
-                                      (async checked => {
-                                        const $steps = {};
-
-                                        $steps["postgresUpdateById"] = true
-                                          ? (() => {
-                                              const actionArgs = {
-                                                dataOp: {
-                                                  sourceId:
-                                                    "33LCJKUUYeeeZEYXFqVtgQ",
-                                                  opId: "956c01de-40ae-44de-9ffe-9f6bb5b14fd5",
-                                                  userArgs: {
-                                                    keys: [
-                                                      $queries.getProperty
-                                                        .data[0].id
-                                                    ],
-                                                    variables: [
-                                                      (() => {
-                                                        const result =
-                                                          $state.checkbox3
-                                                            .map(
-                                                              (item, index) =>
-                                                                item.checked
-                                                                  ? index
-                                                                  : null
-                                                            )
-                                                            .filter(
-                                                              index =>
-                                                                index !== null
-                                                            );
-                                                        return result;
-                                                      })()
-                                                    ]
-                                                  },
-                                                  cacheKey: null,
-                                                  invalidatedKeys: [],
-                                                  roleId: null
-                                                }
-                                              };
-                                              return (async ({
-                                                dataOp,
-                                                continueOnError
-                                              }) => {
-                                                try {
-                                                  const response =
-                                                    await executePlasmicDataOp(
-                                                      dataOp,
-                                                      {
-                                                        userAuthToken:
-                                                          dataSourcesCtx?.userAuthToken,
-                                                        user: dataSourcesCtx?.user
-                                                      }
-                                                    );
-                                                  await plasmicInvalidate(
-                                                    dataOp.invalidatedKeys
-                                                  );
-                                                  return response;
-                                                } catch (e) {
-                                                  if (!continueOnError) {
-                                                    throw e;
-                                                  }
-                                                  return e;
-                                                }
-                                              })?.apply(null, [actionArgs]);
-                                            })()
-                                          : undefined;
-                                        if (
-                                          $steps["postgresUpdateById"] !=
-                                            null &&
-                                          typeof $steps[
-                                            "postgresUpdateById"
-                                          ] === "object" &&
-                                          typeof $steps["postgresUpdateById"]
-                                            .then === "function"
-                                        ) {
-                                          $steps["postgresUpdateById"] =
-                                            await $steps["postgresUpdateById"];
-                                        }
-                                      }).apply(null, eventArgs);
-                                    }
-                                  };
-                                  initializeCodeComponentStates(
-                                    $state,
-                                    [
-                                      {
-                                        name: "checked",
-                                        plasmicStateName: "checkbox3[].checked"
-                                      }
-                                    ],
-                                    [__plasmic_idx_0],
-                                    undefined ?? {},
-                                    child$Props
-                                  );
-                                  initializePlasmicStates(
-                                    $state,
-                                    [
-                                      {
-                                        name: "checkbox3[].checked",
-                                        initFunc: ({
-                                          $props,
-                                          $state,
-                                          $queries
-                                        }) =>
-                                          (() => {
-                                            try {
-                                              return $queries.getProperty.data[0].prop_status.includes(
-                                                currentItem.label
-                                              );
-                                            } catch (e) {
-                                              if (
-                                                e instanceof TypeError ||
-                                                e?.plasmicType ===
-                                                  "PlasmicUndefinedDataError"
-                                              ) {
-                                                return false;
-                                              }
-                                              throw e;
-                                            }
-                                          })()
-                                      }
-                                    ],
-                                    [__plasmic_idx_0]
-                                  );
-                                  return (
-                                    <AntdCheckbox
-                                      data-plasmic-name={"checkbox3"}
-                                      data-plasmic-override={
-                                        overrides.checkbox3
-                                      }
-                                      {...child$Props}
-                                    >
-                                      <div
-                                        className={classNames(
-                                          projectcss.all,
-                                          projectcss.__wab_text,
-                                          sty.text__jlcA4
-                                        )}
-                                      >
-                                        <React.Fragment>
-                                          {(() => {
-                                            try {
-                                              return currentItem.key;
-                                            } catch (e) {
-                                              if (
-                                                e instanceof TypeError ||
-                                                e?.plasmicType ===
-                                                  "PlasmicUndefinedDataError"
-                                              ) {
-                                                return "Sell My Home";
-                                              }
-                                              throw e;
-                                            }
-                                          })()}
-                                        </React.Fragment>
-                                      </div>
-                                    </AntdCheckbox>
-                                  );
-                                })();
-                              })}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__mz5Fd
-                              )}
-                            >
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input4
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input4", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input4",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input4.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input4"}
-                                    data-plasmic-override={overrides.input4}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                          </div>
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox___6Btb4
-                            )}
-                          >
-                            <AntdButton
-                              className={classNames(
-                                "__wab_instance",
-                                sty.button__viZyl
-                              )}
-                              onClick={async () => {
-                                const $steps = {};
-
-                                $steps["updateModal3Open"] = true
-                                  ? (() => {
-                                      const actionArgs = {
-                                        variable: {
-                                          objRoot: $state,
-                                          variablePath: ["modal3", "open"]
-                                        },
-                                        operation: 4
-                                      };
-                                      return (({
-                                        variable,
-                                        value,
-                                        startIndex,
-                                        deleteCount
-                                      }) => {
-                                        if (!variable) {
-                                          return;
-                                        }
-                                        const { objRoot, variablePath } =
-                                          variable;
-
-                                        const oldValue = $stateGet(
-                                          objRoot,
-                                          variablePath
-                                        );
-                                        $stateSet(
-                                          objRoot,
-                                          variablePath,
-                                          !oldValue
-                                        );
-                                        return !oldValue;
-                                      })?.apply(null, [actionArgs]);
-                                    })()
-                                  : undefined;
-                                if (
-                                  $steps["updateModal3Open"] != null &&
-                                  typeof $steps["updateModal3Open"] ===
-                                    "object" &&
-                                  typeof $steps["updateModal3Open"].then ===
-                                    "function"
-                                ) {
-                                  $steps["updateModal3Open"] = await $steps[
-                                    "updateModal3Open"
-                                  ];
-                                }
-                              }}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__cTEmF
-                                )}
-                              >
-                                {"Close"}
-                              </div>
-                            </AntdButton>
-                          </div>
-                        </AntdModal>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <Stack__
-                  as={"div"}
-                  hasGap={true}
-                  className={classNames(projectcss.all, sty.column__eiIuX)}
-                >
-                  <div
-                    data-plasmic-name={"agentBlock"}
-                    data-plasmic-override={overrides.agentBlock}
-                    className={classNames(projectcss.all, sty.agentBlock)}
-                  >
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text__qB5U0
-                      )}
-                    >
-                      {"Your Real Estate Agent"}
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox__qGjnh)}
-                    >
-                      <PlasmicImg__
-                        alt={""}
-                        className={classNames(sty.img__lmtBh)}
-                        displayHeight={"90px"}
-                        displayMaxHeight={"none"}
-                        displayMaxWidth={"100%"}
-                        displayMinHeight={"0"}
-                        displayMinWidth={"0"}
-                        displayWidth={"90px"}
-                        loading={"lazy"}
-                        src={(() => {
-                          try {
-                            return $queries.getEntity.data[0].photo;
-                          } catch (e) {
-                            if (
-                              e instanceof TypeError ||
-                              e?.plasmicType === "PlasmicUndefinedDataError"
-                            ) {
-                              return {
-                                src: "/plasmic/real_estate_dashboard/images/image.png",
-                                fullWidth: 100,
-                                fullHeight: 100,
-                                aspectRatio: undefined
-                              };
-                            }
-                            throw e;
-                          }
-                        })()}
-                      />
-
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__apZsl
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__fiicD
-                          )}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__x5Hp0
-                            )}
-                          >
-                            <React.Fragment>
-                              {(() => {
+                            <PlasmicImg__
+                              alt={""}
+                              className={classNames(sty.img__qDKd)}
+                              displayHeight={"124px"}
+                              displayMaxHeight={"none"}
+                              displayMaxWidth={"100%"}
+                              displayMinHeight={"0"}
+                              displayMinWidth={"0"}
+                              displayWidth={"auto"}
+                              loading={"lazy"}
+                              src={(() => {
                                 try {
-                                  return (
-                                    $queries.getEntity.data[0].firstName +
-                                    " " +
-                                    $queries.getEntity.data[0].lastName
-                                  );
+                                  return $queries.getProperty.data.find(
+                                    entry => entry.id == currentItem.value
+                                  ).streetPhoto;
                                 } catch (e) {
                                   if (
                                     e instanceof TypeError ||
                                     e?.plasmicType ===
                                       "PlasmicUndefinedDataError"
                                   ) {
-                                    return "Real Estate Agent";
+                                    return undefined;
                                   }
                                   throw e;
                                 }
                               })()}
-                            </React.Fragment>
-                          </div>
-                          <AntdButton
-                            className={classNames(
-                              "__wab_instance",
-                              sty.button__q1ZTi
-                            )}
-                            onClick={async () => {
-                              const $steps = {};
+                            />
 
-                              $steps["updateModalOpen"] = true
-                                ? (() => {
-                                    const actionArgs = {
-                                      variable: {
-                                        objRoot: $state,
-                                        variablePath: ["modal", "open"]
-                                      },
-                                      operation: 0,
-                                      value: true
-                                    };
-                                    return (({
-                                      variable,
-                                      value,
-                                      startIndex,
-                                      deleteCount
-                                    }) => {
-                                      if (!variable) {
-                                        return;
-                                      }
-                                      const { objRoot, variablePath } =
-                                        variable;
-
-                                      $stateSet(objRoot, variablePath, value);
-                                      return value;
-                                    })?.apply(null, [actionArgs]);
-                                  })()
-                                : undefined;
-                              if (
-                                $steps["updateModalOpen"] != null &&
-                                typeof $steps["updateModalOpen"] === "object" &&
-                                typeof $steps["updateModalOpen"].then ===
-                                  "function"
-                              ) {
-                                $steps["updateModalOpen"] = await $steps[
-                                  "updateModalOpen"
-                                ];
-                              }
-                            }}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__z5Cwe
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__ziyL
-                                )}
-                              >
-                                {"Contact Me"}
-                              </div>
-                            </div>
-                          </AntdButton>
-                        </div>
-                        <AntdModal
-                          data-plasmic-name={"modal"}
-                          data-plasmic-override={overrides.modal}
-                          className={classNames("__wab_instance", sty.modal)}
-                          defaultStylesClassName={classNames(
-                            projectcss.root_reset,
-                            projectcss.plasmic_default_styles,
-                            projectcss.plasmic_mixins,
-                            projectcss.plasmic_tokens,
-                            plasmic_antd_5_hostless_css.plasmic_tokens,
-                            plasmic_plasmic_rich_components_css.plasmic_tokens
-                          )}
-                          hideFooter={true}
-                          modalScopeClassName={sty["modal__modal"]}
-                          onOpenChange={generateStateOnChangeProp($state, [
-                            "modal",
-                            "open"
-                          ])}
-                          open={generateStateValueProp($state, [
-                            "modal",
-                            "open"
-                          ])}
-                          title={" "}
-                          trigger={
-                            <AntdButton
-                              className={classNames(
-                                "__wab_instance",
-                                sty.button__tdYDx
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__ai0Zu
-                                )}
-                              >
-                                {"Show modal"}
-                              </div>
-                            </AntdButton>
-                          }
-                          width={"1000"}
-                        >
-                          <Iframe
-                            data-plasmic-name={"iframe"}
-                            data-plasmic-override={overrides.iframe}
-                            className={classNames("__wab_instance", sty.iframe)}
-                            preview={true}
-                            src={(() => {
-                              try {
-                                return (() => {
-                                  const clientId =
-                                    $queries.getProperty.data.find(
-                                      entry => entry.id == $ctx.params.id
-                                    ).clientId;
-                                  const client = $queries.getClient.data.find(
-                                    entry => entry.id == clientId
-                                  );
-                                  return (
-                                    $queries.getEntity.data[0].calendar_link +
-                                    "?email=" +
-                                    client.email +
-                                    "&phone=" +
-                                    client.phone +
-                                    "&first_name=" +
-                                    client.firstName +
-                                    "&last_name=" +
-                                    client.lastName
-                                  );
-                                })();
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return undefined;
-                                }
-                                throw e;
-                              }
-                            })()}
-                          />
-                        </AntdModal>
-                      </div>
-                    </div>
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text__upb0W
-                      )}
-                    >
-                      {"Your Real Estate Agent"}
-                    </div>
-                  </div>
-                </Stack__>
-              </Stack__>
-            </div>
-          ) : null}
-          {(() => {
-            try {
-              return (() => {
-                const isLoading =
-                  $queries.getProperty.isLoading ||
-                  $queries.getClient.isLoading ||
-                  $queries.getComps.isLoading ||
-                  $queries.getCountyData.isLoading ||
-                  $queries.getValuations.isLoading;
-                return !isLoading;
-              })();
-            } catch (e) {
-              if (
-                e instanceof TypeError ||
-                e?.plasmicType === "PlasmicUndefinedDataError"
-              ) {
-                return true;
-              }
-              throw e;
-            }
-          })() ? (
-            <Stack__
-              as={"div"}
-              hasGap={true}
-              className={classNames(projectcss.all, sty.columns___7TjXf)}
-            >
-              <Stack__
-                as={"div"}
-                data-plasmic-name={"topLeft"}
-                data-plasmic-override={overrides.topLeft}
-                hasGap={true}
-                className={classNames(projectcss.all, sty.topLeft)}
-              >
-                <div
-                  data-plasmic-name={"homeEstimateBlock3"}
-                  data-plasmic-override={overrides.homeEstimateBlock3}
-                  className={classNames(projectcss.all, sty.homeEstimateBlock3)}
-                >
-                  <div
-                    className={classNames(projectcss.all, sty.columns__zZdKs)}
-                  >
-                    <div
-                      className={classNames(projectcss.all, sty.column__k3Cfh)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__q0SCb
-                        )}
-                      >
-                        {"Your Home Value Estimate"}
-                      </div>
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text___8I7Xd
-                        )}
-                      >
-                        <React.Fragment>
-                          {(() => {
-                            try {
-                              return (() => {
-                                const number =
-                                  $queries.getProperty.data[0].total_assessed;
-                                const formattedNumber = number
-                                  .toString()
-                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                return "$" + formattedNumber;
-                              })();
-                            } catch (e) {
-                              if (
-                                e instanceof TypeError ||
-                                e?.plasmicType === "PlasmicUndefinedDataError"
-                              ) {
-                                return " ";
-                              }
-                              throw e;
-                            }
-                          })()}
-                        </React.Fragment>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  data-plasmic-name={"homeEstimateBlock"}
-                  data-plasmic-override={overrides.homeEstimateBlock}
-                  className={classNames(projectcss.all, sty.homeEstimateBlock)}
-                >
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox___7ELmG)}
-                  >
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text___8InPg
-                      )}
-                    >
-                      {"100% Since purchase in 2021!"}
-                    </div>
-                    <Elements19Icon
-                      className={classNames(projectcss.all, sty.svg__qva4R)}
-                      role={"img"}
-                    />
-                  </div>
-                </div>
-                <div
-                  data-plasmic-name={"homeEstimateBlock2"}
-                  data-plasmic-override={overrides.homeEstimateBlock2}
-                  className={classNames(projectcss.all, sty.homeEstimateBlock2)}
-                >
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__ahMfI)}
-                  >
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text__o5PCi
-                      )}
-                    >
-                      {"Home Information"}
-                    </div>
-                    <AntdButton
-                      className={classNames(
-                        "__wab_instance",
-                        sty.button__kfIug
-                      )}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__fREl
-                        )}
-                      >
-                        {"Edit Info"}
-                      </div>
-                    </AntdButton>
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        sty.freeBox___0Xwfs
-                      )}
-                    >
-                      <AntdButton
-                        className={classNames(
-                          "__wab_instance",
-                          sty.button__mzutt
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox___3QvIp
-                          )}
-                        >
-                          <Idea01Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg___2Scut
-                            )}
-                            role={"img"}
-                          />
-
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__tkAmu
-                            )}
-                          >
-                            {"Insights"}
-                          </div>
-                        </div>
-                      </AntdButton>
-                    </div>
-                  </div>
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__kWsdj)}
-                  >
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame38"}
-                      data-plasmic-override={overrides.frame38}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame38)}
-                    >
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame36"}
-                        data-plasmic-override={overrides.frame36}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame36)}
-                      >
-                        <div
-                          data-plasmic-name={"building04"}
-                          data-plasmic-override={overrides.building04}
-                          className={classNames(projectcss.all, sty.building04)}
-                        >
-                          <Elements9Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__sqzj7
-                            )}
-                            role={"img"}
-                          />
-                        </div>
-                      </Stack__>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame31"}
-                        data-plasmic-override={overrides.frame31}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame31)}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__b5Kx4
-                          )}
-                        >
-                          <React.Fragment>
-                            {(() => {
-                              try {
-                                return $queries.getProperty.data[0]
-                                  .year_built == null
-                                  ? "?"
-                                  : $queries.getProperty.data[0].year_built;
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "?";
-                                }
-                                throw e;
-                              }
-                            })()}
-                          </React.Fragment>
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__iotuZ
-                          )}
-                        >
-                          {"Year built"}
-                        </div>
-                      </Stack__>
-                    </Stack__>
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame33"}
-                      data-plasmic-override={overrides.frame33}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame33)}
-                    >
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame32"}
-                        data-plasmic-override={overrides.frame32}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame32)}
-                      >
-                        <div
-                          data-plasmic-name={"bed"}
-                          data-plasmic-override={overrides.bed}
-                          className={classNames(projectcss.all, sty.bed)}
-                        >
-                          <Elements4Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__d5NvU
-                            )}
-                            role={"img"}
-                          />
-                        </div>
-                      </Stack__>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame25"}
-                        data-plasmic-override={overrides.frame25}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame25)}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__eHjM
-                          )}
-                        >
-                          <React.Fragment>
-                            {(() => {
-                              try {
-                                return $queries.getProperty.data[0]
-                                  .BedroomsTotal == null
-                                  ? "?"
-                                  : $queries.getProperty.data[0].BedroomsTotal;
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "?";
-                                }
-                                throw e;
-                              }
-                            })()}
-                          </React.Fragment>
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__qNrxj
-                          )}
-                        >
-                          {"Bedrooms"}
-                        </div>
-                      </Stack__>
-                    </Stack__>
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame45"}
-                      data-plasmic-override={overrides.frame45}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame45)}
-                    >
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame37"}
-                        data-plasmic-override={overrides.frame37}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame37)}
-                      >
-                        <div
-                          data-plasmic-name={"bathtub02"}
-                          data-plasmic-override={overrides.bathtub02}
-                          className={classNames(projectcss.all, sty.bathtub02)}
-                        >
-                          <Elements5Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__h3Gno
-                            )}
-                            role={"img"}
-                          />
-                        </div>
-                      </Stack__>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame26"}
-                        data-plasmic-override={overrides.frame26}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame26)}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__vGdnG
-                          )}
-                        >
-                          <React.Fragment>
-                            {(() => {
-                              try {
-                                return $queries.getProperty.data[0]
-                                  .BathroomsTotal == null
-                                  ? "?"
-                                  : $queries.getProperty.data[0].BathroomsTotal;
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "?";
-                                }
-                                throw e;
-                              }
-                            })()}
-                          </React.Fragment>
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__ibK7F
-                          )}
-                        >
-                          {"Bathrooms"}
-                        </div>
-                      </Stack__>
-                    </Stack__>
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame44"}
-                      data-plasmic-override={overrides.frame44}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame44)}
-                    >
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame41"}
-                        data-plasmic-override={overrides.frame41}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame41)}
-                      >
-                        <div
-                          data-plasmic-name={"squareSquare"}
-                          data-plasmic-override={overrides.squareSquare}
-                          className={classNames(
-                            projectcss.all,
-                            sty.squareSquare
-                          )}
-                        >
-                          <Elements7Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg___8A9
-                            )}
-                            role={"img"}
-                          />
-                        </div>
-                      </Stack__>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame30"}
-                        data-plasmic-override={overrides.frame30}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame30)}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__kUcN
-                          )}
-                        >
-                          <React.Fragment>
-                            {(() => {
-                              try {
-                                return $queries.getProperty.data[0].lotSize ==
-                                  null
-                                  ? "?"
-                                  : Math.round(
-                                      $queries.getProperty.data[0].lotSize * 100
-                                    ) / 100;
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "?";
-                                }
-                                throw e;
-                              }
-                            })()}
-                          </React.Fragment>
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text___1CqGk
-                          )}
-                        >
-                          {"Acre Lot"}
-                        </div>
-                      </Stack__>
-                    </Stack__>
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame43"}
-                      data-plasmic-override={overrides.frame43}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame43)}
-                    >
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame42"}
-                        data-plasmic-override={overrides.frame42}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame42)}
-                      >
-                        <div
-                          data-plasmic-name={"building03"}
-                          data-plasmic-override={overrides.building03}
-                          className={classNames(projectcss.all, sty.building03)}
-                        >
-                          <Elements6Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__yHiMy
-                            )}
-                            role={"img"}
-                          />
-                        </div>
-                      </Stack__>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame29"}
-                        data-plasmic-override={overrides.frame29}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame29)}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__fltUr
-                          )}
-                        >
-                          <React.Fragment>
-                            {(() => {
-                              try {
-                                return $queries.getProperty.data[0].stories ==
-                                  null
-                                  ? "?"
-                                  : $queries.getProperty.data[0].stories;
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "?";
-                                }
-                                throw e;
-                              }
-                            })()}
-                          </React.Fragment>
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__dGd
-                          )}
-                        >
-                          {"Stories"}
-                        </div>
-                      </Stack__>
-                    </Stack__>
-                    <Stack__
-                      as={"div"}
-                      data-plasmic-name={"frame35"}
-                      data-plasmic-override={overrides.frame35}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.frame35)}
-                    >
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame34"}
-                        data-plasmic-override={overrides.frame34}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame34)}
-                      >
-                        <div
-                          data-plasmic-name={"square"}
-                          data-plasmic-override={overrides.square}
-                          className={classNames(projectcss.all, sty.square)}
-                        >
-                          <Elements8Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__tk7Y
-                            )}
-                            role={"img"}
-                          />
-                        </div>
-                      </Stack__>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame87"}
-                        data-plasmic-override={overrides.frame87}
-                        hasGap={true}
-                        className={classNames(projectcss.all, sty.frame87)}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text___3NG7K
-                          )}
-                        >
-                          <React.Fragment>
-                            {(() => {
-                              try {
-                                return $queries.getProperty.data[0]
-                                  .RoomsTotal == null
-                                  ? "?"
-                                  : $queries.getProperty.data[0].RoomsTotal;
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "?";
-                                }
-                                throw e;
-                              }
-                            })()}
-                          </React.Fragment>
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__jk56
-                          )}
-                        >
-                          {"Rooms"}
-                        </div>
-                      </Stack__>
-                    </Stack__>
-                  </div>
-                </div>
-                <div
-                  data-plasmic-name={"countStatsBlock"}
-                  data-plasmic-override={overrides.countStatsBlock}
-                  className={classNames(projectcss.all, sty.countStatsBlock)}
-                >
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__hzs5)}
-                  >
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text__ujn3P
-                      )}
-                    >
-                      {""}
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox__fjDwQ)}
-                    >
-                      <AntdButton
-                        className={classNames(
-                          "__wab_instance",
-                          sty.button___7MCZs
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__uYowm
-                          )}
-                        >
-                          <Idea01Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__aKhg
-                            )}
-                            role={"img"}
-                          />
-
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__smJW
-                            )}
-                          >
-                            {"Insights"}
-                          </div>
-                        </div>
-                      </AntdButton>
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox__jew3V)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__edzf0
-                        )}
-                      >
-                        {"Compare County Stats"}
-                      </div>
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__iYk7S
-                        )}
-                      >
-                        {
-                          "Switch between your county and others to compare stats over time"
-                        }
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className={classNames(projectcss.all, sty.columns__cDzcd)}
-                  >
-                    <div
-                      className={classNames(projectcss.all, sty.column__sknRz)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__klHs
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__oj572
-                          )}
-                        >
-                          <AntdSelect
-                            data-plasmic-name={"select"}
-                            data-plasmic-override={overrides.select}
-                            className={classNames("__wab_instance", sty.select)}
-                            defaultStylesClassName={classNames(
-                              projectcss.root_reset,
-                              projectcss.plasmic_default_styles,
-                              projectcss.plasmic_mixins,
-                              projectcss.plasmic_tokens,
-                              plasmic_antd_5_hostless_css.plasmic_tokens,
-                              plasmic_plasmic_rich_components_css.plasmic_tokens
-                            )}
-                            defaultValue={(() => {
-                              try {
-                                return (
-                                  $queries.getProperty.data[0].county ||
-                                  "Salt Lake"
-                                );
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "SaltLake";
-                                }
-                                throw e;
-                              }
-                            })()}
-                            onChange={generateStateOnChangeProp($state, [
-                              "select",
-                              "value"
-                            ])}
-                            options={(() => {
-                              try {
-                                return (() => {
-                                  const data = $queries.getCountyData.data;
-                                  function mapToUniqueKeyValuePairs(data) {
-                                    const uniqueCounties = [
-                                      ...new Set(
-                                        data.map(item => item.CountyOrParish)
-                                      )
-                                    ].filter(county => county);
-                                    return uniqueCounties.map(county => ({
-                                      key: county,
-                                      value: county
-                                    }));
-                                  }
-                                  const uniqueCountyKeyValuePairs =
-                                    mapToUniqueKeyValuePairs(data);
-                                  return uniqueCountyKeyValuePairs;
-                                })();
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return (() => {
-                                    const __composite = [
-                                      {
-                                        value: null,
-                                        label: null,
-                                        type: "option"
-                                      },
-                                      {
-                                        value: null,
-                                        label: null,
-                                        type: "option"
-                                      }
-                                    ];
-                                    __composite["0"]["value"] = "SaltLake";
-                                    __composite["0"]["label"] =
-                                      "Salt Lake City";
-                                    __composite["1"]["value"] = "utah";
-                                    __composite["1"]["label"] = "Utah County";
-                                    return __composite;
-                                  })();
-                                }
-                                throw e;
-                              }
-                            })()}
-                            placeholder={"Select..."}
-                            popupScopeClassName={sty["select__popup"]}
-                            value={generateStateValueProp($state, [
-                              "select",
-                              "value"
-                            ])}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__hGrOn
-                          )}
-                        >
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame60"}
-                            data-plasmic-override={overrides.frame60}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame60)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame61"}
-                              data-plasmic-override={overrides.frame61}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame61
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"hotPrice"}
-                                data-plasmic-override={overrides.hotPrice}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.hotPrice
-                                )}
-                              >
-                                <Elements12Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__g1ViD
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame62"}
-                              data-plasmic-override={overrides.frame62}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame62
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__guQ9O
-                                )}
-                              >
-                                <React.Fragment>
-                                  {(() => {
-                                    try {
-                                      return (() => {
-                                        const filteredData =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select.value
-                                          );
-                                        const maxYearEntry =
-                                          filteredData.reduce((max, entry) =>
-                                            parseInt(entry.CloseYear) >
-                                            parseInt(max.CloseYear)
-                                              ? entry
-                                              : max
-                                          );
-                                        const maxQuarterEntry = filteredData
-                                          .filter(
-                                            entry =>
-                                              entry.CloseYear ===
-                                              maxYearEntry.CloseYear
-                                          )
-                                          .reduce((max, entry) =>
-                                            parseInt(entry.CloseQuarter) >
-                                            parseInt(max.CloseQuarter)
-                                              ? entry
-                                              : max
-                                          );
-                                        return (
-                                          "$" +
-                                          Number(maxQuarterEntry.MdnSold$)
-                                            .toString()
-                                            .replace(
-                                              /\B(?=(\d{3})+(?!\d))/g,
-                                              ","
-                                            )
-                                        );
-                                      })();
-                                    } catch (e) {
-                                      if (
-                                        e instanceof TypeError ||
-                                        e?.plasmicType ===
-                                          "PlasmicUndefinedDataError"
-                                      ) {
-                                        return "$599K";
-                                      }
-                                      throw e;
-                                    }
-                                  })()}
-                                </React.Fragment>
-                              </div>
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__sczW
-                                )}
-                              >
-                                {"Median Home Value"}
-                              </div>
-                            </Stack__>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame49"}
-                            data-plasmic-override={overrides.frame49}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame49)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame40"}
-                              data-plasmic-override={overrides.frame40}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame40
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"chartMedium"}
-                                data-plasmic-override={overrides.chartMedium}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.chartMedium
-                                )}
-                              >
-                                <Elements1Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg___4I2J
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame50"}
-                              data-plasmic-override={overrides.frame50}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame50
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__uA5D
-                                )}
-                              >
-                                <React.Fragment>
-                                  {(() => {
-                                    try {
-                                      return (() => {
-                                        const filteredData =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select.value
-                                          );
-                                        const maxYearEntry =
-                                          filteredData.reduce((max, entry) =>
-                                            parseInt(entry.CloseYear) >
-                                            parseInt(max.CloseYear)
-                                              ? entry
-                                              : max
-                                          );
-                                        const maxQuarterEntry = filteredData
-                                          .filter(
-                                            entry =>
-                                              entry.CloseYear ===
-                                              maxYearEntry.CloseYear
-                                          )
-                                          .reduce((max, entry) =>
-                                            parseInt(entry.CloseQuarter) >
-                                            parseInt(max.CloseQuarter)
-                                              ? entry
-                                              : max
-                                          );
-                                        return (
-                                          Number(maxQuarterEntry.MdnDOM) +
-                                          " Days"
-                                        );
-                                      })();
-                                    } catch (e) {
-                                      if (
-                                        e instanceof TypeError ||
-                                        e?.plasmicType ===
-                                          "PlasmicUndefinedDataError"
-                                      ) {
-                                        return "$599K";
-                                      }
-                                      throw e;
-                                    }
-                                  })()}
-                                </React.Fragment>
-                              </div>
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__fDy3R
-                                )}
-                              >
-                                {"Median Days on Market"}
-                              </div>
-                            </Stack__>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame54"}
-                            data-plasmic-override={overrides.frame54}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame54)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame55"}
-                              data-plasmic-override={overrides.frame55}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame55
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"chartIncrease"}
-                                data-plasmic-override={overrides.chartIncrease}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.chartIncrease
-                                )}
-                              >
-                                <Elements11Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__g2XPx
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318657"}
-                              data-plasmic-override={overrides.frame427318657}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318657
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame56"}
-                                data-plasmic-override={overrides.frame56}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame56
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__mrTuP
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const filteredData =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select.value
-                                            );
-                                          const maxYearEntry =
-                                            filteredData.reduce((max, entry) =>
-                                              parseInt(entry.CloseYear) >
-                                              parseInt(max.CloseYear)
-                                                ? entry
-                                                : max
-                                            );
-                                          const maxQuarterEntry = filteredData
-                                            .filter(
-                                              entry =>
-                                                entry.CloseYear ===
-                                                maxYearEntry.CloseYear
-                                            )
-                                            .reduce((max, entry) =>
-                                              parseInt(entry.CloseQuarter) >
-                                              parseInt(max.CloseQuarter)
-                                                ? entry
-                                                : max
-                                            );
-                                          return (
-                                            Number(
-                                              maxQuarterEntry.MdnSold$_Change
-                                            ).toFixed(2) + "%"
-                                          );
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "$599K";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text___34Glv
-                                  )}
-                                >
-                                  {"Sold Price Change"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame66"}
-                            data-plasmic-override={overrides.frame66}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame66)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame67"}
-                              data-plasmic-override={overrides.frame67}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame67
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"money03"}
-                                data-plasmic-override={overrides.money03}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.money03
-                                )}
-                              >
-                                <Elements13Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__lClU5
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318659"}
-                              data-plasmic-override={overrides.frame427318659}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318659
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame68"}
-                                data-plasmic-override={overrides.frame68}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame68
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text___8Jnsh
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const filteredData =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select.value
-                                            );
-                                          const maxYearEntry =
-                                            filteredData.reduce((max, entry) =>
-                                              parseInt(entry.CloseYear) >
-                                              parseInt(max.CloseYear)
-                                                ? entry
-                                                : max
-                                            );
-                                          const maxQuarterEntry = filteredData
-                                            .filter(
-                                              entry =>
-                                                entry.CloseYear ===
-                                                maxYearEntry.CloseYear
-                                            )
-                                            .reduce((max, entry) =>
-                                              parseInt(entry.CloseQuarter) >
-                                              parseInt(max.CloseQuarter)
-                                                ? entry
-                                                : max
-                                            );
-                                          return (
-                                            Number(
-                                              maxQuarterEntry.TOTALCOUNT_Change
-                                            ).toFixed(2) + "%"
-                                          );
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "\u00a0$90,011";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text___1HEby
-                                  )}
-                                >
-                                  {"Home on Market Change"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                          </Stack__>
-                        </div>
-                        <SimpleChart
-                          className={classNames(
-                            "__wab_instance",
-                            sty.chart___9TrkY
-                          )}
-                          data={(() => {
-                            const transformedArray = $queries.getCountyData.data
-                              .filter(
-                                entry =>
-                                  entry.CountyOrParish === $state.select.value
-                              )
-                              .map(entry => {
-                                const QuarterValue =
-                                  entry.CloseQuarter === "1"
-                                    ? entry.CloseYear
-                                    : entry.CloseYear;
-                                return {
-                                  Quarter: QuarterValue,
-                                  Price: entry.MdnSold$
-                                };
-                              })
-                              .sort((a, b) => a.Quarter - b.Quarter);
-                            return transformedArray;
-                          })()}
-                          fill={true}
-                          type={"line"}
-                        />
-                      </div>
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.column__rpabj)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__yJ1M
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__gdB4N
-                          )}
-                        >
-                          <AntdSelect
-                            data-plasmic-name={"select2"}
-                            data-plasmic-override={overrides.select2}
-                            className={classNames(
-                              "__wab_instance",
-                              sty.select2
-                            )}
-                            defaultStylesClassName={classNames(
-                              projectcss.root_reset,
-                              projectcss.plasmic_default_styles,
-                              projectcss.plasmic_mixins,
-                              projectcss.plasmic_tokens,
-                              plasmic_antd_5_hostless_css.plasmic_tokens,
-                              plasmic_plasmic_rich_components_css.plasmic_tokens
-                            )}
-                            defaultValue={(() => {
-                              try {
-                                return (() => {
-                                  const data = $queries.getCountyData.data;
-                                  function mapToUniqueKeyValuePairs(data) {
-                                    const uniqueCounties = [
-                                      ...new Set(
-                                        data.map(item => item.CountyOrParish)
-                                      )
-                                    ].filter(county => county);
-                                    return uniqueCounties.map(county => ({
-                                      key: county,
-                                      value: county
-                                    }));
-                                  }
-                                  const uniqueCountyKeyValuePairs =
-                                    mapToUniqueKeyValuePairs(data);
-                                  return uniqueCountyKeyValuePairs.find(
-                                    entry =>
-                                      entry.key !=
-                                      $queries.getProperty.data[0].county
-                                  ).value;
-                                })();
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "utah";
-                                }
-                                throw e;
-                              }
-                            })()}
-                            onChange={generateStateOnChangeProp($state, [
-                              "select2",
-                              "value"
-                            ])}
-                            options={(() => {
-                              try {
-                                return (() => {
-                                  const data = $queries.getCountyData.data;
-                                  function mapToUniqueKeyValuePairs(data) {
-                                    const uniqueCounties = [
-                                      ...new Set(
-                                        data.map(item => item.CountyOrParish)
-                                      )
-                                    ].filter(county => county);
-                                    return uniqueCounties.map(county => ({
-                                      key: county,
-                                      value: county
-                                    }));
-                                  }
-                                  const uniqueCountyKeyValuePairs =
-                                    mapToUniqueKeyValuePairs(data);
-                                  return uniqueCountyKeyValuePairs;
-                                })();
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return (() => {
-                                    const __composite = [
-                                      {
-                                        value: null,
-                                        label: null,
-                                        type: "option"
-                                      }
-                                    ];
-                                    __composite["0"]["value"] = "SaltLake";
-                                    __composite["0"]["label"] =
-                                      "Salt Lake City";
-                                    return __composite;
-                                  })();
-                                }
-                                throw e;
-                              }
-                            })()}
-                            placeholder={"Select..."}
-                            popupScopeClassName={sty["select2__popup"]}
-                            value={generateStateValueProp($state, [
-                              "select2",
-                              "value"
-                            ])}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__eVsDj
-                          )}
-                        >
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame63"}
-                            data-plasmic-override={overrides.frame63}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame63)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame64"}
-                              data-plasmic-override={overrides.frame64}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame64
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"hotPrice2"}
-                                data-plasmic-override={overrides.hotPrice2}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.hotPrice2
-                                )}
-                              >
-                                <Elements12Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg___8MYxe
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame65"}
-                              data-plasmic-override={overrides.frame65}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame65
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.freeBox__w3Qk
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text___3S3FR
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const filteredData =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select2.value
-                                            );
-                                          const maxYearEntry =
-                                            filteredData.reduce((max, entry) =>
-                                              parseInt(entry.CloseYear) >
-                                              parseInt(max.CloseYear)
-                                                ? entry
-                                                : max
-                                            );
-                                          const maxQuarterEntry = filteredData
-                                            .filter(
-                                              entry =>
-                                                entry.CloseYear ===
-                                                maxYearEntry.CloseYear
-                                            )
-                                            .reduce((max, entry) =>
-                                              parseInt(entry.CloseQuarter) >
-                                              parseInt(max.CloseQuarter)
-                                                ? entry
-                                                : max
-                                            );
-                                          return (
-                                            "$" +
-                                            Number(maxQuarterEntry.MdnSold$)
-                                              .toString()
-                                              .replace(
-                                                /\B(?=(\d{3})+(?!\d))/g,
-                                                ","
-                                              )
-                                          );
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "$599K";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.freeBox__d6Vcg
-                                  )}
-                                >
-                                  {(() => {
-                                    try {
-                                      return (() => {
-                                        const findMaxQuarterEntry = data => {
-                                          const maxYearEntry = data.reduce(
-                                            (max, entry) =>
-                                              parseInt(entry.CloseYear) >
-                                              parseInt(max.CloseYear)
-                                                ? entry
-                                                : max
-                                          );
-                                          return data
-                                            .filter(
-                                              entry =>
-                                                entry.CloseYear ===
-                                                maxYearEntry.CloseYear
-                                            )
-                                            .reduce((max, entry) =>
-                                              parseInt(entry.CloseQuarter) >
-                                              parseInt(max.CloseQuarter)
-                                                ? entry
-                                                : max
-                                            );
-                                        };
-                                        const filteredDataLeft =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select.value
-                                          );
-                                        const maxQuarterEntryLeft =
-                                          findMaxQuarterEntry(filteredDataLeft);
-                                        const countyLeft = Number(
-                                          maxQuarterEntryLeft.MdnSold$
-                                        );
-                                        const filteredDataRight =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select2.value
-                                          );
-                                        const maxQuarterEntryRight =
-                                          findMaxQuarterEntry(
-                                            filteredDataRight
-                                          );
-                                        const countyRight = Number(
-                                          maxQuarterEntryRight.MdnSold$
-                                        );
-                                        const result = countyLeft > countyRight;
-                                        return result;
-                                      })();
-                                    } catch (e) {
-                                      if (
-                                        e instanceof TypeError ||
-                                        e?.plasmicType ===
-                                          "PlasmicUndefinedDataError"
-                                      ) {
-                                        return true;
-                                      }
-                                      throw e;
-                                    }
-                                  })() ? (
-                                    <Elements41Icon
-                                      className={classNames(
-                                        projectcss.all,
-                                        sty.svg___4IaY9
-                                      )}
-                                      role={"img"}
-                                    />
-                                  ) : null}
-                                  {(() => {
-                                    try {
-                                      return (() => {
-                                        const findMaxQuarterEntry = data => {
-                                          const maxYearEntry = data.reduce(
-                                            (max, entry) =>
-                                              parseInt(entry.CloseYear) >
-                                              parseInt(max.CloseYear)
-                                                ? entry
-                                                : max
-                                          );
-                                          return data
-                                            .filter(
-                                              entry =>
-                                                entry.CloseYear ===
-                                                maxYearEntry.CloseYear
-                                            )
-                                            .reduce((max, entry) =>
-                                              parseInt(entry.CloseQuarter) >
-                                              parseInt(max.CloseQuarter)
-                                                ? entry
-                                                : max
-                                            );
-                                        };
-                                        const filteredDataLeft =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select.value
-                                          );
-                                        const maxQuarterEntryLeft =
-                                          findMaxQuarterEntry(filteredDataLeft);
-                                        const countyLeft = Number(
-                                          maxQuarterEntryLeft.MdnSold$
-                                        );
-                                        const filteredDataRight =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select2.value
-                                          );
-                                        const maxQuarterEntryRight =
-                                          findMaxQuarterEntry(
-                                            filteredDataRight
-                                          );
-                                        const countyRight = Number(
-                                          maxQuarterEntryRight.MdnSold$
-                                        );
-                                        const result = countyLeft < countyRight;
-                                        return result;
-                                      })();
-                                    } catch (e) {
-                                      if (
-                                        e instanceof TypeError ||
-                                        e?.plasmicType ===
-                                          "PlasmicUndefinedDataError"
-                                      ) {
-                                        return true;
-                                      }
-                                      throw e;
-                                    }
-                                  })() ? (
-                                    <Elements40Icon
-                                      className={classNames(
-                                        projectcss.all,
-                                        sty.svg__a9Hkl
-                                      )}
-                                      role={"img"}
-                                    />
-                                  ) : null}
-                                </div>
-                              </div>
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__n9TWn
-                                )}
-                              >
-                                {"Median Home Value"}
-                              </div>
-                            </Stack__>
                             <div
                               className={classNames(
                                 projectcss.all,
                                 projectcss.__wab_text,
-                                sty.text__vvzqt
+                                sty.text__a5Taa
                               )}
                             >
                               <React.Fragment>
                                 {(() => {
                                   try {
-                                    return (() => {
-                                      const findMaxQuarterEntry = data => {
-                                        const maxYearEntry = data.reduce(
-                                          (max, entry) =>
-                                            parseInt(entry.CloseYear) >
-                                            parseInt(max.CloseYear)
-                                              ? entry
-                                              : max
-                                        );
-                                        return data
-                                          .filter(
-                                            entry =>
-                                              entry.CloseYear ===
-                                              maxYearEntry.CloseYear
-                                          )
-                                          .reduce((max, entry) =>
-                                            parseInt(entry.CloseQuarter) >
-                                            parseInt(max.CloseQuarter)
-                                              ? entry
-                                              : max
-                                          );
-                                      };
-                                      const filteredDataLeft =
-                                        $queries.getCountyData.data.filter(
-                                          entry =>
-                                            entry.CountyOrParish ==
-                                            $state.select.value
-                                        );
-                                      const maxQuarterEntryLeft =
-                                        findMaxQuarterEntry(filteredDataLeft);
-                                      const countyLeft = Number(
-                                        maxQuarterEntryLeft.MdnSold$
-                                      );
-                                      const filteredDataRight =
-                                        $queries.getCountyData.data.filter(
-                                          entry =>
-                                            entry.CountyOrParish ==
-                                            $state.select2.value
-                                        );
-                                      const maxQuarterEntryRight =
-                                        findMaxQuarterEntry(filteredDataRight);
-                                      const countyRight = Number(
-                                        maxQuarterEntryRight.MdnSold$
-                                      );
-                                      const result = countyLeft > countyRight;
-                                      return result;
-                                    })();
+                                    return currentItem.label;
                                   } catch (e) {
                                     if (
                                       e instanceof TypeError ||
@@ -3934,2866 +1218,15 @@ function PlasmicProperties__RenderFunc(props: {
                                 })()}
                               </React.Fragment>
                             </div>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame51"}
-                            data-plasmic-override={overrides.frame51}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame51)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame52"}
-                              data-plasmic-override={overrides.frame52}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame52
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"chartMedium2"}
-                                data-plasmic-override={overrides.chartMedium2}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.chartMedium2
-                                )}
-                              >
-                                <Elements1Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg___7EHyS
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame53"}
-                              data-plasmic-override={overrides.frame53}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame53
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.freeBox___3At7X
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__dksc8
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const filteredData =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select.value
-                                            );
-                                          const maxYearEntry =
-                                            filteredData.reduce((max, entry) =>
-                                              parseInt(entry.CloseYear) >
-                                              parseInt(max.CloseYear)
-                                                ? entry
-                                                : max
-                                            );
-                                          const maxQuarterEntry = filteredData
-                                            .filter(
-                                              entry =>
-                                                entry.CloseYear ===
-                                                maxYearEntry.CloseYear
-                                            )
-                                            .reduce((max, entry) =>
-                                              parseInt(entry.CloseQuarter) >
-                                              parseInt(max.CloseQuarter)
-                                                ? entry
-                                                : max
-                                            );
-                                          return (
-                                            Number(maxQuarterEntry.MdnDOM) +
-                                            " Days"
-                                          );
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "$599K";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.freeBox___1BP3W
-                                  )}
-                                >
-                                  {(() => {
-                                    try {
-                                      return (() => {
-                                        const findMaxQuarterEntry = data => {
-                                          const maxYearEntry = data.reduce(
-                                            (max, entry) =>
-                                              parseInt(entry.CloseYear) >
-                                              parseInt(max.CloseYear)
-                                                ? entry
-                                                : max
-                                          );
-                                          return data
-                                            .filter(
-                                              entry =>
-                                                entry.CloseYear ===
-                                                maxYearEntry.CloseYear
-                                            )
-                                            .reduce((max, entry) =>
-                                              parseInt(entry.CloseQuarter) >
-                                              parseInt(max.CloseQuarter)
-                                                ? entry
-                                                : max
-                                            );
-                                        };
-                                        const filteredDataLeft =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select.value
-                                          );
-                                        const maxQuarterEntryLeft =
-                                          findMaxQuarterEntry(filteredDataLeft);
-                                        const countyLeft = Number(
-                                          maxQuarterEntryLeft.MdnDOM
-                                        );
-                                        const filteredDataRight =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select2.value
-                                          );
-                                        const maxQuarterEntryRight =
-                                          findMaxQuarterEntry(
-                                            filteredDataRight
-                                          );
-                                        const countyRight = Number(
-                                          maxQuarterEntryRight.MdnDOM
-                                        );
-                                        const result = countyLeft < countyRight;
-                                        return result;
-                                      })();
-                                    } catch (e) {
-                                      if (
-                                        e instanceof TypeError ||
-                                        e?.plasmicType ===
-                                          "PlasmicUndefinedDataError"
-                                      ) {
-                                        return true;
-                                      }
-                                      throw e;
-                                    }
-                                  })() ? (
-                                    <Elements40Icon
-                                      className={classNames(
-                                        projectcss.all,
-                                        sty.svg__k182Q
-                                      )}
-                                      role={"img"}
-                                    />
-                                  ) : null}
-                                  {(() => {
-                                    try {
-                                      return (() => {
-                                        const findMaxQuarterEntry = data => {
-                                          const maxYearEntry = data.reduce(
-                                            (max, entry) =>
-                                              parseInt(entry.CloseYear) >
-                                              parseInt(max.CloseYear)
-                                                ? entry
-                                                : max
-                                          );
-                                          return data
-                                            .filter(
-                                              entry =>
-                                                entry.CloseYear ===
-                                                maxYearEntry.CloseYear
-                                            )
-                                            .reduce((max, entry) =>
-                                              parseInt(entry.CloseQuarter) >
-                                              parseInt(max.CloseQuarter)
-                                                ? entry
-                                                : max
-                                            );
-                                        };
-                                        const filteredDataLeft =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select.value
-                                          );
-                                        const maxQuarterEntryLeft =
-                                          findMaxQuarterEntry(filteredDataLeft);
-                                        const countyLeft = Number(
-                                          maxQuarterEntryLeft.MdnDOM
-                                        );
-                                        const filteredDataRight =
-                                          $queries.getCountyData.data.filter(
-                                            entry =>
-                                              entry.CountyOrParish ==
-                                              $state.select2.value
-                                          );
-                                        const maxQuarterEntryRight =
-                                          findMaxQuarterEntry(
-                                            filteredDataRight
-                                          );
-                                        const countyRight = Number(
-                                          maxQuarterEntryRight.MdnDOM
-                                        );
-                                        const result = countyLeft > countyRight;
-                                        return result;
-                                      })();
-                                    } catch (e) {
-                                      if (
-                                        e instanceof TypeError ||
-                                        e?.plasmicType ===
-                                          "PlasmicUndefinedDataError"
-                                      ) {
-                                        return true;
-                                      }
-                                      throw e;
-                                    }
-                                  })() ? (
-                                    <Elements41Icon
-                                      className={classNames(
-                                        projectcss.all,
-                                        sty.svg__lN8Nu
-                                      )}
-                                      role={"img"}
-                                    />
-                                  ) : null}
-                                </div>
-                              </div>
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__umRvW
-                                )}
-                              >
-                                {"Median Days on Market"}
-                              </div>
-                            </Stack__>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame57"}
-                            data-plasmic-override={overrides.frame57}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame57)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame58"}
-                              data-plasmic-override={overrides.frame58}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame58
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"chartIncrease2"}
-                                data-plasmic-override={overrides.chartIncrease2}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.chartIncrease2
-                                )}
-                              >
-                                <Elements11Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__jYnk8
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318658"}
-                              data-plasmic-override={overrides.frame427318658}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318658
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame59"}
-                                data-plasmic-override={overrides.frame59}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame59
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.freeBox__t6BTg
-                                  )}
-                                >
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      projectcss.__wab_text,
-                                      sty.text___3M4Bd
-                                    )}
-                                  >
-                                    <React.Fragment>
-                                      {(() => {
-                                        try {
-                                          return (() => {
-                                            const filteredData =
-                                              $queries.getCountyData.data.filter(
-                                                entry =>
-                                                  entry.CountyOrParish ==
-                                                  $state.select2.value
-                                              );
-                                            const maxYearEntry =
-                                              filteredData.reduce(
-                                                (max, entry) =>
-                                                  parseInt(entry.CloseYear) >
-                                                  parseInt(max.CloseYear)
-                                                    ? entry
-                                                    : max
-                                              );
-                                            const maxQuarterEntry = filteredData
-                                              .filter(
-                                                entry =>
-                                                  entry.CloseYear ===
-                                                  maxYearEntry.CloseYear
-                                              )
-                                              .reduce((max, entry) =>
-                                                parseInt(entry.CloseQuarter) >
-                                                parseInt(max.CloseQuarter)
-                                                  ? entry
-                                                  : max
-                                              );
-                                            return (
-                                              Number(
-                                                maxQuarterEntry.MdnSold$_Change
-                                              ).toFixed(2) + "%"
-                                            );
-                                          })();
-                                        } catch (e) {
-                                          if (
-                                            e instanceof TypeError ||
-                                            e?.plasmicType ===
-                                              "PlasmicUndefinedDataError"
-                                          ) {
-                                            return "0.91%";
-                                          }
-                                          throw e;
-                                        }
-                                      })()}
-                                    </React.Fragment>
-                                  </div>
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.freeBox___7Hs9O
-                                    )}
-                                  >
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const findMaxQuarterEntry = data => {
-                                            const maxYearEntry = data.reduce(
-                                              (max, entry) =>
-                                                parseInt(entry.CloseYear) >
-                                                parseInt(max.CloseYear)
-                                                  ? entry
-                                                  : max
-                                            );
-                                            return data
-                                              .filter(
-                                                entry =>
-                                                  entry.CloseYear ===
-                                                  maxYearEntry.CloseYear
-                                              )
-                                              .reduce((max, entry) =>
-                                                parseInt(entry.CloseQuarter) >
-                                                parseInt(max.CloseQuarter)
-                                                  ? entry
-                                                  : max
-                                              );
-                                          };
-                                          const filteredDataLeft =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select.value
-                                            );
-                                          const maxQuarterEntryLeft =
-                                            findMaxQuarterEntry(
-                                              filteredDataLeft
-                                            );
-                                          const countyLeft = Number(
-                                            maxQuarterEntryLeft.MdnSold$_Change
-                                          );
-                                          const filteredDataRight =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select2.value
-                                            );
-                                          const maxQuarterEntryRight =
-                                            findMaxQuarterEntry(
-                                              filteredDataRight
-                                            );
-                                          const countyRight = Number(
-                                            maxQuarterEntryRight.MdnSold$_Change
-                                          );
-                                          const result =
-                                            countyLeft < countyRight;
-                                          return result;
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return true;
-                                        }
-                                        throw e;
-                                      }
-                                    })() ? (
-                                      <Elements40Icon
-                                        className={classNames(
-                                          projectcss.all,
-                                          sty.svg___9ArQz
-                                        )}
-                                        role={"img"}
-                                      />
-                                    ) : null}
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const findMaxQuarterEntry = data => {
-                                            const maxYearEntry = data.reduce(
-                                              (max, entry) =>
-                                                parseInt(entry.CloseYear) >
-                                                parseInt(max.CloseYear)
-                                                  ? entry
-                                                  : max
-                                            );
-                                            return data
-                                              .filter(
-                                                entry =>
-                                                  entry.CloseYear ===
-                                                  maxYearEntry.CloseYear
-                                              )
-                                              .reduce((max, entry) =>
-                                                parseInt(entry.CloseQuarter) >
-                                                parseInt(max.CloseQuarter)
-                                                  ? entry
-                                                  : max
-                                              );
-                                          };
-                                          const filteredDataLeft =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select.value
-                                            );
-                                          const maxQuarterEntryLeft =
-                                            findMaxQuarterEntry(
-                                              filteredDataLeft
-                                            );
-                                          const countyLeft = Number(
-                                            maxQuarterEntryLeft.MdnSold$_Change
-                                          );
-                                          const filteredDataRight =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select2.value
-                                            );
-                                          const maxQuarterEntryRight =
-                                            findMaxQuarterEntry(
-                                              filteredDataRight
-                                            );
-                                          const countyRight = Number(
-                                            maxQuarterEntryRight.MdnSold$_Change
-                                          );
-                                          const result =
-                                            countyLeft > countyRight;
-                                          return result;
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return true;
-                                        }
-                                        throw e;
-                                      }
-                                    })() ? (
-                                      <Elements41Icon
-                                        className={classNames(
-                                          projectcss.all,
-                                          sty.svg__gmCkT
-                                        )}
-                                        role={"img"}
-                                      />
-                                    ) : null}
-                                  </div>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__ulTch
-                                  )}
-                                >
-                                  {"Sold Price Change"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                          </Stack__>
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame69"}
-                            data-plasmic-override={overrides.frame69}
-                            hasGap={true}
-                            className={classNames(projectcss.all, sty.frame69)}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame70"}
-                              data-plasmic-override={overrides.frame70}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame70
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"money032"}
-                                data-plasmic-override={overrides.money032}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.money032
-                                )}
-                              >
-                                <Elements13Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg___89Chx
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318664"}
-                              data-plasmic-override={overrides.frame427318664}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318664
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame71"}
-                                data-plasmic-override={overrides.frame71}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame71
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.freeBox__n52Ie
-                                  )}
-                                >
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      projectcss.__wab_text,
-                                      sty.text___5Kdr7
-                                    )}
-                                  >
-                                    <React.Fragment>
-                                      {(() => {
-                                        try {
-                                          return (() => {
-                                            const filteredData =
-                                              $queries.getCountyData.data.filter(
-                                                entry =>
-                                                  entry.CountyOrParish ==
-                                                  $state.select2.value
-                                              );
-                                            const maxYearEntry =
-                                              filteredData.reduce(
-                                                (max, entry) =>
-                                                  parseInt(entry.CloseYear) >
-                                                  parseInt(max.CloseYear)
-                                                    ? entry
-                                                    : max
-                                              );
-                                            const maxQuarterEntry = filteredData
-                                              .filter(
-                                                entry =>
-                                                  entry.CloseYear ===
-                                                  maxYearEntry.CloseYear
-                                              )
-                                              .reduce((max, entry) =>
-                                                parseInt(entry.CloseQuarter) >
-                                                parseInt(max.CloseQuarter)
-                                                  ? entry
-                                                  : max
-                                              );
-                                            return (
-                                              Number(
-                                                maxQuarterEntry.TOTALCOUNT_Change
-                                              ).toFixed(2) + "%"
-                                            );
-                                          })();
-                                        } catch (e) {
-                                          if (
-                                            e instanceof TypeError ||
-                                            e?.plasmicType ===
-                                              "PlasmicUndefinedDataError"
-                                          ) {
-                                            return "\u00a0$100,011";
-                                          }
-                                          throw e;
-                                        }
-                                      })()}
-                                    </React.Fragment>
-                                  </div>
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.freeBox__fyyad
-                                    )}
-                                  >
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const findMaxQuarterEntry = data => {
-                                            const maxYearEntry = data.reduce(
-                                              (max, entry) =>
-                                                parseInt(entry.CloseYear) >
-                                                parseInt(max.CloseYear)
-                                                  ? entry
-                                                  : max
-                                            );
-                                            return data
-                                              .filter(
-                                                entry =>
-                                                  entry.CloseYear ===
-                                                  maxYearEntry.CloseYear
-                                              )
-                                              .reduce((max, entry) =>
-                                                parseInt(entry.CloseQuarter) >
-                                                parseInt(max.CloseQuarter)
-                                                  ? entry
-                                                  : max
-                                              );
-                                          };
-                                          const filteredDataLeft =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select.value
-                                            );
-                                          const maxQuarterEntryLeft =
-                                            findMaxQuarterEntry(
-                                              filteredDataLeft
-                                            );
-                                          const countyLeft = Number(
-                                            maxQuarterEntryLeft.TOTALCOUNT_Change
-                                          );
-                                          const filteredDataRight =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select2.value
-                                            );
-                                          const maxQuarterEntryRight =
-                                            findMaxQuarterEntry(
-                                              filteredDataRight
-                                            );
-                                          const countyRight = Number(
-                                            maxQuarterEntryRight.TOTALCOUNT_Change
-                                          );
-                                          const result =
-                                            countyLeft > countyRight;
-                                          return result;
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return true;
-                                        }
-                                        throw e;
-                                      }
-                                    })() ? (
-                                      <Elements41Icon
-                                        className={classNames(
-                                          projectcss.all,
-                                          sty.svg__k8Rn
-                                        )}
-                                        role={"img"}
-                                      />
-                                    ) : null}
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const findMaxQuarterEntry = data => {
-                                            const maxYearEntry = data.reduce(
-                                              (max, entry) =>
-                                                parseInt(entry.CloseYear) >
-                                                parseInt(max.CloseYear)
-                                                  ? entry
-                                                  : max
-                                            );
-                                            return data
-                                              .filter(
-                                                entry =>
-                                                  entry.CloseYear ===
-                                                  maxYearEntry.CloseYear
-                                              )
-                                              .reduce((max, entry) =>
-                                                parseInt(entry.CloseQuarter) >
-                                                parseInt(max.CloseQuarter)
-                                                  ? entry
-                                                  : max
-                                              );
-                                          };
-                                          const filteredDataLeft =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select.value
-                                            );
-                                          const maxQuarterEntryLeft =
-                                            findMaxQuarterEntry(
-                                              filteredDataLeft
-                                            );
-                                          const countyLeft = Number(
-                                            maxQuarterEntryLeft.TOTALCOUNT_Change
-                                          );
-                                          const filteredDataRight =
-                                            $queries.getCountyData.data.filter(
-                                              entry =>
-                                                entry.CountyOrParish ==
-                                                $state.select2.value
-                                            );
-                                          const maxQuarterEntryRight =
-                                            findMaxQuarterEntry(
-                                              filteredDataRight
-                                            );
-                                          const countyRight = Number(
-                                            maxQuarterEntryRight.TOTALCOUNT_Change
-                                          );
-                                          const result =
-                                            countyLeft < countyRight;
-                                          return result;
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return true;
-                                        }
-                                        throw e;
-                                      }
-                                    })() ? (
-                                      <Elements40Icon
-                                        className={classNames(
-                                          projectcss.all,
-                                          sty.svg__ihNqs
-                                        )}
-                                        role={"img"}
-                                      />
-                                    ) : null}
-                                  </div>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__xpX1
-                                  )}
-                                >
-                                  {"Home on Market Change"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                          </Stack__>
-                        </div>
-                        <SimpleChart
-                          className={classNames(
-                            "__wab_instance",
-                            sty.chart__wsCc
-                          )}
-                          data={(() => {
-                            const transformedArray = $queries.getCountyData.data
-                              .filter(
-                                entry =>
-                                  entry.CountyOrParish === $state.select2.value
-                              )
-                              .map(entry => {
-                                const QuarterValue =
-                                  entry.CloseQuarter === "1"
-                                    ? entry.CloseYear
-                                    : entry.CloseYear;
-                                return {
-                                  Quarter: QuarterValue,
-                                  Price: entry.MdnSold$
-                                };
-                              })
-                              .sort((a, b) => a.Quarter - b.Quarter);
-                            return transformedArray;
-                          })()}
-                          fill={true}
-                          type={"line"}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={classNames(projectcss.all, sty.freeBox__otLLs)}>
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__ddn2Y)}
-                  >
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text__mvEgj
-                      )}
-                    >
-                      {"Market Trends in Your Area"}
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox___7TgE)}
-                    >
-                      <AntdButton
-                        className={classNames(
-                          "__wab_instance",
-                          sty.button__h8J4
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__mkFWe
-                          )}
-                        >
-                          <Idea01Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__oppgD
-                            )}
-                            role={"img"}
-                          />
-
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__ktoQk
-                            )}
-                          >
-                            {"Insights"}
                           </div>
-                        </div>
-                      </AntdButton>
-                    </div>
-                  </div>
-                  <YouTube
-                    data-plasmic-name={"youTube"}
-                    data-plasmic-override={overrides.youTube}
-                    className={classNames("__wab_instance", sty.youTube)}
-                    fs={false}
-                    modestbranding={true}
-                    playsinline={true}
-                    rel={false}
-                    videoId={"4zZAdmmzB-g"}
-                  />
-                </div>
-                <div className={classNames(projectcss.all, sty.freeBox__qkml5)}>
-                  <div
-                    className={classNames(projectcss.all, sty.columns___2AEq)}
-                  >
-                    <div
-                      className={classNames(projectcss.all, sty.column__kWks2)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__zzrQm
-                        )}
-                      >
-                        {"Own Another Home?"}
-                      </div>
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__xRngD
-                        )}
-                      >
-                        {
-                          "Enter in the address and I\u2019ll send you a new dashboard for that property."
-                        }
-                      </div>
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.column__dXq8A)}
-                    >
-                      {(() => {
-                        const child$Props = {
-                          className: classNames("__wab_instance", sty.input),
-                          onChange: generateStateOnChangePropForCodeComponents(
-                            $state,
-                            "value",
-                            ["input", "value"],
-                            AntdInput_Helpers
-                          ),
-                          placeholder: "Enter New Address",
-                          value: generateStateValueProp($state, [
-                            "input",
-                            "value"
-                          ])
-                        };
-                        initializeCodeComponentStates(
-                          $state,
-                          [
-                            {
-                              name: "value",
-                              plasmicStateName: "input.value"
-                            }
-                          ],
-                          [],
-                          AntdInput_Helpers ?? {},
-                          child$Props
                         );
-
-                        return (
-                          <AntdInput
-                            data-plasmic-name={"input"}
-                            data-plasmic-override={overrides.input}
-                            {...child$Props}
-                          />
-                        );
-                      })()}
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__gmnh5
-                        )}
-                      >
-                        <AntdButton
-                          className={classNames(
-                            "__wab_instance",
-                            sty.button__cCpml
-                          )}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__rQn9N
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text__t4Bf
-                              )}
-                            >
-                              {"Submit"}
-                            </div>
-                          </div>
-                        </AntdButton>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Stack__>
-              <Stack__
-                as={"div"}
-                data-plasmic-name={"topRight"}
-                data-plasmic-override={overrides.topRight}
-                hasGap={true}
-                className={classNames(projectcss.all, sty.topRight)}
-              >
-                <Stack__
-                  as={"div"}
-                  hasGap={true}
-                  className={classNames(projectcss.all, sty.freeBox__rbbrK)}
-                >
-                  <Stack__
-                    as={"div"}
-                    hasGap={true}
-                    className={classNames(projectcss.all, sty.columns__iM7C)}
-                  >
-                    <div
-                      className={classNames(projectcss.all, sty.column___78OuC)}
-                    >
-                      <div
-                        data-plasmic-name={"homeTrendBlock"}
-                        data-plasmic-override={overrides.homeTrendBlock}
-                        className={classNames(
-                          projectcss.all,
-                          sty.homeTrendBlock
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__dDIT
-                          )}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__rvH2
-                            )}
-                          >
-                            {"Your Home Trend"}
-                          </div>
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__tyFrM
-                            )}
-                          >
-                            <AntdButton
-                              className={classNames(
-                                "__wab_instance",
-                                sty.button__diZz6
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.freeBox__i0Oww
-                                )}
-                              >
-                                <Idea01Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__w7W88
-                                  )}
-                                  role={"img"}
-                                />
-
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__myoKt
-                                  )}
-                                >
-                                  {"Insights"}
-                                </div>
-                              </div>
-                            </AntdButton>
-                          </div>
-                        </div>
-                        <SimpleChart
-                          className={classNames(
-                            "__wab_instance",
-                            sty.chart___0Lns
-                          )}
-                          data={(() => {
-                            const transformedArray = $queries.getValuations.data
-                              .map(entry => {
-                                return {
-                                  Year: entry.year,
-                                  Valuation: entry.mktTtlValue
-                                };
-                              })
-                              .sort((a, b) => a.Year - b.Year);
-                            return transformedArray;
-                          })()}
-                          fill={false}
-                          type={"line"}
-                        />
-                      </div>
+                      })}
                     </div>
                   </Stack__>
-                </Stack__>
-                <div
-                  data-plasmic-name={"homesSoldInArea"}
-                  data-plasmic-override={overrides.homesSoldInArea}
-                  className={classNames(projectcss.all, sty.homesSoldInArea)}
-                >
-                  <div
-                    className={classNames(projectcss.all, sty.columns___8XpNe)}
-                  >
-                    <div
-                      className={classNames(projectcss.all, sty.column__j5Vzr)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__xiEz2
-                        )}
-                      >
-                        {"Homes Sold in Your Area"}
-                      </div>
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__eV6Sv
-                        )}
-                      >
-                        {"Click on the homes to view more detail"}
-                      </div>
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.column__hwg3C)}
-                    >
-                      <AntdButton
-                        className={classNames(
-                          "__wab_instance",
-                          sty.button__yLWt
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__fi2AN
-                          )}
-                        >
-                          <Idea01Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__j3RQh
-                            )}
-                            role={"img"}
-                          />
-
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__xrB
-                            )}
-                          >
-                            {"How Does My Home Compare"}
-                          </div>
-                        </div>
-                      </AntdButton>
-                    </div>
-                  </div>
-                  <div
-                    className={classNames(
-                      projectcss.all,
-                      projectcss.__wab_text,
-                      sty.text__eJcbi
-                    )}
-                  >
-                    {"5 Homes Sold in the Past 6 Weeks"}
-                  </div>
-                  <div
-                    className={classNames(projectcss.all, sty.columns__ucOzv)}
-                  >
-                    <div
-                      className={classNames(projectcss.all, sty.column___4QYe6)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__txHv
-                        )}
-                      >
-                        {(_par =>
-                          !_par ? [] : Array.isArray(_par) ? _par : [_par])(
-                          (() => {
-                            try {
-                              return $queries.getComps.data;
-                            } catch (e) {
-                              if (
-                                e instanceof TypeError ||
-                                e?.plasmicType === "PlasmicUndefinedDataError"
-                              ) {
-                                return [];
-                              }
-                              throw e;
-                            }
-                          })()
-                        ).map((__plasmic_item_0, __plasmic_idx_0) => {
-                          const currentItem = __plasmic_item_0;
-                          const currentIndex = __plasmic_idx_0;
-                          return (
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"propertyCard4"}
-                              data-plasmic-override={overrides.propertyCard4}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.propertyCard4
-                              )}
-                              key={currentIndex}
-                              onClick={async event => {
-                                const $steps = {};
-
-                                $steps["updateHomeSoldInfoOn"] = true
-                                  ? (() => {
-                                      const actionArgs = {
-                                        variable: {
-                                          objRoot: $state,
-                                          variablePath: ["homeSoldInfoOn"]
-                                        },
-                                        operation: 4
-                                      };
-                                      return (({
-                                        variable,
-                                        value,
-                                        startIndex,
-                                        deleteCount
-                                      }) => {
-                                        if (!variable) {
-                                          return;
-                                        }
-                                        const { objRoot, variablePath } =
-                                          variable;
-
-                                        const oldValue = $stateGet(
-                                          objRoot,
-                                          variablePath
-                                        );
-                                        $stateSet(
-                                          objRoot,
-                                          variablePath,
-                                          !oldValue
-                                        );
-                                        return !oldValue;
-                                      })?.apply(null, [actionArgs]);
-                                    })()
-                                  : undefined;
-                                if (
-                                  $steps["updateHomeSoldInfoOn"] != null &&
-                                  typeof $steps["updateHomeSoldInfoOn"] ===
-                                    "object" &&
-                                  typeof $steps["updateHomeSoldInfoOn"].then ===
-                                    "function"
-                                ) {
-                                  $steps["updateHomeSoldInfoOn"] = await $steps[
-                                    "updateHomeSoldInfoOn"
-                                  ];
-                                }
-
-                                $steps["updateHomeSoldId"] = true
-                                  ? (() => {
-                                      const actionArgs = {
-                                        variable: {
-                                          objRoot: $state,
-                                          variablePath: ["homeSoldId"]
-                                        },
-                                        operation: 0,
-                                        value: currentItem.id
-                                      };
-                                      return (({
-                                        variable,
-                                        value,
-                                        startIndex,
-                                        deleteCount
-                                      }) => {
-                                        if (!variable) {
-                                          return;
-                                        }
-                                        const { objRoot, variablePath } =
-                                          variable;
-
-                                        $stateSet(objRoot, variablePath, value);
-                                        return value;
-                                      })?.apply(null, [actionArgs]);
-                                    })()
-                                  : undefined;
-                                if (
-                                  $steps["updateHomeSoldId"] != null &&
-                                  typeof $steps["updateHomeSoldId"] ===
-                                    "object" &&
-                                  typeof $steps["updateHomeSoldId"].then ===
-                                    "function"
-                                ) {
-                                  $steps["updateHomeSoldId"] = await $steps[
-                                    "updateHomeSoldId"
-                                  ];
-                                }
-                              }}
-                            >
-                              <PlasmicImg__
-                                alt={""}
-                                className={classNames(sty.img___3OwjU)}
-                                displayHeight={"120px"}
-                                displayMaxHeight={"120px"}
-                                displayMaxWidth={"100%"}
-                                displayMinHeight={"120px"}
-                                displayMinWidth={"0"}
-                                displayWidth={"187px"}
-                                loading={"lazy"}
-                                src={(() => {
-                                  try {
-                                    return currentItem.streetPhoto;
-                                  } catch (e) {
-                                    if (
-                                      e instanceof TypeError ||
-                                      e?.plasmicType ===
-                                        "PlasmicUndefinedDataError"
-                                    ) {
-                                      return {
-                                        src: "/plasmic/real_estate_dashboard/images/rectangle2367.jpg",
-                                        fullWidth: 3500,
-                                        fullHeight: 2333,
-                                        aspectRatio: undefined
-                                      };
-                                    }
-                                    throw e;
-                                  }
-                                })()}
-                              />
-
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.freeBox___6PoI0
-                                )}
-                              >
-                                <Stack__
-                                  as={"div"}
-                                  data-plasmic-name={"frame427318655"}
-                                  data-plasmic-override={
-                                    overrides.frame427318655
-                                  }
-                                  hasGap={true}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.frame427318655
-                                  )}
-                                >
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.freeBox__suWzr
-                                    )}
-                                  >
-                                    <div
-                                      className={classNames(
-                                        projectcss.all,
-                                        sty.freeBox___5Jlr6
-                                      )}
-                                    >
-                                      <div
-                                        data-plasmic-name={"_8881SAspenViewDr3"}
-                                        data-plasmic-override={
-                                          overrides._8881SAspenViewDr3
-                                        }
-                                        className={classNames(
-                                          projectcss.all,
-                                          projectcss.__wab_text,
-                                          sty._8881SAspenViewDr3
-                                        )}
-                                      >
-                                        <React.Fragment>
-                                          {(() => {
-                                            try {
-                                              return currentItem.address1;
-                                            } catch (e) {
-                                              if (
-                                                e instanceof TypeError ||
-                                                e?.plasmicType ===
-                                                  "PlasmicUndefinedDataError"
-                                              ) {
-                                                return "8703 S 5170 W";
-                                              }
-                                              throw e;
-                                            }
-                                          })()}
-                                        </React.Fragment>
-                                      </div>
-                                      <div
-                                        data-plasmic-name={"_8881SAspenViewDr4"}
-                                        data-plasmic-override={
-                                          overrides._8881SAspenViewDr4
-                                        }
-                                        className={classNames(
-                                          projectcss.all,
-                                          projectcss.__wab_text,
-                                          sty._8881SAspenViewDr4
-                                        )}
-                                      >
-                                        <React.Fragment>
-                                          {(() => {
-                                            try {
-                                              return (
-                                                Math.round(
-                                                  currentItem.Distance * 100
-                                                ) /
-                                                  100 +
-                                                " miles"
-                                              );
-                                            } catch (e) {
-                                              if (
-                                                e instanceof TypeError ||
-                                                e?.plasmicType ===
-                                                  "PlasmicUndefinedDataError"
-                                              ) {
-                                                return "8703 S 5170 W";
-                                              }
-                                              throw e;
-                                            }
-                                          })()}
-                                        </React.Fragment>
-                                      </div>
-                                    </div>
-                                    <div
-                                      className={classNames(
-                                        projectcss.all,
-                                        projectcss.__wab_text,
-                                        sty.text___8K1Jh
-                                      )}
-                                    >
-                                      <React.Fragment>
-                                        {(() => {
-                                          try {
-                                            return (
-                                              "$" + currentItem.total_assessed
-                                            );
-                                          } catch (e) {
-                                            if (
-                                              e instanceof TypeError ||
-                                              e?.plasmicType ===
-                                                "PlasmicUndefinedDataError"
-                                            ) {
-                                              return "$850,459";
-                                            }
-                                            throw e;
-                                          }
-                                        })()}
-                                      </React.Fragment>
-                                    </div>
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const itemEst = Number(
-                                            currentItem.total_assessed
-                                          );
-                                          const propEst = Number(
-                                            $queries.getProperty.data[0]
-                                              .total_assessed
-                                          );
-                                          return propEst > itemEst;
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return true;
-                                        }
-                                        throw e;
-                                      }
-                                    })() ? (
-                                      <Elements41Icon
-                                        className={classNames(
-                                          projectcss.all,
-                                          sty.svg__btgcp
-                                        )}
-                                        role={"img"}
-                                      />
-                                    ) : null}
-                                  </div>
-                                  <Stack__
-                                    as={"div"}
-                                    data-plasmic-name={"frame427318736"}
-                                    data-plasmic-override={
-                                      overrides.frame427318736
-                                    }
-                                    hasGap={true}
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.frame427318736
-                                    )}
-                                  >
-                                    {(() => {
-                                      try {
-                                        return (() => {
-                                          const itemEst = Number(
-                                            currentItem.total_assessed
-                                          );
-                                          const propEst = Number(
-                                            $queries.getProperty.data[0]
-                                              .total_assessed
-                                          );
-                                          return itemEst > propEst;
-                                        })();
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return true;
-                                        }
-                                        throw e;
-                                      }
-                                    })() ? (
-                                      <Elements40Icon
-                                        className={classNames(
-                                          projectcss.all,
-                                          sty.svg__wtvZn
-                                        )}
-                                        role={"img"}
-                                      />
-                                    ) : null}
-                                  </Stack__>
-                                </Stack__>
-                              </div>
-                            </Stack__>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.column__d9EA)}
-                    >
-                      {(() => {
-                        try {
-                          return $state.homeSoldInfoOn == false;
-                        } catch (e) {
-                          if (
-                            e instanceof TypeError ||
-                            e?.plasmicType === "PlasmicUndefinedDataError"
-                          ) {
-                            return true;
-                          }
-                          throw e;
-                        }
-                      })() ? (
-                        <PlasmicImg__
-                          alt={""}
-                          className={classNames(sty.img__oxJj)}
-                          displayHeight={"100%"}
-                          displayMaxHeight={"400px"}
-                          displayMaxWidth={"100%"}
-                          displayMinHeight={"0"}
-                          displayMinWidth={"0"}
-                          displayWidth={"100%"}
-                          loading={"lazy"}
-                          src={
-                            "https://maps.googleapis.com/maps/api/staticmap?size=640x750&maptype=roadmap&markers=color:yellow%7C40.23927,-111.647913&markers=color:red%7C40.240047,-111.650283&markers=color:red%7C40.237388,-111.648887&markers=color:red%7C40.240829,-111.653082&markers=color:red%7C40.235404,-111.651957&markers=color:red%7C40.231171,-111.645047&markers=color:red%7C40.238069,-111.664688&markers=color:red%7C40.226832,-111.652925&markers=color:red%7C40.238813,-111.666246&markers=color:red%7C40.229528,-111.663623&markers=color:red%7C40.228145,-111.664304&key=AIzaSyATfwK78rrMglC2UiaomrD7lij1j_AQ_IU"
-                          }
-                        />
-                      ) : null}
-                      {(() => {
-                        try {
-                          return $state.homeSoldInfoOn == true;
-                        } catch (e) {
-                          if (
-                            e instanceof TypeError ||
-                            e?.plasmicType === "PlasmicUndefinedDataError"
-                          ) {
-                            return true;
-                          }
-                          throw e;
-                        }
-                      })() ? (
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__nifyq
-                          )}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__ldld3
-                            )}
-                          >
-                            <CloseIcon1SvgIcon
-                              className={classNames(
-                                projectcss.all,
-                                sty.svg__lkxMz
-                              )}
-                              onClick={async event => {
-                                const $steps = {};
-
-                                $steps["updateHomeSoldInfoOn"] = true
-                                  ? (() => {
-                                      const actionArgs = {
-                                        variable: {
-                                          objRoot: $state,
-                                          variablePath: ["homeSoldInfoOn"]
-                                        },
-                                        operation: 0,
-                                        value: false
-                                      };
-                                      return (({
-                                        variable,
-                                        value,
-                                        startIndex,
-                                        deleteCount
-                                      }) => {
-                                        if (!variable) {
-                                          return;
-                                        }
-                                        const { objRoot, variablePath } =
-                                          variable;
-
-                                        $stateSet(objRoot, variablePath, value);
-                                        return value;
-                                      })?.apply(null, [actionArgs]);
-                                    })()
-                                  : undefined;
-                                if (
-                                  $steps["updateHomeSoldInfoOn"] != null &&
-                                  typeof $steps["updateHomeSoldInfoOn"] ===
-                                    "object" &&
-                                  typeof $steps["updateHomeSoldInfoOn"].then ===
-                                    "function"
-                                ) {
-                                  $steps["updateHomeSoldInfoOn"] = await $steps[
-                                    "updateHomeSoldInfoOn"
-                                  ];
-                                }
-                              }}
-                              role={"img"}
-                            />
-                          </div>
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__lngYe
-                            )}
-                          >
-                            <PlasmicImg__
-                              alt={""}
-                              className={classNames(sty.img__asevg)}
-                              displayHeight={"100%"}
-                              displayMaxHeight={"180px"}
-                              displayMaxWidth={"100%"}
-                              displayMinHeight={"0"}
-                              displayMinWidth={"0"}
-                              displayWidth={"100%"}
-                              loading={"lazy"}
-                              src={(() => {
-                                try {
-                                  return $queries.getComps.data.find(
-                                    entry => entry.id == $state.homeSoldId
-                                  ).streetPhoto;
-                                } catch (e) {
-                                  if (
-                                    e instanceof TypeError ||
-                                    e?.plasmicType ===
-                                      "PlasmicUndefinedDataError"
-                                  ) {
-                                    return {
-                                      src: "/plasmic/real_estate_dashboard/images/rectangle2367.jpg",
-                                      fullWidth: 3500,
-                                      fullHeight: 2333,
-                                      aspectRatio: undefined
-                                    };
-                                  }
-                                  throw e;
-                                }
-                              })()}
-                            />
-                          </div>
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__oAhTx
-                            )}
-                          >
-                            <h1
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.h1,
-                                projectcss.__wab_text,
-                                sty.h1___8Nd1
-                              )}
-                            >
-                              <React.Fragment>
-                                {(() => {
-                                  try {
-                                    return (
-                                      $queries.getComps.data.find(
-                                        entry => entry.id == $state.homeSoldId
-                                      ).address1 +
-                                      " " +
-                                      $queries.getComps.data.find(
-                                        entry => entry.id == $state.homeSoldId
-                                      ).city
-                                    );
-                                  } catch (e) {
-                                    if (
-                                      e instanceof TypeError ||
-                                      e?.plasmicType ===
-                                        "PlasmicUndefinedDataError"
-                                    ) {
-                                      return "8881 S Aspen View Dr";
-                                    }
-                                    throw e;
-                                  }
-                                })()}
-                              </React.Fragment>
-                            </h1>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text__piaY7
-                              )}
-                            >
-                              <React.Fragment>
-                                {(() => {
-                                  try {
-                                    return (() => {
-                                      const number =
-                                        $queries.getComps.data.find(
-                                          entry => entry.id == $state.homeSoldId
-                                        ).total_assessed;
-                                      const formattedNumber = number
-                                        .toString()
-                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                      return "$" + formattedNumber;
-                                    })();
-                                  } catch (e) {
-                                    if (
-                                      e instanceof TypeError ||
-                                      e?.plasmicType ===
-                                        "PlasmicUndefinedDataError"
-                                    ) {
-                                      return "$20,000";
-                                    }
-                                    throw e;
-                                  }
-                                })()}
-                              </React.Fragment>
-                            </div>
-                          </div>
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__o9Hy
-                            )}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318725"}
-                              data-plasmic-override={overrides.frame427318725}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318725
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame73"}
-                                data-plasmic-override={overrides.frame73}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame73
-                                )}
-                              >
-                                <div
-                                  data-plasmic-name={"bathtub023"}
-                                  data-plasmic-override={overrides.bathtub023}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.bathtub023
-                                  )}
-                                >
-                                  <Elements36Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__qLqR1
-                                    )}
-                                    role={"img"}
-                                  />
-                                </div>
-                              </Stack__>
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame82"}
-                                data-plasmic-override={overrides.frame82}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame82
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__hwOhn
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return $queries.getComps.data.find(
-                                          entry => entry.id == $state.homeSoldId
-                                        ).year_built;
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "00";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__stwbw
-                                  )}
-                                >
-                                  {"Year built"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318726"}
-                              data-plasmic-override={overrides.frame427318726}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318726
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame74"}
-                                data-plasmic-override={overrides.frame74}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame74
-                                )}
-                              >
-                                <div
-                                  data-plasmic-name={"bathtub024"}
-                                  data-plasmic-override={overrides.bathtub024}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.bathtub024
-                                  )}
-                                >
-                                  <Elements34Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__aSeEs
-                                    )}
-                                    role={"img"}
-                                  />
-                                </div>
-                              </Stack__>
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame83"}
-                                data-plasmic-override={overrides.frame83}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame83
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__yp0Wi
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return $queries.getComps.data.find(
-                                          entry => entry.id == $state.homeSoldId
-                                        ).BathroomsTotal;
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "00";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__oWaPs
-                                  )}
-                                >
-                                  {"Bathrooms"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318727"}
-                              data-plasmic-override={overrides.frame427318727}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318727
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame75"}
-                                data-plasmic-override={overrides.frame75}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame75
-                                )}
-                              >
-                                <div
-                                  data-plasmic-name={"bathtub025"}
-                                  data-plasmic-override={overrides.bathtub025}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.bathtub025
-                                  )}
-                                >
-                                  <Elements33Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg___0PhCl
-                                    )}
-                                    role={"img"}
-                                  />
-                                </div>
-                              </Stack__>
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame84"}
-                                data-plasmic-override={overrides.frame84}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame84
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__cs7Ef
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return $queries.getComps.data.find(
-                                          entry => entry.id == $state.homeSoldId
-                                        ).BedroomsTotal;
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "00";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__jPsT
-                                  )}
-                                >
-                                  {"Bedrooms"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318728"}
-                              data-plasmic-override={overrides.frame427318728}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318728
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame76"}
-                                data-plasmic-override={overrides.frame76}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame76
-                                )}
-                              >
-                                <div
-                                  data-plasmic-name={"bathtub026"}
-                                  data-plasmic-override={overrides.bathtub026}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.bathtub026
-                                  )}
-                                >
-                                  <Elements29Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__diUaa
-                                    )}
-                                    role={"img"}
-                                  />
-                                </div>
-                              </Stack__>
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame85"}
-                                data-plasmic-override={overrides.frame85}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame85
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__fHuxQ
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return Number(
-                                          Math.round(
-                                            ($queries.getComps.data.find(
-                                              entry =>
-                                                entry.id == $state.homeSoldId
-                                            ).lotSize /
-                                              43560) *
-                                              100
-                                          ) / 100
-                                        );
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "00";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text___8SfAv
-                                  )}
-                                >
-                                  {"Acre Lot"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318729"}
-                              data-plasmic-override={overrides.frame427318729}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318729
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame80"}
-                                data-plasmic-override={overrides.frame80}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame80
-                                )}
-                              >
-                                <div
-                                  data-plasmic-name={"bathtub027"}
-                                  data-plasmic-override={overrides.bathtub027}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.bathtub027
-                                  )}
-                                >
-                                  <Elements35Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__qcHcq
-                                    )}
-                                    role={"img"}
-                                  />
-                                </div>
-                              </Stack__>
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame86"}
-                                data-plasmic-override={overrides.frame86}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame86
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__hJbet
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return $queries.getComps.data.find(
-                                          entry => entry.id == $state.homeSoldId
-                                        ).stories;
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "00";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__d6YM4
-                                  )}
-                                >
-                                  {"Stories"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318730"}
-                              data-plasmic-override={overrides.frame427318730}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318730
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame81"}
-                                data-plasmic-override={overrides.frame81}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame81
-                                )}
-                              >
-                                <div
-                                  data-plasmic-name={"bathtub028"}
-                                  data-plasmic-override={overrides.bathtub028}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.bathtub028
-                                  )}
-                                >
-                                  <Elements25Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__htGa1
-                                    )}
-                                    role={"img"}
-                                  />
-                                </div>
-                              </Stack__>
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame88"}
-                                data-plasmic-override={overrides.frame88}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame88
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__wMead
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return $queries.getComps.data.find(
-                                          entry => entry.id == $state.homeSoldId
-                                        ).RoomsTotal;
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "00";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__uwRv
-                                  )}
-                                >
-                                  {"Rooms"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318731"}
-                              data-plasmic-override={overrides.frame427318731}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318731
-                              )}
-                            >
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame89"}
-                                data-plasmic-override={overrides.frame89}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame89
-                                )}
-                              >
-                                <div
-                                  data-plasmic-name={"bathtub029"}
-                                  data-plasmic-override={overrides.bathtub029}
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.bathtub029
-                                  )}
-                                >
-                                  <Elements25Icon
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.svg__rp9UB
-                                    )}
-                                    role={"img"}
-                                  />
-                                </div>
-                              </Stack__>
-                              <Stack__
-                                as={"div"}
-                                data-plasmic-name={"frame91"}
-                                data-plasmic-override={overrides.frame91}
-                                hasGap={true}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.frame91
-                                )}
-                              >
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__ijdyq
-                                  )}
-                                >
-                                  <React.Fragment>
-                                    {(() => {
-                                      try {
-                                        return (
-                                          Math.round(
-                                            $queries.getComps.data.find(
-                                              entry =>
-                                                entry.id == $state.homeSoldId
-                                            ).Distance * 100
-                                          ) / 100
-                                        );
-                                      } catch (e) {
-                                        if (
-                                          e instanceof TypeError ||
-                                          e?.plasmicType ===
-                                            "PlasmicUndefinedDataError"
-                                        ) {
-                                          return "00";
-                                        }
-                                        throw e;
-                                      }
-                                    })()}
-                                  </React.Fragment>
-                                </div>
-                                <div
-                                  className={classNames(
-                                    projectcss.all,
-                                    projectcss.__wab_text,
-                                    sty.text__xZtva
-                                  )}
-                                >
-                                  {"Distance"}
-                                </div>
-                              </Stack__>
-                            </Stack__>
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  data-plasmic-name={"cashOffer"}
-                  data-plasmic-override={overrides.cashOffer}
-                  className={classNames(projectcss.all, sty.cashOffer)}
-                >
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox___2Ofaz)}
-                  >
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text__isLuE
-                      )}
-                    >
-                      {"Interested in a Cash offer?"}
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox__uoJt1)}
-                    >
-                      <AntdButton
-                        className={classNames(
-                          "__wab_instance",
-                          sty.button__ir9Pv
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__cpyx
-                          )}
-                        >
-                          <Idea01Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__qsKZs
-                            )}
-                            role={"img"}
-                          />
-
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__txMGx
-                            )}
-                          >
-                            {"Insights"}
-                          </div>
-                        </div>
-                      </AntdButton>
-                    </div>
-                  </div>
-                  <div
-                    className={classNames(
-                      projectcss.all,
-                      projectcss.__wab_text,
-                      sty.text__mgCw
-                    )}
-                  >
-                    {
-                      "Enjoy the convenience of a cash offer with no need to show your house, make repairs, or worry about timing. If you prefer simplicity and flexibility over getting the highest price, a cash offer is the perfect choice for you. "
-                    }
-                  </div>
-                  <div className={classNames(projectcss.all, sty.freeBox__uF2)}>
-                    <AntdModal
-                      data-plasmic-name={"modal2"}
-                      data-plasmic-override={overrides.modal2}
-                      className={classNames("__wab_instance", sty.modal2)}
-                      defaultStylesClassName={classNames(
-                        projectcss.root_reset,
-                        projectcss.plasmic_default_styles,
-                        projectcss.plasmic_mixins,
-                        projectcss.plasmic_tokens,
-                        plasmic_antd_5_hostless_css.plasmic_tokens,
-                        plasmic_plasmic_rich_components_css.plasmic_tokens
-                      )}
-                      modalScopeClassName={sty["modal2__modal"]}
-                      onOpenChange={generateStateOnChangeProp($state, [
-                        "modal2",
-                        "open"
-                      ])}
-                      open={generateStateValueProp($state, ["modal2", "open"])}
-                      title={"Modal title"}
-                      trigger={
-                        <AntdButton
-                          className={classNames(
-                            "__wab_instance",
-                            sty.button__vcEqg
-                          )}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__pywdq
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text__vCcye
-                              )}
-                            >
-                              {"Request Offer"}
-                            </div>
-                          </div>
-                        </AntdButton>
-                      }
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__wkgda
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__b82SU
-                          )}
-                        >
-                          {"Modal content"}
-                        </div>
-                      </div>
-                    </AntdModal>
-                  </div>
-                </div>
-                <div
-                  className={classNames(projectcss.all, sty.freeBox___3We5L)}
-                >
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__dirQw)}
-                  >
-                    <div
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.__wab_text,
-                        sty.text___0Q8Md
-                      )}
-                    >
-                      {"Let's Work Together"}
-                    </div>
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox__dTHa)}
-                    >
-                      <AntdButton
-                        className={classNames(
-                          "__wab_instance",
-                          sty.button__v9CdR
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__sfw87
-                          )}
-                        >
-                          <Idea01Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__t3W7N
-                            )}
-                            role={"img"}
-                          />
-
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__oAgj6
-                            )}
-                          >
-                            {"Insights"}
-                          </div>
-                        </div>
-                      </AntdButton>
-                    </div>
-                  </div>
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__pg2Qa)}
-                  >
-                    <PlasmicImg__
-                      alt={""}
-                      className={classNames(sty.img__fazEz)}
-                      displayHeight={"90px"}
-                      displayMaxHeight={"none"}
-                      displayMaxWidth={"100%"}
-                      displayMinHeight={"0"}
-                      displayMinWidth={"0"}
-                      displayWidth={"90px"}
-                      loading={"lazy"}
-                      src={(() => {
-                        try {
-                          return $queries.getEntity.data[0].photo;
-                        } catch (e) {
-                          if (
-                            e instanceof TypeError ||
-                            e?.plasmicType === "PlasmicUndefinedDataError"
-                          ) {
-                            return {
-                              src: "/plasmic/real_estate_dashboard/images/image.png",
-                              fullWidth: 100,
-                              fullHeight: 100,
-                              aspectRatio: undefined
-                            };
-                          }
-                          throw e;
-                        }
-                      })()}
-                    />
-
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox__ohjlf)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__sjzIn
-                        )}
-                      >
-                        {"Jeff Eaves"}
-                      </div>
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__tNyTg
-                        )}
-                      >
-                        {"KW South Valley Keller Williams"}
-                      </div>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame427318812"}
-                        data-plasmic-override={overrides.frame427318812}
-                        hasGap={true}
-                        className={classNames(
-                          projectcss.all,
-                          sty.frame427318812
-                        )}
-                      >
-                        <div
-                          data-plasmic-name={"call2"}
-                          data-plasmic-override={overrides.call2}
-                          className={classNames(projectcss.all, sty.call2)}
-                        >
-                          <Elements44Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__w0TQr
-                            )}
-                            role={"img"}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text___8HmTs
-                          )}
-                        >
-                          {"+1 801 682-90832"}
-                        </div>
-                      </Stack__>
-                      <Stack__
-                        as={"div"}
-                        data-plasmic-name={"frame427318813"}
-                        data-plasmic-override={overrides.frame427318813}
-                        hasGap={true}
-                        className={classNames(
-                          projectcss.all,
-                          sty.frame427318813
-                        )}
-                      >
-                        <div
-                          data-plasmic-name={"mail022"}
-                          data-plasmic-override={overrides.mail022}
-                          className={classNames(projectcss.all, sty.mail022)}
-                        >
-                          <Elements45Icon
-                            className={classNames(
-                              projectcss.all,
-                              sty.svg__anQd1
-                            )}
-                            role={"img"}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__hhN5V
-                          )}
-                        >
-                          {"JeffEaves@gmail.com"}
-                        </div>
-                      </Stack__>
-                    </div>
-                  </div>
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__npXmV)}
-                  >
-                    {(_par =>
-                      !_par ? [] : Array.isArray(_par) ? _par : [_par])(
-                      (() => {
-                        try {
-                          return $queries.getTestimonials.data;
-                        } catch (e) {
-                          if (
-                            e instanceof TypeError ||
-                            e?.plasmicType === "PlasmicUndefinedDataError"
-                          ) {
-                            return [];
-                          }
-                          throw e;
-                        }
-                      })()
-                    ).map((__plasmic_item_0, __plasmic_idx_0) => {
-                      const currentItem = __plasmic_item_0;
-                      const currentIndex = __plasmic_idx_0;
-                      return (
-                        <Stack__
-                          as={"div"}
-                          data-plasmic-name={"testimonials7"}
-                          data-plasmic-override={overrides.testimonials7}
-                          hasGap={true}
-                          className={classNames(
-                            projectcss.all,
-                            sty.testimonials7
-                          )}
-                          key={currentIndex}
-                        >
-                          <Stack__
-                            as={"div"}
-                            data-plasmic-name={"frame427318805"}
-                            data-plasmic-override={overrides.frame427318805}
-                            hasGap={true}
-                            className={classNames(
-                              projectcss.all,
-                              sty.frame427318805
-                            )}
-                          >
-                            <Stack__
-                              as={"div"}
-                              data-plasmic-name={"frame427318806"}
-                              data-plasmic-override={overrides.frame427318806}
-                              hasGap={true}
-                              className={classNames(
-                                projectcss.all,
-                                sty.frame427318806
-                              )}
-                            >
-                              <div
-                                data-plasmic-name={"star"}
-                                data-plasmic-override={overrides.star}
-                                className={classNames(projectcss.all, sty.star)}
-                              >
-                                <Elements43Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg___6ZgXo
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                              <div
-                                data-plasmic-name={"star2"}
-                                data-plasmic-override={overrides.star2}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.star2
-                                )}
-                              >
-                                <Elements43Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__h8Beb
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                              <div
-                                data-plasmic-name={"star3"}
-                                data-plasmic-override={overrides.star3}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.star3
-                                )}
-                              >
-                                <Elements43Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__yumzD
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                              <div
-                                data-plasmic-name={"star4"}
-                                data-plasmic-override={overrides.star4}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.star4
-                                )}
-                              >
-                                <Elements43Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__qfH0P
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                              <div
-                                data-plasmic-name={"star5"}
-                                data-plasmic-override={overrides.star5}
-                                className={classNames(
-                                  projectcss.all,
-                                  sty.star5
-                                )}
-                              >
-                                <Elements43Icon
-                                  className={classNames(
-                                    projectcss.all,
-                                    sty.svg__slTRf
-                                  )}
-                                  role={"img"}
-                                />
-                              </div>
-                            </Stack__>
-                          </Stack__>
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__ul7Bs
-                            )}
-                          >
-                            <React.Fragment>
-                              {(() => {
-                                try {
-                                  return currentItem.testimonial;
-                                } catch (e) {
-                                  if (
-                                    e instanceof TypeError ||
-                                    e?.plasmicType ===
-                                      "PlasmicUndefinedDataError"
-                                  ) {
-                                    return "\u201cJeff is the best realtor around. He helped us through the process and made things to simple.\u201d";
-                                  }
-                                  throw e;
-                                }
-                              })()}
-                            </React.Fragment>
-                          </div>
-                        </Stack__>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Stack__>
-            </Stack__>
-          ) : null}
+                }
+              />
+            </div>
+          </div>
           {(() => {
             try {
               return (() => {
@@ -6815,17 +1248,7096 @@ function PlasmicProperties__RenderFunc(props: {
               throw e;
             }
           })() ? (
-            <div className={classNames(projectcss.all, sty.freeBox___3Ln3R)}>
-              <div
-                className={classNames(
-                  projectcss.all,
-                  projectcss.__wab_text,
-                  sty.text__sZcE
-                )}
-              >
-                {"Terms and Conditions\nPrivacy Policy"}
-              </div>
-            </div>
+            <section
+              data-plasmic-name={"body"}
+              data-plasmic-override={overrides.body}
+              className={classNames(projectcss.all, sty.body)}
+            >
+              {(() => {
+                try {
+                  return (
+                    $queries.getProperty.data.find(
+                      entry => entry.id == $state.homeId.value
+                    ).done == true
+                  );
+                } catch (e) {
+                  if (
+                    e instanceof TypeError ||
+                    e?.plasmicType === "PlasmicUndefinedDataError"
+                  ) {
+                    return true;
+                  }
+                  throw e;
+                }
+              })() ? (
+                <div
+                  data-plasmic-name={"dash"}
+                  data-plasmic-override={overrides.dash}
+                  className={classNames(projectcss.all, sty.dash)}
+                >
+                  {(
+                    hasVariant(globalVariants, "screen", "mobileOnly")
+                      ? true
+                      : (() => {
+                          try {
+                            return (() => {
+                              const isLoading =
+                                $queries.getProperty.isLoading ||
+                                $queries.getClient.isLoading ||
+                                $queries.getComps.isLoading ||
+                                $queries.getCountyData.isLoading ||
+                                $queries.getValuations.isLoading;
+                              return !isLoading;
+                            })();
+                          } catch (e) {
+                            if (
+                              e instanceof TypeError ||
+                              e?.plasmicType === "PlasmicUndefinedDataError"
+                            ) {
+                              return true;
+                            }
+                            throw e;
+                          }
+                        })()
+                  ) ? (
+                    <div
+                      className={classNames(projectcss.all, sty.freeBox__uXcY)}
+                    >
+                      <div
+                        className={classNames(
+                          projectcss.all,
+                          sty.freeBox__ccO8Q
+                        )}
+                      >
+                        <div
+                          className={classNames(
+                            projectcss.all,
+                            projectcss.__wab_text,
+                            sty.text__qFm9D
+                          )}
+                        >
+                          {
+                            "Welcome to your Personalized Home Analytics Dashboard"
+                          }
+                        </div>
+                      </div>
+                      <Stack__
+                        as={"div"}
+                        hasGap={true}
+                        className={classNames(
+                          projectcss.all,
+                          sty.columns__zSguD
+                        )}
+                      >
+                        <div
+                          className={classNames(
+                            projectcss.all,
+                            sty.column__dMuc
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__lI85
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__gX107
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__voFv
+                                )}
+                              >
+                                {(() => {
+                                  try {
+                                    return true;
+                                  } catch (e) {
+                                    if (
+                                      e instanceof TypeError ||
+                                      e?.plasmicType ===
+                                        "PlasmicUndefinedDataError"
+                                    ) {
+                                      return true;
+                                    }
+                                    throw e;
+                                  }
+                                })() ? (
+                                  <PlasmicImg__
+                                    alt={""}
+                                    className={classNames(sty.img__rMeKd)}
+                                    displayHeight={"115px"}
+                                    displayMaxHeight={"none"}
+                                    displayMaxWidth={"100%"}
+                                    displayMinHeight={"0"}
+                                    displayMinWidth={"0"}
+                                    displayWidth={"178px"}
+                                    loading={"lazy"}
+                                    src={(() => {
+                                      try {
+                                        return $queries.getProperty.data.find(
+                                          entry =>
+                                            entry.id == $state.homeId.value
+                                        ).streetPhoto;
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return {
+                                            src: "/plasmic/real_estate_dashboard/images/rectangle66.png",
+                                            fullWidth: 768,
+                                            fullHeight: 576,
+                                            aspectRatio: undefined
+                                          };
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  />
+                                ) : null}
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__wkfDy
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__jn3Fk
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox___8YZhF
+                                  )}
+                                >
+                                  <h1
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.h1,
+                                      projectcss.__wab_text,
+                                      sty.h1__wrM8D
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).address1;
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return " ";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </h1>
+                                  <h1
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.h1,
+                                      projectcss.__wab_text,
+                                      sty.h1__jtqPm
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return (
+                                            $queries.getProperty.data.find(
+                                              entry =>
+                                                entry.id == $state.homeId.value
+                                            ).city +
+                                            ", " +
+                                            $queries.getProperty.data.find(
+                                              entry =>
+                                                entry.id == $state.homeId.value
+                                            ).state +
+                                            " " +
+                                            $queries.getProperty.data.find(
+                                              entry =>
+                                                entry.id == $state.homeId.value
+                                            ).zipCode
+                                          );
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return " ";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </h1>
+                                </div>
+                                <AntdButton
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.button__bCfjN
+                                  )}
+                                  onClick={async () => {
+                                    const $steps = {};
+
+                                    $steps["updateModal3Open"] = true
+                                      ? (() => {
+                                          const actionArgs = {
+                                            variable: {
+                                              objRoot: $state,
+                                              variablePath: ["modal3", "open"]
+                                            },
+                                            operation: 4
+                                          };
+                                          return (({
+                                            variable,
+                                            value,
+                                            startIndex,
+                                            deleteCount
+                                          }) => {
+                                            if (!variable) {
+                                              return;
+                                            }
+                                            const { objRoot, variablePath } =
+                                              variable;
+
+                                            const oldValue = $stateGet(
+                                              objRoot,
+                                              variablePath
+                                            );
+                                            $stateSet(
+                                              objRoot,
+                                              variablePath,
+                                              !oldValue
+                                            );
+                                            return !oldValue;
+                                          })?.apply(null, [actionArgs]);
+                                        })()
+                                      : undefined;
+                                    if (
+                                      $steps["updateModal3Open"] != null &&
+                                      typeof $steps["updateModal3Open"] ===
+                                        "object" &&
+                                      typeof $steps["updateModal3Open"].then ===
+                                        "function"
+                                    ) {
+                                      $steps["updateModal3Open"] = await $steps[
+                                        "updateModal3Open"
+                                      ];
+                                    }
+                                  }}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__kt7Nz
+                                    )}
+                                  >
+                                    {"Edit Preferences"}
+                                  </div>
+                                </AntdButton>
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__lXtlW
+                                )}
+                              >
+                                {(() => {
+                                  try {
+                                    return (() => {
+                                      const checkbox2 = $state.checkbox2;
+                                      const checkbox3 = $state.checkbox3;
+                                      function anyChecked(
+                                        checkboxArray1,
+                                        checkboxArray2
+                                      ) {
+                                        return (
+                                          checkboxArray1.some(
+                                            item => item.checked
+                                          ) ||
+                                          checkboxArray2.some(
+                                            item => item.checked
+                                          )
+                                        );
+                                      }
+                                      const result = anyChecked(
+                                        checkbox2,
+                                        checkbox3
+                                      );
+                                      return result;
+                                    })();
+                                  } catch (e) {
+                                    if (
+                                      e instanceof TypeError ||
+                                      e?.plasmicType ===
+                                        "PlasmicUndefinedDataError"
+                                    ) {
+                                      return true;
+                                    }
+                                    throw e;
+                                  }
+                                })() ? (
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__fbS7J
+                                    )}
+                                  >
+                                    {(() => {
+                                      try {
+                                        return (() => {
+                                          const checkbox2 = $state.checkbox2;
+                                          function anyChecked(checkboxArray) {
+                                            return checkboxArray.some(
+                                              item => item.checked
+                                            );
+                                          }
+                                          const result = anyChecked(checkbox2);
+                                          return result;
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return true;
+                                        }
+                                        throw e;
+                                      }
+                                    })() ? (
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.freeBox__ripFj
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__lLgAq
+                                          )}
+                                        >
+                                          {
+                                            "The current status of this property is you are"
+                                          }
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__uBUj7
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const checkbox2 =
+                                                    $state.checkbox2;
+                                                  const keyValuePairs = [
+                                                    {
+                                                      key: "open to receiving a cash offer",
+                                                      value: 0
+                                                    },
+                                                    {
+                                                      key: "willing to sell if price and timing is right",
+                                                      value: 1
+                                                    },
+                                                    {
+                                                      key: "looking to sell in 0-2 years",
+                                                      value: 2
+                                                    },
+                                                    {
+                                                      key: "looking to sell in 2+ years",
+                                                      value: 3
+                                                    },
+                                                    {
+                                                      key: $state.input2,
+                                                      value: 4
+                                                    }
+                                                  ];
+
+                                                  function listTrues(
+                                                    checkboxArray
+                                                  ) {
+                                                    const checkedItems =
+                                                      checkboxArray
+                                                        .map((item, index) =>
+                                                          item.checked
+                                                            ? keyValuePairs[
+                                                                index
+                                                              ].key
+                                                            : null
+                                                        )
+                                                        .filter(Boolean);
+                                                    if (
+                                                      checkedItems.length === 0
+                                                    ) {
+                                                      return "No items checked";
+                                                    } else if (
+                                                      checkedItems.length === 1
+                                                    ) {
+                                                      return checkedItems[0];
+                                                    } else if (
+                                                      checkedItems.length === 2
+                                                    ) {
+                                                      return checkedItems.join(
+                                                        " and "
+                                                      );
+                                                    } else {
+                                                      const lastItem =
+                                                        checkedItems.pop();
+                                                      return `${checkedItems.join(
+                                                        ", "
+                                                      )}, and ${lastItem}`;
+                                                    }
+                                                  }
+                                                  const result =
+                                                    listTrues(checkbox2);
+                                                  return result + ".";
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                      </div>
+                                    ) : null}
+                                    {(() => {
+                                      try {
+                                        return (() => {
+                                          const checkbox2 = $state.checkbox3;
+                                          function anyChecked(checkboxArray) {
+                                            return checkboxArray.some(
+                                              item => item.checked
+                                            );
+                                          }
+                                          const result = anyChecked(checkbox2);
+                                          return result;
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return true;
+                                        }
+                                        throw e;
+                                      }
+                                    })() ? (
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.freeBox__xCk1G
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__ueBls
+                                          )}
+                                        >
+                                          {"You are interested in "}
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__lhcyS
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const checkbox2 =
+                                                    $state.checkbox3;
+                                                  const keyValuePairs = [
+                                                    {
+                                                      key: "upgrading to a larger home",
+                                                      label: 0
+                                                    },
+                                                    {
+                                                      key: "downsizing to a smaller home",
+                                                      label: 1
+                                                    },
+                                                    {
+                                                      key: "purchasing an investment property",
+                                                      label: 2
+                                                    },
+                                                    {
+                                                      key: "purchasing another property",
+                                                      label: 3
+                                                    },
+                                                    {
+                                                      key: $state.input2,
+                                                      label: 4
+                                                    }
+                                                  ];
+
+                                                  function listTrues(
+                                                    checkboxArray
+                                                  ) {
+                                                    const checkedItems =
+                                                      checkboxArray
+                                                        .map((item, index) =>
+                                                          item.checked
+                                                            ? keyValuePairs[
+                                                                index
+                                                              ].key
+                                                            : null
+                                                        )
+                                                        .filter(Boolean);
+                                                    if (
+                                                      checkedItems.length === 0
+                                                    ) {
+                                                      return "No items checked";
+                                                    } else if (
+                                                      checkedItems.length === 1
+                                                    ) {
+                                                      return checkedItems[0];
+                                                    } else if (
+                                                      checkedItems.length === 2
+                                                    ) {
+                                                      return checkedItems.join(
+                                                        " and "
+                                                      );
+                                                    } else {
+                                                      const lastItem =
+                                                        checkedItems.pop();
+                                                      return `${checkedItems.join(
+                                                        ", "
+                                                      )}, and ${lastItem}`;
+                                                    }
+                                                  }
+                                                  const result =
+                                                    listTrues(checkbox2);
+                                                  return result + ".";
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                ) : null}
+                                {(() => {
+                                  try {
+                                    return (() => {
+                                      const checkbox2 = $state.checkbox2;
+                                      const checkbox3 = $state.checkbox3;
+                                      function anyChecked(
+                                        checkboxArray1,
+                                        checkboxArray2
+                                      ) {
+                                        return (
+                                          checkboxArray1.some(
+                                            item => item.checked
+                                          ) ||
+                                          checkboxArray2.some(
+                                            item => item.checked
+                                          )
+                                        );
+                                      }
+                                      const result = anyChecked(
+                                        checkbox2,
+                                        checkbox3
+                                      );
+                                      return !result;
+                                    })();
+                                  } catch (e) {
+                                    if (
+                                      e instanceof TypeError ||
+                                      e?.plasmicType ===
+                                        "PlasmicUndefinedDataError"
+                                    ) {
+                                      return true;
+                                    }
+                                    throw e;
+                                  }
+                                })() ? (
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox___7GdZd
+                                    )}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__yjWsI
+                                      )}
+                                    >
+                                      {
+                                        "Manage your real estate preferences to personalize your experience."
+                                      }
+                                    </div>
+                                  </div>
+                                ) : null}
+                                <AntdModal
+                                  data-plasmic-name={"modal3"}
+                                  data-plasmic-override={overrides.modal3}
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.modal3
+                                  )}
+                                  defaultStylesClassName={classNames(
+                                    projectcss.root_reset,
+                                    projectcss.plasmic_default_styles,
+                                    projectcss.plasmic_mixins,
+                                    projectcss.plasmic_tokens,
+                                    plasmic_antd_5_hostless_css.plasmic_tokens,
+                                    plasmic_plasmic_rich_components_css.plasmic_tokens
+                                  )}
+                                  hideFooter={true}
+                                  maskClosable={false}
+                                  modalScopeClassName={sty["modal3__modal"]}
+                                  onOpenChange={generateStateOnChangeProp(
+                                    $state,
+                                    ["modal3", "open"]
+                                  )}
+                                  open={generateStateValueProp($state, [
+                                    "modal3",
+                                    "open"
+                                  ])}
+                                  title={
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__t85FJ
+                                      )}
+                                    >
+                                      {"Manage your Real Estate Preferences"}
+                                    </div>
+                                  }
+                                  trigger={null}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__jokl
+                                    )}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__x64Wb
+                                      )}
+                                    >
+                                      {"My Property Status"}
+                                    </div>
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.freeBox___5RuAh
+                                      )}
+                                    >
+                                      {(_par =>
+                                        !_par
+                                          ? []
+                                          : Array.isArray(_par)
+                                          ? _par
+                                          : [_par])(
+                                        (() => {
+                                          try {
+                                            return [
+                                              {
+                                                key: "Open to receiving a cash offer",
+                                                label: 0
+                                              },
+                                              {
+                                                key: "If Price and Timing is right, I would sell",
+                                                label: 1
+                                              },
+                                              {
+                                                key: "Looking to sell in 0-2 years",
+                                                label: 2
+                                              },
+                                              {
+                                                key: "Looking to sell in 2+ years",
+                                                label: 3
+                                              },
+                                              {
+                                                key: "Other",
+                                                label: 4
+                                              }
+                                            ];
+                                          } catch (e) {
+                                            if (
+                                              e instanceof TypeError ||
+                                              e?.plasmicType ===
+                                                "PlasmicUndefinedDataError"
+                                            ) {
+                                              return [];
+                                            }
+                                            throw e;
+                                          }
+                                        })()
+                                      ).map(
+                                        (__plasmic_item_0, __plasmic_idx_0) => {
+                                          const currentItem = __plasmic_item_0;
+                                          const currentIndex = __plasmic_idx_0;
+                                          return (() => {
+                                            const child$Props = {
+                                              checked: generateStateValueProp(
+                                                $state,
+                                                [
+                                                  "checkbox2",
+                                                  __plasmic_idx_0,
+                                                  "checked"
+                                                ]
+                                              ),
+                                              className: classNames(
+                                                "__wab_instance",
+                                                sty.checkbox2
+                                              ),
+                                              defaultChecked: (() => {
+                                                try {
+                                                  return $queries.getProperty.data
+                                                    .find(
+                                                      entry =>
+                                                        entry.id ==
+                                                        $state.homeId.value
+                                                    )
+                                                    .prop_status.includes(
+                                                      currentItem.label
+                                                    );
+                                                } catch (e) {
+                                                  if (
+                                                    e instanceof TypeError ||
+                                                    e?.plasmicType ===
+                                                      "PlasmicUndefinedDataError"
+                                                  ) {
+                                                    return false;
+                                                  }
+                                                  throw e;
+                                                }
+                                              })(),
+                                              key: currentIndex,
+                                              onChange: async (
+                                                ...eventArgs: any
+                                              ) => {
+                                                generateStateOnChangeProp(
+                                                  $state,
+                                                  [
+                                                    "checkbox2",
+                                                    __plasmic_idx_0,
+                                                    "checked"
+                                                  ]
+                                                ).apply(null, eventArgs);
+                                                (async checked => {
+                                                  const $steps = {};
+
+                                                  $steps["postgresUpdateById"] =
+                                                    true
+                                                      ? (() => {
+                                                          const actionArgs = {
+                                                            dataOp: {
+                                                              sourceId:
+                                                                "33LCJKUUYeeeZEYXFqVtgQ",
+                                                              opId: "71a3d6e9-8b2a-4545-b2e9-75d138bb1762",
+                                                              userArgs: {
+                                                                keys: [
+                                                                  $ctx.params.id
+                                                                ],
+                                                                variables: [
+                                                                  (() => {
+                                                                    const result =
+                                                                      $state.checkbox2
+                                                                        .map(
+                                                                          (
+                                                                            item,
+                                                                            index
+                                                                          ) =>
+                                                                            item.checked
+                                                                              ? index
+                                                                              : null
+                                                                        )
+                                                                        .filter(
+                                                                          index =>
+                                                                            index !==
+                                                                            null
+                                                                        );
+                                                                    return result;
+                                                                  })()
+                                                                ]
+                                                              },
+                                                              cacheKey: null,
+                                                              invalidatedKeys:
+                                                                [],
+                                                              roleId: null
+                                                            }
+                                                          };
+                                                          return (async ({
+                                                            dataOp,
+                                                            continueOnError
+                                                          }) => {
+                                                            try {
+                                                              const response =
+                                                                await executePlasmicDataOp(
+                                                                  dataOp,
+                                                                  {
+                                                                    userAuthToken:
+                                                                      dataSourcesCtx?.userAuthToken,
+                                                                    user: dataSourcesCtx?.user
+                                                                  }
+                                                                );
+                                                              await plasmicInvalidate(
+                                                                dataOp.invalidatedKeys
+                                                              );
+                                                              return response;
+                                                            } catch (e) {
+                                                              if (
+                                                                !continueOnError
+                                                              ) {
+                                                                throw e;
+                                                              }
+                                                              return e;
+                                                            }
+                                                          })?.apply(null, [
+                                                            actionArgs
+                                                          ]);
+                                                        })()
+                                                      : undefined;
+                                                  if (
+                                                    $steps[
+                                                      "postgresUpdateById"
+                                                    ] != null &&
+                                                    typeof $steps[
+                                                      "postgresUpdateById"
+                                                    ] === "object" &&
+                                                    typeof $steps[
+                                                      "postgresUpdateById"
+                                                    ].then === "function"
+                                                  ) {
+                                                    $steps[
+                                                      "postgresUpdateById"
+                                                    ] = await $steps[
+                                                      "postgresUpdateById"
+                                                    ];
+                                                  }
+                                                }).apply(null, eventArgs);
+                                              }
+                                            };
+                                            initializeCodeComponentStates(
+                                              $state,
+                                              [
+                                                {
+                                                  name: "checked",
+                                                  plasmicStateName:
+                                                    "checkbox2[].checked"
+                                                }
+                                              ],
+                                              [__plasmic_idx_0],
+                                              undefined ?? {},
+                                              child$Props
+                                            );
+                                            initializePlasmicStates(
+                                              $state,
+                                              [
+                                                {
+                                                  name: "checkbox2[].checked",
+                                                  initFunc: ({
+                                                    $props,
+                                                    $state,
+                                                    $queries
+                                                  }) =>
+                                                    (() => {
+                                                      try {
+                                                        return $queries.getProperty.data
+                                                          .find(
+                                                            entry =>
+                                                              entry.id ==
+                                                              $state.homeId
+                                                                .value
+                                                          )
+                                                          .prop_status.includes(
+                                                            currentItem.label
+                                                          );
+                                                      } catch (e) {
+                                                        if (
+                                                          e instanceof
+                                                            TypeError ||
+                                                          e?.plasmicType ===
+                                                            "PlasmicUndefinedDataError"
+                                                        ) {
+                                                          return false;
+                                                        }
+                                                        throw e;
+                                                      }
+                                                    })()
+                                                }
+                                              ],
+                                              [__plasmic_idx_0]
+                                            );
+                                            return (
+                                              <AntdCheckbox
+                                                data-plasmic-name={"checkbox2"}
+                                                data-plasmic-override={
+                                                  overrides.checkbox2
+                                                }
+                                                {...child$Props}
+                                              >
+                                                <div
+                                                  className={classNames(
+                                                    projectcss.all,
+                                                    projectcss.__wab_text,
+                                                    sty.text__nDzh
+                                                  )}
+                                                >
+                                                  <React.Fragment>
+                                                    {(() => {
+                                                      try {
+                                                        return currentItem.key;
+                                                      } catch (e) {
+                                                        if (
+                                                          e instanceof
+                                                            TypeError ||
+                                                          e?.plasmicType ===
+                                                            "PlasmicUndefinedDataError"
+                                                        ) {
+                                                          return "Sell My Home";
+                                                        }
+                                                        throw e;
+                                                      }
+                                                    })()}
+                                                  </React.Fragment>
+                                                </div>
+                                              </AntdCheckbox>
+                                            );
+                                          })();
+                                        }
+                                      )}
+                                    </div>
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.freeBox__gWr83
+                                      )}
+                                    >
+                                      {(() => {
+                                        const child$Props = {
+                                          className: classNames(
+                                            "__wab_instance",
+                                            sty.input2
+                                          ),
+                                          onChange: async (
+                                            ...eventArgs: any
+                                          ) => {
+                                            generateStateOnChangePropForCodeComponents(
+                                              $state,
+                                              "value",
+                                              ["input2", "value"],
+                                              AntdInput_Helpers
+                                            ).apply(null, eventArgs);
+                                            (async event => {
+                                              const $steps = {};
+                                            }).apply(null, eventArgs);
+                                          },
+                                          value: generateStateValueProp(
+                                            $state,
+                                            ["input2", "value"]
+                                          )
+                                        };
+                                        initializeCodeComponentStates(
+                                          $state,
+                                          [
+                                            {
+                                              name: "value",
+                                              plasmicStateName: "input2.value"
+                                            }
+                                          ],
+                                          [],
+                                          AntdInput_Helpers ?? {},
+                                          child$Props
+                                        );
+
+                                        return (
+                                          <AntdInput
+                                            data-plasmic-name={"input2"}
+                                            data-plasmic-override={
+                                              overrides.input2
+                                            }
+                                            {...child$Props}
+                                          />
+                                        );
+                                      })()}
+                                    </div>
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__o76Df
+                                    )}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__pm34
+                                      )}
+                                    >
+                                      {"My Next Real Estate Move"}
+                                    </div>
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.freeBox__zpmLw
+                                      )}
+                                    >
+                                      {(_par =>
+                                        !_par
+                                          ? []
+                                          : Array.isArray(_par)
+                                          ? _par
+                                          : [_par])(
+                                        (() => {
+                                          try {
+                                            return (() => {
+                                              const keyValuePairs = [
+                                                {
+                                                  key: "Upgrading to a larger home",
+                                                  label: 0
+                                                },
+                                                {
+                                                  key: "Downsizing to a smaller home",
+                                                  label: 1
+                                                },
+                                                {
+                                                  key: "Purchasing an investment property",
+                                                  label: 2
+                                                },
+                                                {
+                                                  key: "Purchasing another property",
+                                                  label: 3
+                                                },
+                                                {
+                                                  key: "Other",
+                                                  label: 4
+                                                }
+                                              ];
+
+                                              return keyValuePairs;
+                                            })();
+                                          } catch (e) {
+                                            if (
+                                              e instanceof TypeError ||
+                                              e?.plasmicType ===
+                                                "PlasmicUndefinedDataError"
+                                            ) {
+                                              return [];
+                                            }
+                                            throw e;
+                                          }
+                                        })()
+                                      ).map(
+                                        (__plasmic_item_0, __plasmic_idx_0) => {
+                                          const currentItem = __plasmic_item_0;
+                                          const currentIndex = __plasmic_idx_0;
+                                          return (() => {
+                                            const child$Props = {
+                                              checked: generateStateValueProp(
+                                                $state,
+                                                [
+                                                  "checkbox3",
+                                                  __plasmic_idx_0,
+                                                  "checked"
+                                                ]
+                                              ),
+                                              className: classNames(
+                                                "__wab_instance",
+                                                sty.checkbox3
+                                              ),
+                                              defaultChecked: (() => {
+                                                try {
+                                                  return $queries.getProperty.data
+                                                    .find(
+                                                      entry =>
+                                                        entry.id ==
+                                                        $state.homeId.value
+                                                    )
+                                                    .prop_status.includes(
+                                                      currentItem.label
+                                                    );
+                                                } catch (e) {
+                                                  if (
+                                                    e instanceof TypeError ||
+                                                    e?.plasmicType ===
+                                                      "PlasmicUndefinedDataError"
+                                                  ) {
+                                                    return false;
+                                                  }
+                                                  throw e;
+                                                }
+                                              })(),
+                                              key: currentIndex,
+                                              onChange: async (
+                                                ...eventArgs: any
+                                              ) => {
+                                                generateStateOnChangeProp(
+                                                  $state,
+                                                  [
+                                                    "checkbox3",
+                                                    __plasmic_idx_0,
+                                                    "checked"
+                                                  ]
+                                                ).apply(null, eventArgs);
+                                                (async checked => {
+                                                  const $steps = {};
+
+                                                  $steps["postgresUpdateById"] =
+                                                    true
+                                                      ? (() => {
+                                                          const actionArgs = {
+                                                            dataOp: {
+                                                              sourceId:
+                                                                "33LCJKUUYeeeZEYXFqVtgQ",
+                                                              opId: "956c01de-40ae-44de-9ffe-9f6bb5b14fd5",
+                                                              userArgs: {
+                                                                keys: [
+                                                                  $queries
+                                                                    .getProperty
+                                                                    .data[0].id
+                                                                ],
+                                                                variables: [
+                                                                  (() => {
+                                                                    const result =
+                                                                      $state.checkbox3
+                                                                        .map(
+                                                                          (
+                                                                            item,
+                                                                            index
+                                                                          ) =>
+                                                                            item.checked
+                                                                              ? index
+                                                                              : null
+                                                                        )
+                                                                        .filter(
+                                                                          index =>
+                                                                            index !==
+                                                                            null
+                                                                        );
+                                                                    return result;
+                                                                  })()
+                                                                ]
+                                                              },
+                                                              cacheKey: null,
+                                                              invalidatedKeys:
+                                                                [],
+                                                              roleId: null
+                                                            }
+                                                          };
+                                                          return (async ({
+                                                            dataOp,
+                                                            continueOnError
+                                                          }) => {
+                                                            try {
+                                                              const response =
+                                                                await executePlasmicDataOp(
+                                                                  dataOp,
+                                                                  {
+                                                                    userAuthToken:
+                                                                      dataSourcesCtx?.userAuthToken,
+                                                                    user: dataSourcesCtx?.user
+                                                                  }
+                                                                );
+                                                              await plasmicInvalidate(
+                                                                dataOp.invalidatedKeys
+                                                              );
+                                                              return response;
+                                                            } catch (e) {
+                                                              if (
+                                                                !continueOnError
+                                                              ) {
+                                                                throw e;
+                                                              }
+                                                              return e;
+                                                            }
+                                                          })?.apply(null, [
+                                                            actionArgs
+                                                          ]);
+                                                        })()
+                                                      : undefined;
+                                                  if (
+                                                    $steps[
+                                                      "postgresUpdateById"
+                                                    ] != null &&
+                                                    typeof $steps[
+                                                      "postgresUpdateById"
+                                                    ] === "object" &&
+                                                    typeof $steps[
+                                                      "postgresUpdateById"
+                                                    ].then === "function"
+                                                  ) {
+                                                    $steps[
+                                                      "postgresUpdateById"
+                                                    ] = await $steps[
+                                                      "postgresUpdateById"
+                                                    ];
+                                                  }
+                                                }).apply(null, eventArgs);
+                                              }
+                                            };
+                                            initializeCodeComponentStates(
+                                              $state,
+                                              [
+                                                {
+                                                  name: "checked",
+                                                  plasmicStateName:
+                                                    "checkbox3[].checked"
+                                                }
+                                              ],
+                                              [__plasmic_idx_0],
+                                              undefined ?? {},
+                                              child$Props
+                                            );
+                                            initializePlasmicStates(
+                                              $state,
+                                              [
+                                                {
+                                                  name: "checkbox3[].checked",
+                                                  initFunc: ({
+                                                    $props,
+                                                    $state,
+                                                    $queries
+                                                  }) =>
+                                                    (() => {
+                                                      try {
+                                                        return $queries.getProperty.data
+                                                          .find(
+                                                            entry =>
+                                                              entry.id ==
+                                                              $state.homeId
+                                                                .value
+                                                          )
+                                                          .prop_status.includes(
+                                                            currentItem.label
+                                                          );
+                                                      } catch (e) {
+                                                        if (
+                                                          e instanceof
+                                                            TypeError ||
+                                                          e?.plasmicType ===
+                                                            "PlasmicUndefinedDataError"
+                                                        ) {
+                                                          return false;
+                                                        }
+                                                        throw e;
+                                                      }
+                                                    })()
+                                                }
+                                              ],
+                                              [__plasmic_idx_0]
+                                            );
+                                            return (
+                                              <AntdCheckbox
+                                                data-plasmic-name={"checkbox3"}
+                                                data-plasmic-override={
+                                                  overrides.checkbox3
+                                                }
+                                                {...child$Props}
+                                              >
+                                                <div
+                                                  className={classNames(
+                                                    projectcss.all,
+                                                    projectcss.__wab_text,
+                                                    sty.text__jlcA4
+                                                  )}
+                                                >
+                                                  <React.Fragment>
+                                                    {(() => {
+                                                      try {
+                                                        return currentItem.key;
+                                                      } catch (e) {
+                                                        if (
+                                                          e instanceof
+                                                            TypeError ||
+                                                          e?.plasmicType ===
+                                                            "PlasmicUndefinedDataError"
+                                                        ) {
+                                                          return "Sell My Home";
+                                                        }
+                                                        throw e;
+                                                      }
+                                                    })()}
+                                                  </React.Fragment>
+                                                </div>
+                                              </AntdCheckbox>
+                                            );
+                                          })();
+                                        }
+                                      )}
+                                    </div>
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.freeBox__mz5Fd
+                                      )}
+                                    >
+                                      {(() => {
+                                        const child$Props = {
+                                          className: classNames(
+                                            "__wab_instance",
+                                            sty.input4
+                                          ),
+                                          onChange:
+                                            generateStateOnChangePropForCodeComponents(
+                                              $state,
+                                              "value",
+                                              ["input4", "value"],
+                                              AntdInput_Helpers
+                                            ),
+                                          value: generateStateValueProp(
+                                            $state,
+                                            ["input4", "value"]
+                                          )
+                                        };
+                                        initializeCodeComponentStates(
+                                          $state,
+                                          [
+                                            {
+                                              name: "value",
+                                              plasmicStateName: "input4.value"
+                                            }
+                                          ],
+                                          [],
+                                          AntdInput_Helpers ?? {},
+                                          child$Props
+                                        );
+
+                                        return (
+                                          <AntdInput
+                                            data-plasmic-name={"input4"}
+                                            data-plasmic-override={
+                                              overrides.input4
+                                            }
+                                            {...child$Props}
+                                          />
+                                        );
+                                      })()}
+                                    </div>
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox___6Btb4
+                                    )}
+                                  >
+                                    <AntdButton
+                                      className={classNames(
+                                        "__wab_instance",
+                                        sty.button__viZyl
+                                      )}
+                                      onClick={async () => {
+                                        const $steps = {};
+
+                                        $steps["updateModal3Open"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                variable: {
+                                                  objRoot: $state,
+                                                  variablePath: [
+                                                    "modal3",
+                                                    "open"
+                                                  ]
+                                                },
+                                                operation: 4
+                                              };
+                                              return (({
+                                                variable,
+                                                value,
+                                                startIndex,
+                                                deleteCount
+                                              }) => {
+                                                if (!variable) {
+                                                  return;
+                                                }
+                                                const {
+                                                  objRoot,
+                                                  variablePath
+                                                } = variable;
+
+                                                const oldValue = $stateGet(
+                                                  objRoot,
+                                                  variablePath
+                                                );
+                                                $stateSet(
+                                                  objRoot,
+                                                  variablePath,
+                                                  !oldValue
+                                                );
+                                                return !oldValue;
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["updateModal3Open"] != null &&
+                                          typeof $steps["updateModal3Open"] ===
+                                            "object" &&
+                                          typeof $steps["updateModal3Open"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["updateModal3Open"] =
+                                            await $steps["updateModal3Open"];
+                                        }
+                                      }}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__cTEmF
+                                        )}
+                                      >
+                                        {"Close"}
+                                      </div>
+                                    </AntdButton>
+                                  </div>
+                                </AntdModal>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <Stack__
+                          as={"div"}
+                          hasGap={true}
+                          className={classNames(
+                            projectcss.all,
+                            sty.column__eiIuX
+                          )}
+                        >
+                          <div
+                            data-plasmic-name={"agentBlock"}
+                            data-plasmic-override={overrides.agentBlock}
+                            className={classNames(
+                              projectcss.all,
+                              sty.agentBlock
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__qB5U0
+                              )}
+                            >
+                              {"Your Real Estate Agent"}
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__qGjnh
+                              )}
+                            >
+                              <PlasmicImg__
+                                alt={""}
+                                className={classNames(sty.img__lmtBh)}
+                                displayHeight={"90px"}
+                                displayMaxHeight={"none"}
+                                displayMaxWidth={"100%"}
+                                displayMinHeight={"0"}
+                                displayMinWidth={"0"}
+                                displayWidth={"90px"}
+                                loading={"lazy"}
+                                src={(() => {
+                                  try {
+                                    return $queries.getEntity.data[0].photo;
+                                  } catch (e) {
+                                    if (
+                                      e instanceof TypeError ||
+                                      e?.plasmicType ===
+                                        "PlasmicUndefinedDataError"
+                                    ) {
+                                      return {
+                                        src: "/plasmic/real_estate_dashboard/images/image.png",
+                                        fullWidth: 100,
+                                        fullHeight: 100,
+                                        aspectRatio: undefined
+                                      };
+                                    }
+                                    throw e;
+                                  }
+                                })()}
+                              />
+
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__apZsl
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__fiicD
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__x5Hp0
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return (
+                                            $queries.getEntity.data[0]
+                                              .firstName +
+                                            " " +
+                                            $queries.getEntity.data[0].lastName
+                                          );
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return "Real Estate Agent";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </div>
+                                  <AntdButton
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.button__q1ZTi
+                                    )}
+                                    onClick={async () => {
+                                      const $steps = {};
+
+                                      $steps["updateModalOpen"] = true
+                                        ? (() => {
+                                            const actionArgs = {
+                                              variable: {
+                                                objRoot: $state,
+                                                variablePath: ["modal", "open"]
+                                              },
+                                              operation: 0,
+                                              value: true
+                                            };
+                                            return (({
+                                              variable,
+                                              value,
+                                              startIndex,
+                                              deleteCount
+                                            }) => {
+                                              if (!variable) {
+                                                return;
+                                              }
+                                              const { objRoot, variablePath } =
+                                                variable;
+
+                                              $stateSet(
+                                                objRoot,
+                                                variablePath,
+                                                value
+                                              );
+                                              return value;
+                                            })?.apply(null, [actionArgs]);
+                                          })()
+                                        : undefined;
+                                      if (
+                                        $steps["updateModalOpen"] != null &&
+                                        typeof $steps["updateModalOpen"] ===
+                                          "object" &&
+                                        typeof $steps["updateModalOpen"]
+                                          .then === "function"
+                                      ) {
+                                        $steps["updateModalOpen"] =
+                                          await $steps["updateModalOpen"];
+                                      }
+                                    }}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.freeBox__z5Cwe
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__ziyL
+                                        )}
+                                      >
+                                        {"Contact Me"}
+                                      </div>
+                                    </div>
+                                  </AntdButton>
+                                </div>
+                                <AntdModal
+                                  data-plasmic-name={"modal"}
+                                  data-plasmic-override={overrides.modal}
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.modal
+                                  )}
+                                  defaultStylesClassName={classNames(
+                                    projectcss.root_reset,
+                                    projectcss.plasmic_default_styles,
+                                    projectcss.plasmic_mixins,
+                                    projectcss.plasmic_tokens,
+                                    plasmic_antd_5_hostless_css.plasmic_tokens,
+                                    plasmic_plasmic_rich_components_css.plasmic_tokens
+                                  )}
+                                  hideFooter={true}
+                                  modalScopeClassName={sty["modal__modal"]}
+                                  onOpenChange={generateStateOnChangeProp(
+                                    $state,
+                                    ["modal", "open"]
+                                  )}
+                                  open={generateStateValueProp($state, [
+                                    "modal",
+                                    "open"
+                                  ])}
+                                  title={" "}
+                                  trigger={
+                                    <AntdButton
+                                      className={classNames(
+                                        "__wab_instance",
+                                        sty.button__tdYDx
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__ai0Zu
+                                        )}
+                                      >
+                                        {"Show modal"}
+                                      </div>
+                                    </AntdButton>
+                                  }
+                                  width={"1000"}
+                                >
+                                  <Iframe
+                                    data-plasmic-name={"iframe"}
+                                    data-plasmic-override={overrides.iframe}
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.iframe
+                                    )}
+                                    preview={true}
+                                    src={(() => {
+                                      try {
+                                        return (() => {
+                                          const clientId =
+                                            $queries.getProperty.data.find(
+                                              entry =>
+                                                entry.id == $ctx.params.id
+                                            ).clientId;
+                                          const client =
+                                            $queries.getClient.data.find(
+                                              entry => entry.id == clientId
+                                            );
+                                          return (
+                                            $queries.getEntity.data[0]
+                                              .calendar_link +
+                                            "?email=" +
+                                            client.email +
+                                            "&phone=" +
+                                            client.phone +
+                                            "&first_name=" +
+                                            client.firstName +
+                                            "&last_name=" +
+                                            client.lastName
+                                          );
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return undefined;
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  />
+                                </AntdModal>
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__upb0W
+                              )}
+                            >
+                              {"Your Real Estate Agent"}
+                            </div>
+                          </div>
+                        </Stack__>
+                      </Stack__>
+                    </div>
+                  ) : null}
+                  {(() => {
+                    try {
+                      return (() => {
+                        const isLoading =
+                          $queries.getProperty.isLoading ||
+                          $queries.getClient.isLoading ||
+                          $queries.getComps.isLoading ||
+                          $queries.getCountyData.isLoading ||
+                          $queries.getValuations.isLoading;
+                        return !isLoading;
+                      })();
+                    } catch (e) {
+                      if (
+                        e instanceof TypeError ||
+                        e?.plasmicType === "PlasmicUndefinedDataError"
+                      ) {
+                        return true;
+                      }
+                      throw e;
+                    }
+                  })() ? (
+                    <Stack__
+                      as={"div"}
+                      hasGap={true}
+                      className={classNames(
+                        projectcss.all,
+                        sty.columns___7TjXf
+                      )}
+                    >
+                      <Stack__
+                        as={"div"}
+                        data-plasmic-name={"topLeft"}
+                        data-plasmic-override={overrides.topLeft}
+                        hasGap={true}
+                        className={classNames(projectcss.all, sty.topLeft)}
+                      >
+                        <div
+                          data-plasmic-name={"homeEstimateBlock3"}
+                          data-plasmic-override={overrides.homeEstimateBlock3}
+                          className={classNames(
+                            projectcss.all,
+                            sty.homeEstimateBlock3
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.columns__zZdKs
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column__k3Cfh
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__q0SCb
+                                )}
+                              >
+                                {"Your Home Value Estimate"}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text___8I7Xd
+                                )}
+                              >
+                                <React.Fragment>
+                                  {(() => {
+                                    try {
+                                      return (() => {
+                                        const number =
+                                          $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).total_assessed;
+                                        const formattedNumber = number
+                                          .toString()
+                                          .replace(
+                                            /\B(?=(\d{3})+(?!\d))/g,
+                                            ","
+                                          );
+                                        return "$" + formattedNumber;
+                                      })();
+                                    } catch (e) {
+                                      if (
+                                        e instanceof TypeError ||
+                                        e?.plasmicType ===
+                                          "PlasmicUndefinedDataError"
+                                      ) {
+                                        return " ";
+                                      }
+                                      throw e;
+                                    }
+                                  })()}
+                                </React.Fragment>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          data-plasmic-name={"homeEstimateBlock"}
+                          data-plasmic-override={overrides.homeEstimateBlock}
+                          className={classNames(
+                            projectcss.all,
+                            sty.homeEstimateBlock
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox___7ELmG
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text___8InPg
+                              )}
+                            >
+                              {"100% Since purchase in 2021!"}
+                            </div>
+                            <Elements19Icon
+                              className={classNames(
+                                projectcss.all,
+                                sty.svg__qva4R
+                              )}
+                              role={"img"}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          data-plasmic-name={"homeEstimateBlock2"}
+                          data-plasmic-override={overrides.homeEstimateBlock2}
+                          className={classNames(
+                            projectcss.all,
+                            sty.homeEstimateBlock2
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__ahMfI
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__o5PCi
+                              )}
+                            >
+                              {"Home Information"}
+                            </div>
+                            <AntdButton
+                              className={classNames(
+                                "__wab_instance",
+                                sty.button__kfIug
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__fREl
+                                )}
+                              >
+                                {"Edit Info"}
+                              </div>
+                            </AntdButton>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox___0Xwfs
+                              )}
+                            >
+                              <AntdButton
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.button__mzutt
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox___3QvIp
+                                  )}
+                                >
+                                  <Idea01Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg___2Scut
+                                    )}
+                                    role={"img"}
+                                  />
+
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__tkAmu
+                                    )}
+                                  >
+                                    {"Insights"}
+                                  </div>
+                                </div>
+                              </AntdButton>
+                            </div>
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__kWsdj
+                            )}
+                          >
+                            <Stack__
+                              as={"div"}
+                              data-plasmic-name={"frame38"}
+                              data-plasmic-override={overrides.frame38}
+                              hasGap={true}
+                              className={classNames(
+                                projectcss.all,
+                                sty.frame38
+                              )}
+                            >
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame36"}
+                                data-plasmic-override={overrides.frame36}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame36
+                                )}
+                              >
+                                <div
+                                  data-plasmic-name={"building04"}
+                                  data-plasmic-override={overrides.building04}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.building04
+                                  )}
+                                >
+                                  <Elements9Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__sqzj7
+                                    )}
+                                    role={"img"}
+                                  />
+                                </div>
+                              </Stack__>
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame31"}
+                                data-plasmic-override={overrides.frame31}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame31
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__b5Kx4
+                                  )}
+                                >
+                                  <React.Fragment>
+                                    {(() => {
+                                      try {
+                                        return (() => {
+                                          const prop = $state.homeId.value;
+                                          return $queries.getProperty.data.find(
+                                            entry => entry.id == prop
+                                          ).year_built == null
+                                            ? "?"
+                                            : $queries.getProperty.data[0]
+                                                .year_built;
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return "?";
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  </React.Fragment>
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__iotuZ
+                                  )}
+                                >
+                                  {"Year built"}
+                                </div>
+                              </Stack__>
+                            </Stack__>
+                            <Stack__
+                              as={"div"}
+                              data-plasmic-name={"frame33"}
+                              data-plasmic-override={overrides.frame33}
+                              hasGap={true}
+                              className={classNames(
+                                projectcss.all,
+                                sty.frame33
+                              )}
+                            >
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame32"}
+                                data-plasmic-override={overrides.frame32}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame32
+                                )}
+                              >
+                                <div
+                                  data-plasmic-name={"bed"}
+                                  data-plasmic-override={overrides.bed}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.bed
+                                  )}
+                                >
+                                  <Elements4Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__d5NvU
+                                    )}
+                                    role={"img"}
+                                  />
+                                </div>
+                              </Stack__>
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame25"}
+                                data-plasmic-override={overrides.frame25}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame25
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__eHjM
+                                  )}
+                                >
+                                  <React.Fragment>
+                                    {(() => {
+                                      try {
+                                        return (() => {
+                                          const prop = $state.homeId.value;
+                                          return $queries.getProperty.data.find(
+                                            entry => entry.id == prop
+                                          ).BedroomsTotal == null
+                                            ? "?"
+                                            : $queries.getProperty.data[0]
+                                                .BedroomsTotal;
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return "?";
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  </React.Fragment>
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__qNrxj
+                                  )}
+                                >
+                                  {"Bedrooms"}
+                                </div>
+                              </Stack__>
+                            </Stack__>
+                            <Stack__
+                              as={"div"}
+                              data-plasmic-name={"frame45"}
+                              data-plasmic-override={overrides.frame45}
+                              hasGap={true}
+                              className={classNames(
+                                projectcss.all,
+                                sty.frame45
+                              )}
+                            >
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame37"}
+                                data-plasmic-override={overrides.frame37}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame37
+                                )}
+                              >
+                                <div
+                                  data-plasmic-name={"bathtub02"}
+                                  data-plasmic-override={overrides.bathtub02}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.bathtub02
+                                  )}
+                                >
+                                  <Elements5Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__h3Gno
+                                    )}
+                                    role={"img"}
+                                  />
+                                </div>
+                              </Stack__>
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame26"}
+                                data-plasmic-override={overrides.frame26}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame26
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__vGdnG
+                                  )}
+                                >
+                                  <React.Fragment>
+                                    {(() => {
+                                      try {
+                                        return $queries.getProperty.data.find(
+                                          entry =>
+                                            entry.id == $state.homeId.value
+                                        ).BathroomsTotal == null
+                                          ? "?"
+                                          : $queries.getProperty.data[0]
+                                              .BathroomsTotal;
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return "?";
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  </React.Fragment>
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__ibK7F
+                                  )}
+                                >
+                                  {"Bathrooms"}
+                                </div>
+                              </Stack__>
+                            </Stack__>
+                            <Stack__
+                              as={"div"}
+                              data-plasmic-name={"frame44"}
+                              data-plasmic-override={overrides.frame44}
+                              hasGap={true}
+                              className={classNames(
+                                projectcss.all,
+                                sty.frame44
+                              )}
+                            >
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame41"}
+                                data-plasmic-override={overrides.frame41}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame41
+                                )}
+                              >
+                                <div
+                                  data-plasmic-name={"squareSquare"}
+                                  data-plasmic-override={overrides.squareSquare}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.squareSquare
+                                  )}
+                                >
+                                  <Elements7Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg___8A9
+                                    )}
+                                    role={"img"}
+                                  />
+                                </div>
+                              </Stack__>
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame30"}
+                                data-plasmic-override={overrides.frame30}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame30
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__kUcN
+                                  )}
+                                >
+                                  <React.Fragment>
+                                    {(() => {
+                                      try {
+                                        return $queries.getProperty.data.find(
+                                          entry =>
+                                            entry.id == $state.homeId.value
+                                        ).lotSize == null
+                                          ? "?"
+                                          : Math.round(
+                                              $queries.getProperty.data[0]
+                                                .lotSize * 100
+                                            ) / 100;
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return "?";
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  </React.Fragment>
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text___1CqGk
+                                  )}
+                                >
+                                  {"Acre Lot"}
+                                </div>
+                              </Stack__>
+                            </Stack__>
+                            <Stack__
+                              as={"div"}
+                              data-plasmic-name={"frame43"}
+                              data-plasmic-override={overrides.frame43}
+                              hasGap={true}
+                              className={classNames(
+                                projectcss.all,
+                                sty.frame43
+                              )}
+                            >
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame42"}
+                                data-plasmic-override={overrides.frame42}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame42
+                                )}
+                              >
+                                <div
+                                  data-plasmic-name={"building03"}
+                                  data-plasmic-override={overrides.building03}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.building03
+                                  )}
+                                >
+                                  <Elements6Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__yHiMy
+                                    )}
+                                    role={"img"}
+                                  />
+                                </div>
+                              </Stack__>
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame29"}
+                                data-plasmic-override={overrides.frame29}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame29
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__fltUr
+                                  )}
+                                >
+                                  <React.Fragment>
+                                    {(() => {
+                                      try {
+                                        return $queries.getProperty.data.find(
+                                          entry =>
+                                            entry.id == $state.homeId.value
+                                        ).stories == null
+                                          ? "?"
+                                          : $queries.getProperty.data[0]
+                                              .stories;
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return "?";
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  </React.Fragment>
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__dGd
+                                  )}
+                                >
+                                  {"Sq. Feet"}
+                                </div>
+                              </Stack__>
+                            </Stack__>
+                            <Stack__
+                              as={"div"}
+                              data-plasmic-name={"frame35"}
+                              data-plasmic-override={overrides.frame35}
+                              hasGap={true}
+                              className={classNames(
+                                projectcss.all,
+                                sty.frame35
+                              )}
+                            >
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame34"}
+                                data-plasmic-override={overrides.frame34}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame34
+                                )}
+                              >
+                                <div
+                                  data-plasmic-name={"square"}
+                                  data-plasmic-override={overrides.square}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.square
+                                  )}
+                                >
+                                  <Elements8Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__tk7Y
+                                    )}
+                                    role={"img"}
+                                  />
+                                </div>
+                              </Stack__>
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame87"}
+                                data-plasmic-override={overrides.frame87}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame87
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text___3NG7K
+                                  )}
+                                >
+                                  <React.Fragment>
+                                    {(() => {
+                                      try {
+                                        return $queries.getProperty.data.find(
+                                          entry =>
+                                            entry.id == $state.homeId.value
+                                        ).RoomsTotal == null
+                                          ? "?"
+                                          : $queries.getProperty.data[0]
+                                              .RoomsTotal;
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return "?";
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  </React.Fragment>
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__jk56
+                                  )}
+                                >
+                                  {"Rooms"}
+                                </div>
+                              </Stack__>
+                            </Stack__>
+                          </div>
+                        </div>
+                        <div
+                          data-plasmic-name={"countStatsBlock"}
+                          data-plasmic-override={overrides.countStatsBlock}
+                          className={classNames(
+                            projectcss.all,
+                            sty.countStatsBlock
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__hzs5
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__ujn3P
+                              )}
+                            >
+                              {""}
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__fjDwQ
+                              )}
+                            >
+                              <AntdButton
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.button___7MCZs
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__uYowm
+                                  )}
+                                >
+                                  <Idea01Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__aKhg
+                                    )}
+                                    role={"img"}
+                                  />
+
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__smJW
+                                    )}
+                                  >
+                                    {"Insights"}
+                                  </div>
+                                </div>
+                              </AntdButton>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__jew3V
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__edzf0
+                                )}
+                              >
+                                {"Compare County Stats"}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__iYk7S
+                                )}
+                              >
+                                {
+                                  "Switch between your county and others to see stats over time"
+                                }
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.columns__cDzcd
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column__sknRz
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__klHs
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__oj572
+                                  )}
+                                >
+                                  <AntdSelect
+                                    data-plasmic-name={"select"}
+                                    data-plasmic-override={overrides.select}
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.select
+                                    )}
+                                    defaultStylesClassName={classNames(
+                                      projectcss.root_reset,
+                                      projectcss.plasmic_default_styles,
+                                      projectcss.plasmic_mixins,
+                                      projectcss.plasmic_tokens,
+                                      plasmic_antd_5_hostless_css.plasmic_tokens,
+                                      plasmic_plasmic_rich_components_css.plasmic_tokens
+                                    )}
+                                    defaultValue={(() => {
+                                      try {
+                                        return (
+                                          $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).county || "Salt Lake"
+                                        );
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return "SaltLake";
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                    onChange={generateStateOnChangeProp(
+                                      $state,
+                                      ["select", "value"]
+                                    )}
+                                    options={(() => {
+                                      try {
+                                        return (() => {
+                                          const data =
+                                            $queries.getCountyData.data;
+                                          function mapToUniqueKeyValuePairs(
+                                            data
+                                          ) {
+                                            const uniqueCounties = [
+                                              ...new Set(
+                                                data.map(
+                                                  item => item.CountyOrParish
+                                                )
+                                              )
+                                            ].filter(county => county);
+                                            return uniqueCounties.map(
+                                              county => ({
+                                                key: county,
+                                                value: county
+                                              })
+                                            );
+                                          }
+                                          const uniqueCountyKeyValuePairs =
+                                            mapToUniqueKeyValuePairs(data);
+                                          return uniqueCountyKeyValuePairs;
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return (() => {
+                                            const __composite = [
+                                              {
+                                                value: null,
+                                                label: null,
+                                                type: "option"
+                                              },
+                                              {
+                                                value: null,
+                                                label: null,
+                                                type: "option"
+                                              }
+                                            ];
+                                            __composite["0"]["value"] =
+                                              "SaltLake";
+                                            __composite["0"]["label"] =
+                                              "Salt Lake City";
+                                            __composite["1"]["value"] = "utah";
+                                            __composite["1"]["label"] =
+                                              "Utah County";
+                                            return __composite;
+                                          })();
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                    placeholder={"Select..."}
+                                    popupScopeClassName={sty["select__popup"]}
+                                    value={generateStateValueProp($state, [
+                                      "select",
+                                      "value"
+                                    ])}
+                                  />
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__hGrOn
+                                  )}
+                                >
+                                  <Stack__
+                                    as={"div"}
+                                    data-plasmic-name={"frame60"}
+                                    data-plasmic-override={overrides.frame60}
+                                    hasGap={true}
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.frame60
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame61"}
+                                      data-plasmic-override={overrides.frame61}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame61
+                                      )}
+                                    >
+                                      <div
+                                        data-plasmic-name={"hotPrice"}
+                                        data-plasmic-override={
+                                          overrides.hotPrice
+                                        }
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.hotPrice
+                                        )}
+                                      >
+                                        <Elements12Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg__g1ViD
+                                          )}
+                                          role={"img"}
+                                        />
+                                      </div>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame62"}
+                                      data-plasmic-override={overrides.frame62}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame62
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__guQ9O
+                                        )}
+                                      >
+                                        <React.Fragment>
+                                          {(() => {
+                                            try {
+                                              return (() => {
+                                                const filteredData =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select.value
+                                                  );
+                                                const maxYearEntry =
+                                                  filteredData.reduce(
+                                                    (max, entry) =>
+                                                      parseInt(
+                                                        entry.CloseYear
+                                                      ) >
+                                                      parseInt(max.CloseYear)
+                                                        ? entry
+                                                        : max
+                                                  );
+                                                const maxQuarterEntry =
+                                                  filteredData
+                                                    .filter(
+                                                      entry =>
+                                                        entry.CloseYear ===
+                                                        maxYearEntry.CloseYear
+                                                    )
+                                                    .reduce((max, entry) =>
+                                                      parseInt(
+                                                        entry.CloseQuarter
+                                                      ) >
+                                                      parseInt(max.CloseQuarter)
+                                                        ? entry
+                                                        : max
+                                                    );
+                                                return (
+                                                  "$" +
+                                                  Number(
+                                                    maxQuarterEntry.MdnSold$
+                                                  )
+                                                    .toString()
+                                                    .replace(
+                                                      /\B(?=(\d{3})+(?!\d))/g,
+                                                      ","
+                                                    )
+                                                );
+                                              })();
+                                            } catch (e) {
+                                              if (
+                                                e instanceof TypeError ||
+                                                e?.plasmicType ===
+                                                  "PlasmicUndefinedDataError"
+                                              ) {
+                                                return "$599K";
+                                              }
+                                              throw e;
+                                            }
+                                          })()}
+                                        </React.Fragment>
+                                      </div>
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__sczW
+                                        )}
+                                      >
+                                        {"Median Home Value"}
+                                      </div>
+                                    </Stack__>
+                                  </Stack__>
+                                  <Stack__
+                                    as={"div"}
+                                    data-plasmic-name={"frame49"}
+                                    data-plasmic-override={overrides.frame49}
+                                    hasGap={true}
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.frame49
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame40"}
+                                      data-plasmic-override={overrides.frame40}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame40
+                                      )}
+                                    >
+                                      <div
+                                        data-plasmic-name={"chartMedium"}
+                                        data-plasmic-override={
+                                          overrides.chartMedium
+                                        }
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.chartMedium
+                                        )}
+                                      >
+                                        <Elements1Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg___4I2J
+                                          )}
+                                          role={"img"}
+                                        />
+                                      </div>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame50"}
+                                      data-plasmic-override={overrides.frame50}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame50
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__uA5D
+                                        )}
+                                      >
+                                        <React.Fragment>
+                                          {(() => {
+                                            try {
+                                              return (() => {
+                                                const filteredData =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select.value
+                                                  );
+                                                const maxYearEntry =
+                                                  filteredData.reduce(
+                                                    (max, entry) =>
+                                                      parseInt(
+                                                        entry.CloseYear
+                                                      ) >
+                                                      parseInt(max.CloseYear)
+                                                        ? entry
+                                                        : max
+                                                  );
+                                                const maxQuarterEntry =
+                                                  filteredData
+                                                    .filter(
+                                                      entry =>
+                                                        entry.CloseYear ===
+                                                        maxYearEntry.CloseYear
+                                                    )
+                                                    .reduce((max, entry) =>
+                                                      parseInt(
+                                                        entry.CloseQuarter
+                                                      ) >
+                                                      parseInt(max.CloseQuarter)
+                                                        ? entry
+                                                        : max
+                                                    );
+                                                return (
+                                                  Number(
+                                                    maxQuarterEntry.MdnDOM
+                                                  ) + " Days"
+                                                );
+                                              })();
+                                            } catch (e) {
+                                              if (
+                                                e instanceof TypeError ||
+                                                e?.plasmicType ===
+                                                  "PlasmicUndefinedDataError"
+                                              ) {
+                                                return "$599K";
+                                              }
+                                              throw e;
+                                            }
+                                          })()}
+                                        </React.Fragment>
+                                      </div>
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__fDy3R
+                                        )}
+                                      >
+                                        {"Median Days on Market"}
+                                      </div>
+                                    </Stack__>
+                                  </Stack__>
+                                  <Stack__
+                                    as={"div"}
+                                    data-plasmic-name={"frame54"}
+                                    data-plasmic-override={overrides.frame54}
+                                    hasGap={true}
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.frame54
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame55"}
+                                      data-plasmic-override={overrides.frame55}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame55
+                                      )}
+                                    >
+                                      <div
+                                        data-plasmic-name={"chartIncrease"}
+                                        data-plasmic-override={
+                                          overrides.chartIncrease
+                                        }
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.chartIncrease
+                                        )}
+                                      >
+                                        <Elements11Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg__g2XPx
+                                          )}
+                                          role={"img"}
+                                        />
+                                      </div>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318657"}
+                                      data-plasmic-override={
+                                        overrides.frame427318657
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318657
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame56"}
+                                        data-plasmic-override={
+                                          overrides.frame56
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame56
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__mrTuP
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const filteredData =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select.value
+                                                    );
+                                                  const maxYearEntry =
+                                                    filteredData.reduce(
+                                                      (max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseYear
+                                                        ) >
+                                                        parseInt(max.CloseYear)
+                                                          ? entry
+                                                          : max
+                                                    );
+                                                  const maxQuarterEntry =
+                                                    filteredData
+                                                      .filter(
+                                                        entry =>
+                                                          entry.CloseYear ===
+                                                          maxYearEntry.CloseYear
+                                                      )
+                                                      .reduce((max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseQuarter
+                                                        ) >
+                                                        parseInt(
+                                                          max.CloseQuarter
+                                                        )
+                                                          ? entry
+                                                          : max
+                                                      );
+                                                  return (
+                                                    Number(
+                                                      maxQuarterEntry.MdnSold$_Change
+                                                    ).toFixed(2) + "%"
+                                                  );
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "$599K";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text___34Glv
+                                          )}
+                                        >
+                                          {"Sold Price Change"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                  </Stack__>
+                                  <Stack__
+                                    as={"div"}
+                                    data-plasmic-name={"frame66"}
+                                    data-plasmic-override={overrides.frame66}
+                                    hasGap={true}
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.frame66
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame67"}
+                                      data-plasmic-override={overrides.frame67}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame67
+                                      )}
+                                    >
+                                      <div
+                                        data-plasmic-name={"money03"}
+                                        data-plasmic-override={
+                                          overrides.money03
+                                        }
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.money03
+                                        )}
+                                      >
+                                        <Elements13Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg__lClU5
+                                          )}
+                                          role={"img"}
+                                        />
+                                      </div>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318659"}
+                                      data-plasmic-override={
+                                        overrides.frame427318659
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318659
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame68"}
+                                        data-plasmic-override={
+                                          overrides.frame68
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame68
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text___8Jnsh
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const filteredData =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select.value
+                                                    );
+                                                  const maxYearEntry =
+                                                    filteredData.reduce(
+                                                      (max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseYear
+                                                        ) >
+                                                        parseInt(max.CloseYear)
+                                                          ? entry
+                                                          : max
+                                                    );
+                                                  const maxQuarterEntry =
+                                                    filteredData
+                                                      .filter(
+                                                        entry =>
+                                                          entry.CloseYear ===
+                                                          maxYearEntry.CloseYear
+                                                      )
+                                                      .reduce((max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseQuarter
+                                                        ) >
+                                                        parseInt(
+                                                          max.CloseQuarter
+                                                        )
+                                                          ? entry
+                                                          : max
+                                                      );
+                                                  return (
+                                                    Number(
+                                                      maxQuarterEntry.TOTALCOUNT_Change
+                                                    ).toFixed(2) + "%"
+                                                  );
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "\u00a0$90,011";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text___1HEby
+                                          )}
+                                        >
+                                          {"Home on Market Change"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                  </Stack__>
+                                </div>
+                                <SimpleChart
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.chart___9TrkY
+                                  )}
+                                  data={(() => {
+                                    const transformedArray =
+                                      $queries.getCountyData.data
+                                        .filter(
+                                          entry =>
+                                            entry.CountyOrParish ===
+                                            $state.select.value
+                                        )
+                                        .map(entry => {
+                                          const QuarterValue =
+                                            entry.CloseQuarter === "1"
+                                              ? entry.CloseYear
+                                              : entry.CloseYear;
+                                          return {
+                                            Quarter: QuarterValue,
+                                            Price: entry.MdnSold$
+                                          };
+                                        })
+                                        .sort((a, b) => a.Quarter - b.Quarter);
+                                    return transformedArray;
+                                  })()}
+                                  fill={true}
+                                  type={"line"}
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column__rpabj
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__yJ1M
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__gdB4N
+                                  )}
+                                >
+                                  <AntdSelect
+                                    data-plasmic-name={"select2"}
+                                    data-plasmic-override={overrides.select2}
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.select2
+                                    )}
+                                    defaultStylesClassName={classNames(
+                                      projectcss.root_reset,
+                                      projectcss.plasmic_default_styles,
+                                      projectcss.plasmic_mixins,
+                                      projectcss.plasmic_tokens,
+                                      plasmic_antd_5_hostless_css.plasmic_tokens,
+                                      plasmic_plasmic_rich_components_css.plasmic_tokens
+                                    )}
+                                    defaultValue={(() => {
+                                      try {
+                                        return (() => {
+                                          const data =
+                                            $queries.getCountyData.data;
+                                          function mapToUniqueKeyValuePairs(
+                                            data
+                                          ) {
+                                            const uniqueCounties = [
+                                              ...new Set(
+                                                data.map(
+                                                  item => item.CountyOrParish
+                                                )
+                                              )
+                                            ].filter(county => county);
+                                            return uniqueCounties.map(
+                                              county => ({
+                                                key: county,
+                                                value: county
+                                              })
+                                            );
+                                          }
+                                          const uniqueCountyKeyValuePairs =
+                                            mapToUniqueKeyValuePairs(data);
+                                          return uniqueCountyKeyValuePairs.find(
+                                            entry =>
+                                              entry.key !=
+                                              $queries.getProperty.data.find(
+                                                entry =>
+                                                  entry.id ==
+                                                  $state.homeId.value
+                                              ).county
+                                          ).value;
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return "utah";
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                    onChange={generateStateOnChangeProp(
+                                      $state,
+                                      ["select2", "value"]
+                                    )}
+                                    options={(() => {
+                                      try {
+                                        return (() => {
+                                          const data =
+                                            $queries.getCountyData.data;
+                                          function mapToUniqueKeyValuePairs(
+                                            data
+                                          ) {
+                                            const uniqueCounties = [
+                                              ...new Set(
+                                                data.map(
+                                                  item => item.CountyOrParish
+                                                )
+                                              )
+                                            ].filter(county => county);
+                                            return uniqueCounties.map(
+                                              county => ({
+                                                key: county,
+                                                value: county
+                                              })
+                                            );
+                                          }
+                                          const uniqueCountyKeyValuePairs =
+                                            mapToUniqueKeyValuePairs(data);
+                                          return uniqueCountyKeyValuePairs;
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return (() => {
+                                            const __composite = [
+                                              {
+                                                value: null,
+                                                label: null,
+                                                type: "option"
+                                              }
+                                            ];
+                                            __composite["0"]["value"] =
+                                              "SaltLake";
+                                            __composite["0"]["label"] =
+                                              "Salt Lake City";
+                                            return __composite;
+                                          })();
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                    placeholder={"Select..."}
+                                    popupScopeClassName={sty["select2__popup"]}
+                                    value={generateStateValueProp($state, [
+                                      "select2",
+                                      "value"
+                                    ])}
+                                  />
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__eVsDj
+                                  )}
+                                >
+                                  <Stack__
+                                    as={"div"}
+                                    data-plasmic-name={"frame63"}
+                                    data-plasmic-override={overrides.frame63}
+                                    hasGap={true}
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.frame63
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame64"}
+                                      data-plasmic-override={overrides.frame64}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame64
+                                      )}
+                                    >
+                                      <div
+                                        data-plasmic-name={"hotPrice2"}
+                                        data-plasmic-override={
+                                          overrides.hotPrice2
+                                        }
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.hotPrice2
+                                        )}
+                                      >
+                                        <Elements12Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg___8MYxe
+                                          )}
+                                          role={"img"}
+                                        />
+                                      </div>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame65"}
+                                      data-plasmic-override={overrides.frame65}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame65
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.freeBox__w3Qk
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text___3S3FR
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const filteredData =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select2.value
+                                                    );
+                                                  const maxYearEntry =
+                                                    filteredData.reduce(
+                                                      (max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseYear
+                                                        ) >
+                                                        parseInt(max.CloseYear)
+                                                          ? entry
+                                                          : max
+                                                    );
+                                                  const maxQuarterEntry =
+                                                    filteredData
+                                                      .filter(
+                                                        entry =>
+                                                          entry.CloseYear ===
+                                                          maxYearEntry.CloseYear
+                                                      )
+                                                      .reduce((max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseQuarter
+                                                        ) >
+                                                        parseInt(
+                                                          max.CloseQuarter
+                                                        )
+                                                          ? entry
+                                                          : max
+                                                      );
+                                                  return (
+                                                    "$" +
+                                                    Number(
+                                                      maxQuarterEntry.MdnSold$
+                                                    )
+                                                      .toString()
+                                                      .replace(
+                                                        /\B(?=(\d{3})+(?!\d))/g,
+                                                        ","
+                                                      )
+                                                  );
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "$599K";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.freeBox__d6Vcg
+                                          )}
+                                        >
+                                          {(() => {
+                                            try {
+                                              return (() => {
+                                                const findMaxQuarterEntry =
+                                                  data => {
+                                                    const maxYearEntry =
+                                                      data.reduce(
+                                                        (max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseYear
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseYear
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                      );
+                                                    return data
+                                                      .filter(
+                                                        entry =>
+                                                          entry.CloseYear ===
+                                                          maxYearEntry.CloseYear
+                                                      )
+                                                      .reduce((max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseQuarter
+                                                        ) >
+                                                        parseInt(
+                                                          max.CloseQuarter
+                                                        )
+                                                          ? entry
+                                                          : max
+                                                      );
+                                                  };
+                                                const filteredDataLeft =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select.value
+                                                  );
+                                                const maxQuarterEntryLeft =
+                                                  findMaxQuarterEntry(
+                                                    filteredDataLeft
+                                                  );
+                                                const countyLeft = Number(
+                                                  maxQuarterEntryLeft.MdnSold$
+                                                );
+                                                const filteredDataRight =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select2.value
+                                                  );
+                                                const maxQuarterEntryRight =
+                                                  findMaxQuarterEntry(
+                                                    filteredDataRight
+                                                  );
+                                                const countyRight = Number(
+                                                  maxQuarterEntryRight.MdnSold$
+                                                );
+                                                const result =
+                                                  countyLeft > countyRight;
+                                                return result;
+                                              })();
+                                            } catch (e) {
+                                              if (
+                                                e instanceof TypeError ||
+                                                e?.plasmicType ===
+                                                  "PlasmicUndefinedDataError"
+                                              ) {
+                                                return true;
+                                              }
+                                              throw e;
+                                            }
+                                          })() ? (
+                                            <Elements41Icon
+                                              className={classNames(
+                                                projectcss.all,
+                                                sty.svg___4IaY9
+                                              )}
+                                              role={"img"}
+                                            />
+                                          ) : null}
+                                          {(() => {
+                                            try {
+                                              return (() => {
+                                                const findMaxQuarterEntry =
+                                                  data => {
+                                                    const maxYearEntry =
+                                                      data.reduce(
+                                                        (max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseYear
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseYear
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                      );
+                                                    return data
+                                                      .filter(
+                                                        entry =>
+                                                          entry.CloseYear ===
+                                                          maxYearEntry.CloseYear
+                                                      )
+                                                      .reduce((max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseQuarter
+                                                        ) >
+                                                        parseInt(
+                                                          max.CloseQuarter
+                                                        )
+                                                          ? entry
+                                                          : max
+                                                      );
+                                                  };
+                                                const filteredDataLeft =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select.value
+                                                  );
+                                                const maxQuarterEntryLeft =
+                                                  findMaxQuarterEntry(
+                                                    filteredDataLeft
+                                                  );
+                                                const countyLeft = Number(
+                                                  maxQuarterEntryLeft.MdnSold$
+                                                );
+                                                const filteredDataRight =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select2.value
+                                                  );
+                                                const maxQuarterEntryRight =
+                                                  findMaxQuarterEntry(
+                                                    filteredDataRight
+                                                  );
+                                                const countyRight = Number(
+                                                  maxQuarterEntryRight.MdnSold$
+                                                );
+                                                const result =
+                                                  countyLeft < countyRight;
+                                                return result;
+                                              })();
+                                            } catch (e) {
+                                              if (
+                                                e instanceof TypeError ||
+                                                e?.plasmicType ===
+                                                  "PlasmicUndefinedDataError"
+                                              ) {
+                                                return true;
+                                              }
+                                              throw e;
+                                            }
+                                          })() ? (
+                                            <Elements40Icon
+                                              className={classNames(
+                                                projectcss.all,
+                                                sty.svg__a9Hkl
+                                              )}
+                                              role={"img"}
+                                            />
+                                          ) : null}
+                                        </div>
+                                      </div>
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__n9TWn
+                                        )}
+                                      >
+                                        {"Median Home Value"}
+                                      </div>
+                                    </Stack__>
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__vvzqt
+                                      )}
+                                    >
+                                      <React.Fragment>
+                                        {(() => {
+                                          try {
+                                            return (() => {
+                                              const findMaxQuarterEntry =
+                                                data => {
+                                                  const maxYearEntry =
+                                                    data.reduce((max, entry) =>
+                                                      parseInt(
+                                                        entry.CloseYear
+                                                      ) >
+                                                      parseInt(max.CloseYear)
+                                                        ? entry
+                                                        : max
+                                                    );
+                                                  return data
+                                                    .filter(
+                                                      entry =>
+                                                        entry.CloseYear ===
+                                                        maxYearEntry.CloseYear
+                                                    )
+                                                    .reduce((max, entry) =>
+                                                      parseInt(
+                                                        entry.CloseQuarter
+                                                      ) >
+                                                      parseInt(max.CloseQuarter)
+                                                        ? entry
+                                                        : max
+                                                    );
+                                                };
+                                              const filteredDataLeft =
+                                                $queries.getCountyData.data.filter(
+                                                  entry =>
+                                                    entry.CountyOrParish ==
+                                                    $state.select.value
+                                                );
+                                              const maxQuarterEntryLeft =
+                                                findMaxQuarterEntry(
+                                                  filteredDataLeft
+                                                );
+                                              const countyLeft = Number(
+                                                maxQuarterEntryLeft.MdnSold$
+                                              );
+                                              const filteredDataRight =
+                                                $queries.getCountyData.data.filter(
+                                                  entry =>
+                                                    entry.CountyOrParish ==
+                                                    $state.select2.value
+                                                );
+                                              const maxQuarterEntryRight =
+                                                findMaxQuarterEntry(
+                                                  filteredDataRight
+                                                );
+                                              const countyRight = Number(
+                                                maxQuarterEntryRight.MdnSold$
+                                              );
+                                              const result =
+                                                countyLeft > countyRight;
+                                              return result;
+                                            })();
+                                          } catch (e) {
+                                            if (
+                                              e instanceof TypeError ||
+                                              e?.plasmicType ===
+                                                "PlasmicUndefinedDataError"
+                                            ) {
+                                              return "";
+                                            }
+                                            throw e;
+                                          }
+                                        })()}
+                                      </React.Fragment>
+                                    </div>
+                                  </Stack__>
+                                  <Stack__
+                                    as={"div"}
+                                    data-plasmic-name={"frame51"}
+                                    data-plasmic-override={overrides.frame51}
+                                    hasGap={true}
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.frame51
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame52"}
+                                      data-plasmic-override={overrides.frame52}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame52
+                                      )}
+                                    >
+                                      <div
+                                        data-plasmic-name={"chartMedium2"}
+                                        data-plasmic-override={
+                                          overrides.chartMedium2
+                                        }
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.chartMedium2
+                                        )}
+                                      >
+                                        <Elements1Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg___7EHyS
+                                          )}
+                                          role={"img"}
+                                        />
+                                      </div>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame53"}
+                                      data-plasmic-override={overrides.frame53}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame53
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.freeBox___3At7X
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__dksc8
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const filteredData =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select.value
+                                                    );
+                                                  const maxYearEntry =
+                                                    filteredData.reduce(
+                                                      (max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseYear
+                                                        ) >
+                                                        parseInt(max.CloseYear)
+                                                          ? entry
+                                                          : max
+                                                    );
+                                                  const maxQuarterEntry =
+                                                    filteredData
+                                                      .filter(
+                                                        entry =>
+                                                          entry.CloseYear ===
+                                                          maxYearEntry.CloseYear
+                                                      )
+                                                      .reduce((max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseQuarter
+                                                        ) >
+                                                        parseInt(
+                                                          max.CloseQuarter
+                                                        )
+                                                          ? entry
+                                                          : max
+                                                      );
+                                                  return (
+                                                    Number(
+                                                      maxQuarterEntry.MdnDOM
+                                                    ) + " Days"
+                                                  );
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "$599K";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.freeBox___1BP3W
+                                          )}
+                                        >
+                                          {(() => {
+                                            try {
+                                              return (() => {
+                                                const findMaxQuarterEntry =
+                                                  data => {
+                                                    const maxYearEntry =
+                                                      data.reduce(
+                                                        (max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseYear
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseYear
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                      );
+                                                    return data
+                                                      .filter(
+                                                        entry =>
+                                                          entry.CloseYear ===
+                                                          maxYearEntry.CloseYear
+                                                      )
+                                                      .reduce((max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseQuarter
+                                                        ) >
+                                                        parseInt(
+                                                          max.CloseQuarter
+                                                        )
+                                                          ? entry
+                                                          : max
+                                                      );
+                                                  };
+                                                const filteredDataLeft =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select.value
+                                                  );
+                                                const maxQuarterEntryLeft =
+                                                  findMaxQuarterEntry(
+                                                    filteredDataLeft
+                                                  );
+                                                const countyLeft = Number(
+                                                  maxQuarterEntryLeft.MdnDOM
+                                                );
+                                                const filteredDataRight =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select2.value
+                                                  );
+                                                const maxQuarterEntryRight =
+                                                  findMaxQuarterEntry(
+                                                    filteredDataRight
+                                                  );
+                                                const countyRight = Number(
+                                                  maxQuarterEntryRight.MdnDOM
+                                                );
+                                                const result =
+                                                  countyLeft < countyRight;
+                                                return result;
+                                              })();
+                                            } catch (e) {
+                                              if (
+                                                e instanceof TypeError ||
+                                                e?.plasmicType ===
+                                                  "PlasmicUndefinedDataError"
+                                              ) {
+                                                return true;
+                                              }
+                                              throw e;
+                                            }
+                                          })() ? (
+                                            <Elements40Icon
+                                              className={classNames(
+                                                projectcss.all,
+                                                sty.svg__k182Q
+                                              )}
+                                              role={"img"}
+                                            />
+                                          ) : null}
+                                          {(() => {
+                                            try {
+                                              return (() => {
+                                                const findMaxQuarterEntry =
+                                                  data => {
+                                                    const maxYearEntry =
+                                                      data.reduce(
+                                                        (max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseYear
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseYear
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                      );
+                                                    return data
+                                                      .filter(
+                                                        entry =>
+                                                          entry.CloseYear ===
+                                                          maxYearEntry.CloseYear
+                                                      )
+                                                      .reduce((max, entry) =>
+                                                        parseInt(
+                                                          entry.CloseQuarter
+                                                        ) >
+                                                        parseInt(
+                                                          max.CloseQuarter
+                                                        )
+                                                          ? entry
+                                                          : max
+                                                      );
+                                                  };
+                                                const filteredDataLeft =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select.value
+                                                  );
+                                                const maxQuarterEntryLeft =
+                                                  findMaxQuarterEntry(
+                                                    filteredDataLeft
+                                                  );
+                                                const countyLeft = Number(
+                                                  maxQuarterEntryLeft.MdnDOM
+                                                );
+                                                const filteredDataRight =
+                                                  $queries.getCountyData.data.filter(
+                                                    entry =>
+                                                      entry.CountyOrParish ==
+                                                      $state.select2.value
+                                                  );
+                                                const maxQuarterEntryRight =
+                                                  findMaxQuarterEntry(
+                                                    filteredDataRight
+                                                  );
+                                                const countyRight = Number(
+                                                  maxQuarterEntryRight.MdnDOM
+                                                );
+                                                const result =
+                                                  countyLeft > countyRight;
+                                                return result;
+                                              })();
+                                            } catch (e) {
+                                              if (
+                                                e instanceof TypeError ||
+                                                e?.plasmicType ===
+                                                  "PlasmicUndefinedDataError"
+                                              ) {
+                                                return true;
+                                              }
+                                              throw e;
+                                            }
+                                          })() ? (
+                                            <Elements41Icon
+                                              className={classNames(
+                                                projectcss.all,
+                                                sty.svg__lN8Nu
+                                              )}
+                                              role={"img"}
+                                            />
+                                          ) : null}
+                                        </div>
+                                      </div>
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__umRvW
+                                        )}
+                                      >
+                                        {"Median Days on Market"}
+                                      </div>
+                                    </Stack__>
+                                  </Stack__>
+                                  <Stack__
+                                    as={"div"}
+                                    data-plasmic-name={"frame57"}
+                                    data-plasmic-override={overrides.frame57}
+                                    hasGap={true}
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.frame57
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame58"}
+                                      data-plasmic-override={overrides.frame58}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame58
+                                      )}
+                                    >
+                                      <div
+                                        data-plasmic-name={"chartIncrease2"}
+                                        data-plasmic-override={
+                                          overrides.chartIncrease2
+                                        }
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.chartIncrease2
+                                        )}
+                                      >
+                                        <Elements11Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg__jYnk8
+                                          )}
+                                          role={"img"}
+                                        />
+                                      </div>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318658"}
+                                      data-plasmic-override={
+                                        overrides.frame427318658
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318658
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame59"}
+                                        data-plasmic-override={
+                                          overrides.frame59
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame59
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.freeBox__t6BTg
+                                          )}
+                                        >
+                                          <div
+                                            className={classNames(
+                                              projectcss.all,
+                                              projectcss.__wab_text,
+                                              sty.text___3M4Bd
+                                            )}
+                                          >
+                                            <React.Fragment>
+                                              {(() => {
+                                                try {
+                                                  return (() => {
+                                                    const filteredData =
+                                                      $queries.getCountyData.data.filter(
+                                                        entry =>
+                                                          entry.CountyOrParish ==
+                                                          $state.select2.value
+                                                      );
+                                                    const maxYearEntry =
+                                                      filteredData.reduce(
+                                                        (max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseYear
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseYear
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                      );
+                                                    const maxQuarterEntry =
+                                                      filteredData
+                                                        .filter(
+                                                          entry =>
+                                                            entry.CloseYear ===
+                                                            maxYearEntry.CloseYear
+                                                        )
+                                                        .reduce((max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseQuarter
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseQuarter
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                        );
+                                                    return (
+                                                      Number(
+                                                        maxQuarterEntry.MdnSold$_Change
+                                                      ).toFixed(2) + "%"
+                                                    );
+                                                  })();
+                                                } catch (e) {
+                                                  if (
+                                                    e instanceof TypeError ||
+                                                    e?.plasmicType ===
+                                                      "PlasmicUndefinedDataError"
+                                                  ) {
+                                                    return "0.91%";
+                                                  }
+                                                  throw e;
+                                                }
+                                              })()}
+                                            </React.Fragment>
+                                          </div>
+                                          <div
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.freeBox___7Hs9O
+                                            )}
+                                          >
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const findMaxQuarterEntry =
+                                                    data => {
+                                                      const maxYearEntry =
+                                                        data.reduce(
+                                                          (max, entry) =>
+                                                            parseInt(
+                                                              entry.CloseYear
+                                                            ) >
+                                                            parseInt(
+                                                              max.CloseYear
+                                                            )
+                                                              ? entry
+                                                              : max
+                                                        );
+                                                      return data
+                                                        .filter(
+                                                          entry =>
+                                                            entry.CloseYear ===
+                                                            maxYearEntry.CloseYear
+                                                        )
+                                                        .reduce((max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseQuarter
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseQuarter
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                        );
+                                                    };
+                                                  const filteredDataLeft =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select.value
+                                                    );
+                                                  const maxQuarterEntryLeft =
+                                                    findMaxQuarterEntry(
+                                                      filteredDataLeft
+                                                    );
+                                                  const countyLeft = Number(
+                                                    maxQuarterEntryLeft.MdnSold$_Change
+                                                  );
+                                                  const filteredDataRight =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select2.value
+                                                    );
+                                                  const maxQuarterEntryRight =
+                                                    findMaxQuarterEntry(
+                                                      filteredDataRight
+                                                    );
+                                                  const countyRight = Number(
+                                                    maxQuarterEntryRight.MdnSold$_Change
+                                                  );
+                                                  const result =
+                                                    countyLeft < countyRight;
+                                                  return result;
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <Elements40Icon
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  sty.svg___9ArQz
+                                                )}
+                                                role={"img"}
+                                              />
+                                            ) : null}
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const findMaxQuarterEntry =
+                                                    data => {
+                                                      const maxYearEntry =
+                                                        data.reduce(
+                                                          (max, entry) =>
+                                                            parseInt(
+                                                              entry.CloseYear
+                                                            ) >
+                                                            parseInt(
+                                                              max.CloseYear
+                                                            )
+                                                              ? entry
+                                                              : max
+                                                        );
+                                                      return data
+                                                        .filter(
+                                                          entry =>
+                                                            entry.CloseYear ===
+                                                            maxYearEntry.CloseYear
+                                                        )
+                                                        .reduce((max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseQuarter
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseQuarter
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                        );
+                                                    };
+                                                  const filteredDataLeft =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select.value
+                                                    );
+                                                  const maxQuarterEntryLeft =
+                                                    findMaxQuarterEntry(
+                                                      filteredDataLeft
+                                                    );
+                                                  const countyLeft = Number(
+                                                    maxQuarterEntryLeft.MdnSold$_Change
+                                                  );
+                                                  const filteredDataRight =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select2.value
+                                                    );
+                                                  const maxQuarterEntryRight =
+                                                    findMaxQuarterEntry(
+                                                      filteredDataRight
+                                                    );
+                                                  const countyRight = Number(
+                                                    maxQuarterEntryRight.MdnSold$_Change
+                                                  );
+                                                  const result =
+                                                    countyLeft > countyRight;
+                                                  return result;
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <Elements41Icon
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  sty.svg__gmCkT
+                                                )}
+                                                role={"img"}
+                                              />
+                                            ) : null}
+                                          </div>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__ulTch
+                                          )}
+                                        >
+                                          {"Sold Price Change"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                  </Stack__>
+                                  <Stack__
+                                    as={"div"}
+                                    data-plasmic-name={"frame69"}
+                                    data-plasmic-override={overrides.frame69}
+                                    hasGap={true}
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.frame69
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame70"}
+                                      data-plasmic-override={overrides.frame70}
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame70
+                                      )}
+                                    >
+                                      <div
+                                        data-plasmic-name={"money032"}
+                                        data-plasmic-override={
+                                          overrides.money032
+                                        }
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.money032
+                                        )}
+                                      >
+                                        <Elements13Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg___89Chx
+                                          )}
+                                          role={"img"}
+                                        />
+                                      </div>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318664"}
+                                      data-plasmic-override={
+                                        overrides.frame427318664
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318664
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame71"}
+                                        data-plasmic-override={
+                                          overrides.frame71
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame71
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.freeBox__n52Ie
+                                          )}
+                                        >
+                                          <div
+                                            className={classNames(
+                                              projectcss.all,
+                                              projectcss.__wab_text,
+                                              sty.text___5Kdr7
+                                            )}
+                                          >
+                                            <React.Fragment>
+                                              {(() => {
+                                                try {
+                                                  return (() => {
+                                                    const filteredData =
+                                                      $queries.getCountyData.data.filter(
+                                                        entry =>
+                                                          entry.CountyOrParish ==
+                                                          $state.select2.value
+                                                      );
+                                                    const maxYearEntry =
+                                                      filteredData.reduce(
+                                                        (max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseYear
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseYear
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                      );
+                                                    const maxQuarterEntry =
+                                                      filteredData
+                                                        .filter(
+                                                          entry =>
+                                                            entry.CloseYear ===
+                                                            maxYearEntry.CloseYear
+                                                        )
+                                                        .reduce((max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseQuarter
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseQuarter
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                        );
+                                                    return (
+                                                      Number(
+                                                        maxQuarterEntry.TOTALCOUNT_Change
+                                                      ).toFixed(2) + "%"
+                                                    );
+                                                  })();
+                                                } catch (e) {
+                                                  if (
+                                                    e instanceof TypeError ||
+                                                    e?.plasmicType ===
+                                                      "PlasmicUndefinedDataError"
+                                                  ) {
+                                                    return "\u00a0$100,011";
+                                                  }
+                                                  throw e;
+                                                }
+                                              })()}
+                                            </React.Fragment>
+                                          </div>
+                                          <div
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.freeBox__fyyad
+                                            )}
+                                          >
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const findMaxQuarterEntry =
+                                                    data => {
+                                                      const maxYearEntry =
+                                                        data.reduce(
+                                                          (max, entry) =>
+                                                            parseInt(
+                                                              entry.CloseYear
+                                                            ) >
+                                                            parseInt(
+                                                              max.CloseYear
+                                                            )
+                                                              ? entry
+                                                              : max
+                                                        );
+                                                      return data
+                                                        .filter(
+                                                          entry =>
+                                                            entry.CloseYear ===
+                                                            maxYearEntry.CloseYear
+                                                        )
+                                                        .reduce((max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseQuarter
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseQuarter
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                        );
+                                                    };
+                                                  const filteredDataLeft =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select.value
+                                                    );
+                                                  const maxQuarterEntryLeft =
+                                                    findMaxQuarterEntry(
+                                                      filteredDataLeft
+                                                    );
+                                                  const countyLeft = Number(
+                                                    maxQuarterEntryLeft.TOTALCOUNT_Change
+                                                  );
+                                                  const filteredDataRight =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select2.value
+                                                    );
+                                                  const maxQuarterEntryRight =
+                                                    findMaxQuarterEntry(
+                                                      filteredDataRight
+                                                    );
+                                                  const countyRight = Number(
+                                                    maxQuarterEntryRight.TOTALCOUNT_Change
+                                                  );
+                                                  const result =
+                                                    countyLeft > countyRight;
+                                                  return result;
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <Elements41Icon
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  sty.svg__k8Rn
+                                                )}
+                                                role={"img"}
+                                              />
+                                            ) : null}
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const findMaxQuarterEntry =
+                                                    data => {
+                                                      const maxYearEntry =
+                                                        data.reduce(
+                                                          (max, entry) =>
+                                                            parseInt(
+                                                              entry.CloseYear
+                                                            ) >
+                                                            parseInt(
+                                                              max.CloseYear
+                                                            )
+                                                              ? entry
+                                                              : max
+                                                        );
+                                                      return data
+                                                        .filter(
+                                                          entry =>
+                                                            entry.CloseYear ===
+                                                            maxYearEntry.CloseYear
+                                                        )
+                                                        .reduce((max, entry) =>
+                                                          parseInt(
+                                                            entry.CloseQuarter
+                                                          ) >
+                                                          parseInt(
+                                                            max.CloseQuarter
+                                                          )
+                                                            ? entry
+                                                            : max
+                                                        );
+                                                    };
+                                                  const filteredDataLeft =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select.value
+                                                    );
+                                                  const maxQuarterEntryLeft =
+                                                    findMaxQuarterEntry(
+                                                      filteredDataLeft
+                                                    );
+                                                  const countyLeft = Number(
+                                                    maxQuarterEntryLeft.TOTALCOUNT_Change
+                                                  );
+                                                  const filteredDataRight =
+                                                    $queries.getCountyData.data.filter(
+                                                      entry =>
+                                                        entry.CountyOrParish ==
+                                                        $state.select2.value
+                                                    );
+                                                  const maxQuarterEntryRight =
+                                                    findMaxQuarterEntry(
+                                                      filteredDataRight
+                                                    );
+                                                  const countyRight = Number(
+                                                    maxQuarterEntryRight.TOTALCOUNT_Change
+                                                  );
+                                                  const result =
+                                                    countyLeft < countyRight;
+                                                  return result;
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <Elements40Icon
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  sty.svg__ihNqs
+                                                )}
+                                                role={"img"}
+                                              />
+                                            ) : null}
+                                          </div>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__xpX1
+                                          )}
+                                        >
+                                          {"Home on Market Change"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                  </Stack__>
+                                </div>
+                                <SimpleChart
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.chart__wsCc
+                                  )}
+                                  data={(() => {
+                                    const transformedArray =
+                                      $queries.getCountyData.data
+                                        .filter(
+                                          entry =>
+                                            entry.CountyOrParish ===
+                                            $state.select2.value
+                                        )
+                                        .map(entry => {
+                                          const QuarterValue =
+                                            entry.CloseQuarter === "1"
+                                              ? entry.CloseYear
+                                              : entry.CloseYear;
+                                          return {
+                                            Quarter: QuarterValue,
+                                            Price: entry.MdnSold$
+                                          };
+                                        })
+                                        .sort((a, b) => a.Quarter - b.Quarter);
+                                    return transformedArray;
+                                  })()}
+                                  fill={true}
+                                  type={"line"}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className={classNames(
+                            projectcss.all,
+                            sty.freeBox__otLLs
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__ddn2Y
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__mvEgj
+                              )}
+                            >
+                              {"Market Trends in Your Area"}
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox___7TgE
+                              )}
+                            >
+                              <AntdButton
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.button__h8J4
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__mkFWe
+                                  )}
+                                >
+                                  <Idea01Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__oppgD
+                                    )}
+                                    role={"img"}
+                                  />
+
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__ktoQk
+                                    )}
+                                  >
+                                    {"Insights"}
+                                  </div>
+                                </div>
+                              </AntdButton>
+                            </div>
+                          </div>
+                          <YouTube
+                            data-plasmic-name={"youTube"}
+                            data-plasmic-override={overrides.youTube}
+                            className={classNames(
+                              "__wab_instance",
+                              sty.youTube
+                            )}
+                            fs={false}
+                            modestbranding={true}
+                            playsinline={true}
+                            rel={false}
+                            videoId={"4zZAdmmzB-g"}
+                          />
+                        </div>
+                        <div
+                          className={classNames(
+                            projectcss.all,
+                            sty.freeBox__qkml5
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.columns___2AEq
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column__kWks2
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__zzrQm
+                                )}
+                              >
+                                {"Own Another Home?"}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__xRngD
+                                )}
+                              >
+                                {
+                                  "Enter in the address and I\u2019ll send you a new dashboard for that property."
+                                }
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column__dXq8A
+                              )}
+                            >
+                              {(() => {
+                                const child$Props = {
+                                  className: classNames(
+                                    "__wab_instance",
+                                    sty.input
+                                  ),
+                                  onChange:
+                                    generateStateOnChangePropForCodeComponents(
+                                      $state,
+                                      "value",
+                                      ["input", "value"],
+                                      AntdInput_Helpers
+                                    ),
+                                  placeholder: "Enter New Address",
+                                  value: generateStateValueProp($state, [
+                                    "input",
+                                    "value"
+                                  ])
+                                };
+                                initializeCodeComponentStates(
+                                  $state,
+                                  [
+                                    {
+                                      name: "value",
+                                      plasmicStateName: "input.value"
+                                    }
+                                  ],
+                                  [],
+                                  AntdInput_Helpers ?? {},
+                                  child$Props
+                                );
+
+                                return (
+                                  <AntdInput
+                                    data-plasmic-name={"input"}
+                                    data-plasmic-override={overrides.input}
+                                    {...child$Props}
+                                  />
+                                );
+                              })()}
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__gmnh5
+                                )}
+                              >
+                                <AntdButton
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.button__cCpml
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__rQn9N
+                                    )}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__t4Bf
+                                      )}
+                                    >
+                                      {"Submit"}
+                                    </div>
+                                  </div>
+                                </AntdButton>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Stack__>
+                      <Stack__
+                        as={"div"}
+                        data-plasmic-name={"topRight"}
+                        data-plasmic-override={overrides.topRight}
+                        hasGap={true}
+                        className={classNames(projectcss.all, sty.topRight)}
+                      >
+                        <Stack__
+                          as={"div"}
+                          hasGap={true}
+                          className={classNames(
+                            projectcss.all,
+                            sty.freeBox__rbbrK
+                          )}
+                        >
+                          <Stack__
+                            as={"div"}
+                            hasGap={true}
+                            className={classNames(
+                              projectcss.all,
+                              sty.columns__iM7C
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column___78OuC
+                              )}
+                            >
+                              <div
+                                data-plasmic-name={"homeTrendBlock"}
+                                data-plasmic-override={overrides.homeTrendBlock}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.homeTrendBlock
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__dDIT
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__rvH2
+                                    )}
+                                  >
+                                    {"Your Home Trend"}
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__tyFrM
+                                    )}
+                                  >
+                                    <AntdButton
+                                      className={classNames(
+                                        "__wab_instance",
+                                        sty.button__diZz6
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.freeBox__i0Oww
+                                        )}
+                                      >
+                                        <Idea01Icon
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.svg__w7W88
+                                          )}
+                                          role={"img"}
+                                        />
+
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__myoKt
+                                          )}
+                                        >
+                                          {"Insights"}
+                                        </div>
+                                      </div>
+                                    </AntdButton>
+                                  </div>
+                                </div>
+                                <SimpleChart
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.chart___0Lns
+                                  )}
+                                  data={(() => {
+                                    const transformedArray =
+                                      $queries.getValuations.data
+                                        .map(entry => {
+                                          return {
+                                            Year: entry.year,
+                                            Valuation: entry.mktTtlValue
+                                          };
+                                        })
+                                        .sort((a, b) => a.Year - b.Year);
+                                    return transformedArray;
+                                  })()}
+                                  fill={false}
+                                  type={"line"}
+                                />
+                              </div>
+                            </div>
+                          </Stack__>
+                        </Stack__>
+                        <div
+                          data-plasmic-name={"homesSoldInArea"}
+                          data-plasmic-override={overrides.homesSoldInArea}
+                          className={classNames(
+                            projectcss.all,
+                            sty.homesSoldInArea
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.columns___8XpNe
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column__j5Vzr
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__xiEz2
+                                )}
+                              >
+                                {"Homes Sold in Your Area"}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__eV6Sv
+                                )}
+                              >
+                                {"Click on the homes to view more detail"}
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column__hwg3C
+                              )}
+                            >
+                              <AntdButton
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.button__yLWt
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__fi2AN
+                                  )}
+                                >
+                                  <Idea01Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__j3RQh
+                                    )}
+                                    role={"img"}
+                                  />
+
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__xrB
+                                    )}
+                                  >
+                                    {"How Does My Home Compare"}
+                                  </div>
+                                </div>
+                              </AntdButton>
+                            </div>
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              projectcss.__wab_text,
+                              sty.text__eJcbi
+                            )}
+                          >
+                            {"5 Homes Sold in the Past 6 Weeks"}
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.columns__ucOzv
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column___4QYe6
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__txHv
+                                )}
+                              >
+                                {(_par =>
+                                  !_par
+                                    ? []
+                                    : Array.isArray(_par)
+                                    ? _par
+                                    : [_par])(
+                                  (() => {
+                                    try {
+                                      return $queries.getComps.data;
+                                    } catch (e) {
+                                      if (
+                                        e instanceof TypeError ||
+                                        e?.plasmicType ===
+                                          "PlasmicUndefinedDataError"
+                                      ) {
+                                        return [];
+                                      }
+                                      throw e;
+                                    }
+                                  })()
+                                ).map((__plasmic_item_0, __plasmic_idx_0) => {
+                                  const currentItem = __plasmic_item_0;
+                                  const currentIndex = __plasmic_idx_0;
+                                  return (
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"propertyCard4"}
+                                      data-plasmic-override={
+                                        overrides.propertyCard4
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.propertyCard4
+                                      )}
+                                      key={currentIndex}
+                                      onClick={async event => {
+                                        const $steps = {};
+
+                                        $steps["updateHomeSoldInfoOn"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                variable: {
+                                                  objRoot: $state,
+                                                  variablePath: [
+                                                    "homeSoldInfoOn"
+                                                  ]
+                                                },
+                                                operation: 4
+                                              };
+                                              return (({
+                                                variable,
+                                                value,
+                                                startIndex,
+                                                deleteCount
+                                              }) => {
+                                                if (!variable) {
+                                                  return;
+                                                }
+                                                const {
+                                                  objRoot,
+                                                  variablePath
+                                                } = variable;
+
+                                                const oldValue = $stateGet(
+                                                  objRoot,
+                                                  variablePath
+                                                );
+                                                $stateSet(
+                                                  objRoot,
+                                                  variablePath,
+                                                  !oldValue
+                                                );
+                                                return !oldValue;
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["updateHomeSoldInfoOn"] !=
+                                            null &&
+                                          typeof $steps[
+                                            "updateHomeSoldInfoOn"
+                                          ] === "object" &&
+                                          typeof $steps["updateHomeSoldInfoOn"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["updateHomeSoldInfoOn"] =
+                                            await $steps[
+                                              "updateHomeSoldInfoOn"
+                                            ];
+                                        }
+
+                                        $steps["updateHomeSoldId"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                variable: {
+                                                  objRoot: $state,
+                                                  variablePath: ["homeSoldId"]
+                                                },
+                                                operation: 0,
+                                                value: currentItem.id
+                                              };
+                                              return (({
+                                                variable,
+                                                value,
+                                                startIndex,
+                                                deleteCount
+                                              }) => {
+                                                if (!variable) {
+                                                  return;
+                                                }
+                                                const {
+                                                  objRoot,
+                                                  variablePath
+                                                } = variable;
+
+                                                $stateSet(
+                                                  objRoot,
+                                                  variablePath,
+                                                  value
+                                                );
+                                                return value;
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["updateHomeSoldId"] != null &&
+                                          typeof $steps["updateHomeSoldId"] ===
+                                            "object" &&
+                                          typeof $steps["updateHomeSoldId"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["updateHomeSoldId"] =
+                                            await $steps["updateHomeSoldId"];
+                                        }
+                                      }}
+                                    >
+                                      <PlasmicImg__
+                                        alt={""}
+                                        className={classNames(sty.img___3OwjU)}
+                                        displayHeight={"120px"}
+                                        displayMaxHeight={"120px"}
+                                        displayMaxWidth={"100%"}
+                                        displayMinHeight={"120px"}
+                                        displayMinWidth={"0"}
+                                        displayWidth={"187px"}
+                                        loading={"lazy"}
+                                        src={(() => {
+                                          try {
+                                            return currentItem.streetPhoto;
+                                          } catch (e) {
+                                            if (
+                                              e instanceof TypeError ||
+                                              e?.plasmicType ===
+                                                "PlasmicUndefinedDataError"
+                                            ) {
+                                              return {
+                                                src: "/plasmic/real_estate_dashboard/images/rectangle2367.jpg",
+                                                fullWidth: 3500,
+                                                fullHeight: 2333,
+                                                aspectRatio: undefined
+                                              };
+                                            }
+                                            throw e;
+                                          }
+                                        })()}
+                                      />
+
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.freeBox___6PoI0
+                                        )}
+                                      >
+                                        <Stack__
+                                          as={"div"}
+                                          data-plasmic-name={"frame427318655"}
+                                          data-plasmic-override={
+                                            overrides.frame427318655
+                                          }
+                                          hasGap={true}
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.frame427318655
+                                          )}
+                                        >
+                                          <div
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.freeBox__suWzr
+                                            )}
+                                          >
+                                            <div
+                                              className={classNames(
+                                                projectcss.all,
+                                                sty.freeBox___5Jlr6
+                                              )}
+                                            >
+                                              <div
+                                                data-plasmic-name={
+                                                  "_8881SAspenViewDr3"
+                                                }
+                                                data-plasmic-override={
+                                                  overrides._8881SAspenViewDr3
+                                                }
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  projectcss.__wab_text,
+                                                  sty._8881SAspenViewDr3
+                                                )}
+                                              >
+                                                <React.Fragment>
+                                                  {(() => {
+                                                    try {
+                                                      return currentItem.address1;
+                                                    } catch (e) {
+                                                      if (
+                                                        e instanceof
+                                                          TypeError ||
+                                                        e?.plasmicType ===
+                                                          "PlasmicUndefinedDataError"
+                                                      ) {
+                                                        return "8703 S 5170 W";
+                                                      }
+                                                      throw e;
+                                                    }
+                                                  })()}
+                                                </React.Fragment>
+                                              </div>
+                                              <div
+                                                data-plasmic-name={
+                                                  "_8881SAspenViewDr4"
+                                                }
+                                                data-plasmic-override={
+                                                  overrides._8881SAspenViewDr4
+                                                }
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  projectcss.__wab_text,
+                                                  sty._8881SAspenViewDr4
+                                                )}
+                                              >
+                                                <React.Fragment>
+                                                  {(() => {
+                                                    try {
+                                                      return (
+                                                        Math.round(
+                                                          currentItem.Distance *
+                                                            100
+                                                        ) /
+                                                          100 +
+                                                        " miles"
+                                                      );
+                                                    } catch (e) {
+                                                      if (
+                                                        e instanceof
+                                                          TypeError ||
+                                                        e?.plasmicType ===
+                                                          "PlasmicUndefinedDataError"
+                                                      ) {
+                                                        return "8703 S 5170 W";
+                                                      }
+                                                      throw e;
+                                                    }
+                                                  })()}
+                                                </React.Fragment>
+                                              </div>
+                                            </div>
+                                            <div
+                                              className={classNames(
+                                                projectcss.all,
+                                                projectcss.__wab_text,
+                                                sty.text___8K1Jh
+                                              )}
+                                            >
+                                              <React.Fragment>
+                                                {(() => {
+                                                  try {
+                                                    return (
+                                                      "$" +
+                                                      currentItem.total_assessed
+                                                    );
+                                                  } catch (e) {
+                                                    if (
+                                                      e instanceof TypeError ||
+                                                      e?.plasmicType ===
+                                                        "PlasmicUndefinedDataError"
+                                                    ) {
+                                                      return "$850,459";
+                                                    }
+                                                    throw e;
+                                                  }
+                                                })()}
+                                              </React.Fragment>
+                                            </div>
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const itemEst = Number(
+                                                    currentItem.total_assessed
+                                                  );
+                                                  const propEst = Number(
+                                                    $queries.getProperty.data[0]
+                                                      .total_assessed
+                                                  );
+                                                  return propEst > itemEst;
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <Elements41Icon
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  sty.svg__btgcp
+                                                )}
+                                                role={"img"}
+                                              />
+                                            ) : null}
+                                          </div>
+                                          <Stack__
+                                            as={"div"}
+                                            data-plasmic-name={"frame427318736"}
+                                            data-plasmic-override={
+                                              overrides.frame427318736
+                                            }
+                                            hasGap={true}
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.frame427318736
+                                            )}
+                                          >
+                                            {(() => {
+                                              try {
+                                                return (() => {
+                                                  const itemEst = Number(
+                                                    currentItem.total_assessed
+                                                  );
+                                                  const propEst = Number(
+                                                    $queries.getProperty.data[0]
+                                                      .total_assessed
+                                                  );
+                                                  return itemEst > propEst;
+                                                })();
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <Elements40Icon
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  sty.svg__wtvZn
+                                                )}
+                                                role={"img"}
+                                              />
+                                            ) : null}
+                                          </Stack__>
+                                        </Stack__>
+                                      </div>
+                                    </Stack__>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.column__d9EA
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__r19Ci
+                                )}
+                              >
+                                <MapComponent
+                                  data-plasmic-name={"mapComponent"}
+                                  data-plasmic-override={overrides.mapComponent}
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.mapComponent
+                                  )}
+                                />
+                              </div>
+                              {(() => {
+                                try {
+                                  return $state.homeSoldInfoOn != true;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return true;
+                                  }
+                                  throw e;
+                                }
+                              })() ? (
+                                <PlasmicImg__
+                                  alt={""}
+                                  className={classNames(sty.img__oxJj)}
+                                  displayHeight={"100%"}
+                                  displayMaxHeight={"400px"}
+                                  displayMaxWidth={"100%"}
+                                  displayMinHeight={"0"}
+                                  displayMinWidth={"0"}
+                                  displayWidth={"100%"}
+                                  loading={"lazy"}
+                                  src={(() => {
+                                    try {
+                                      return $queries.getProperty.data.find(
+                                        entry => entry.id == $state.homeId.value
+                                      ).comp_map;
+                                    } catch (e) {
+                                      if (
+                                        e instanceof TypeError ||
+                                        e?.plasmicType ===
+                                          "PlasmicUndefinedDataError"
+                                      ) {
+                                        return "https://maps.googleapis.com/maps/api/staticmap?size=640x750&maptype=roadmap&markers=color:yellow%7C40.23927,-111.647913&markers=color:red%7C40.240047,-111.650283&markers=color:red%7C40.237388,-111.648887&markers=color:red%7C40.240829,-111.653082&markers=color:red%7C40.235404,-111.651957&markers=color:red%7C40.231171,-111.645047&markers=color:red%7C40.238069,-111.664688&markers=color:red%7C40.226832,-111.652925&markers=color:red%7C40.238813,-111.666246&markers=color:red%7C40.229528,-111.663623&markers=color:red%7C40.228145,-111.664304&key=AIzaSyATfwK78rrMglC2UiaomrD7lij1j_AQ_IU";
+                                      }
+                                      throw e;
+                                    }
+                                  })()}
+                                />
+                              ) : null}
+                              {(() => {
+                                try {
+                                  return $state.homeSoldInfoOn == true;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return true;
+                                  }
+                                  throw e;
+                                }
+                              })() ? (
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__nifyq
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__ldld3
+                                    )}
+                                  >
+                                    <CloseIcon1SvgIcon
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.svg__lkxMz
+                                      )}
+                                      onClick={async event => {
+                                        const $steps = {};
+
+                                        $steps["updateHomeSoldInfoOn"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                variable: {
+                                                  objRoot: $state,
+                                                  variablePath: [
+                                                    "homeSoldInfoOn"
+                                                  ]
+                                                },
+                                                operation: 0,
+                                                value: false
+                                              };
+                                              return (({
+                                                variable,
+                                                value,
+                                                startIndex,
+                                                deleteCount
+                                              }) => {
+                                                if (!variable) {
+                                                  return;
+                                                }
+                                                const {
+                                                  objRoot,
+                                                  variablePath
+                                                } = variable;
+
+                                                $stateSet(
+                                                  objRoot,
+                                                  variablePath,
+                                                  value
+                                                );
+                                                return value;
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["updateHomeSoldInfoOn"] !=
+                                            null &&
+                                          typeof $steps[
+                                            "updateHomeSoldInfoOn"
+                                          ] === "object" &&
+                                          typeof $steps["updateHomeSoldInfoOn"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["updateHomeSoldInfoOn"] =
+                                            await $steps[
+                                              "updateHomeSoldInfoOn"
+                                            ];
+                                        }
+                                      }}
+                                      role={"img"}
+                                    />
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__lngYe
+                                    )}
+                                  >
+                                    <PlasmicImg__
+                                      alt={""}
+                                      className={classNames(sty.img__asevg)}
+                                      displayHeight={"100%"}
+                                      displayMaxHeight={"180px"}
+                                      displayMaxWidth={"100%"}
+                                      displayMinHeight={"0"}
+                                      displayMinWidth={"0"}
+                                      displayWidth={"100%"}
+                                      loading={"lazy"}
+                                      src={(() => {
+                                        try {
+                                          return $queries.getComps.data.find(
+                                            entry =>
+                                              entry.id == $state.homeSoldId
+                                          ).streetPhoto;
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return {
+                                              src: "/plasmic/real_estate_dashboard/images/rectangle2367.jpg",
+                                              fullWidth: 3500,
+                                              fullHeight: 2333,
+                                              aspectRatio: undefined
+                                            };
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    />
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__oAhTx
+                                    )}
+                                  >
+                                    <h1
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.h1,
+                                        projectcss.__wab_text,
+                                        sty.h1___8Nd1
+                                      )}
+                                    >
+                                      <React.Fragment>
+                                        {(() => {
+                                          try {
+                                            return (
+                                              $queries.getComps.data.find(
+                                                entry =>
+                                                  entry.id == $state.homeSoldId
+                                              ).address1 +
+                                              " " +
+                                              $queries.getComps.data.find(
+                                                entry =>
+                                                  entry.id == $state.homeSoldId
+                                              ).city
+                                            );
+                                          } catch (e) {
+                                            if (
+                                              e instanceof TypeError ||
+                                              e?.plasmicType ===
+                                                "PlasmicUndefinedDataError"
+                                            ) {
+                                              return "8881 S Aspen View Dr";
+                                            }
+                                            throw e;
+                                          }
+                                        })()}
+                                      </React.Fragment>
+                                    </h1>
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__piaY7
+                                      )}
+                                    >
+                                      <React.Fragment>
+                                        {(() => {
+                                          try {
+                                            return (() => {
+                                              const number =
+                                                $queries.getComps.data.find(
+                                                  entry =>
+                                                    entry.id ==
+                                                    $state.homeSoldId
+                                                ).total_assessed;
+                                              const formattedNumber = number
+                                                .toString()
+                                                .replace(
+                                                  /\B(?=(\d{3})+(?!\d))/g,
+                                                  ","
+                                                );
+                                              return "$" + formattedNumber;
+                                            })();
+                                          } catch (e) {
+                                            if (
+                                              e instanceof TypeError ||
+                                              e?.plasmicType ===
+                                                "PlasmicUndefinedDataError"
+                                            ) {
+                                              return "$20,000";
+                                            }
+                                            throw e;
+                                          }
+                                        })()}
+                                      </React.Fragment>
+                                    </div>
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__o9Hy
+                                    )}
+                                  >
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318725"}
+                                      data-plasmic-override={
+                                        overrides.frame427318725
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318725
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame73"}
+                                        data-plasmic-override={
+                                          overrides.frame73
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame73
+                                        )}
+                                      >
+                                        <div
+                                          data-plasmic-name={"bathtub023"}
+                                          data-plasmic-override={
+                                            overrides.bathtub023
+                                          }
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.bathtub023
+                                          )}
+                                        >
+                                          <Elements36Icon
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.svg__qLqR1
+                                            )}
+                                            role={"img"}
+                                          />
+                                        </div>
+                                      </Stack__>
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame82"}
+                                        data-plasmic-override={
+                                          overrides.frame82
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame82
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__hwOhn
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return $queries.getComps.data.find(
+                                                  entry =>
+                                                    entry.id ==
+                                                    $state.homeSoldId
+                                                ).year_built;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "00";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__stwbw
+                                          )}
+                                        >
+                                          {"Year built"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318726"}
+                                      data-plasmic-override={
+                                        overrides.frame427318726
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318726
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame74"}
+                                        data-plasmic-override={
+                                          overrides.frame74
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame74
+                                        )}
+                                      >
+                                        <div
+                                          data-plasmic-name={"bathtub024"}
+                                          data-plasmic-override={
+                                            overrides.bathtub024
+                                          }
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.bathtub024
+                                          )}
+                                        >
+                                          <Elements34Icon
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.svg__aSeEs
+                                            )}
+                                            role={"img"}
+                                          />
+                                        </div>
+                                      </Stack__>
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame83"}
+                                        data-plasmic-override={
+                                          overrides.frame83
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame83
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__yp0Wi
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return $queries.getComps.data.find(
+                                                  entry =>
+                                                    entry.id ==
+                                                    $state.homeSoldId
+                                                ).BathroomsTotal;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "00";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__oWaPs
+                                          )}
+                                        >
+                                          {"Bathrooms"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318727"}
+                                      data-plasmic-override={
+                                        overrides.frame427318727
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318727
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame75"}
+                                        data-plasmic-override={
+                                          overrides.frame75
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame75
+                                        )}
+                                      >
+                                        <div
+                                          data-plasmic-name={"bathtub025"}
+                                          data-plasmic-override={
+                                            overrides.bathtub025
+                                          }
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.bathtub025
+                                          )}
+                                        >
+                                          <Elements33Icon
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.svg___0PhCl
+                                            )}
+                                            role={"img"}
+                                          />
+                                        </div>
+                                      </Stack__>
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame84"}
+                                        data-plasmic-override={
+                                          overrides.frame84
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame84
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__cs7Ef
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return $queries.getComps.data.find(
+                                                  entry =>
+                                                    entry.id ==
+                                                    $state.homeSoldId
+                                                ).BedroomsTotal;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "00";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__jPsT
+                                          )}
+                                        >
+                                          {"Bedrooms"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318728"}
+                                      data-plasmic-override={
+                                        overrides.frame427318728
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318728
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame76"}
+                                        data-plasmic-override={
+                                          overrides.frame76
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame76
+                                        )}
+                                      >
+                                        <div
+                                          data-plasmic-name={"bathtub026"}
+                                          data-plasmic-override={
+                                            overrides.bathtub026
+                                          }
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.bathtub026
+                                          )}
+                                        >
+                                          <Elements29Icon
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.svg__diUaa
+                                            )}
+                                            role={"img"}
+                                          />
+                                        </div>
+                                      </Stack__>
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame85"}
+                                        data-plasmic-override={
+                                          overrides.frame85
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame85
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__fHuxQ
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return Number(
+                                                  Math.round(
+                                                    ($queries.getComps.data.find(
+                                                      entry =>
+                                                        entry.id ==
+                                                        $state.homeSoldId
+                                                    ).lotSize /
+                                                      43560) *
+                                                      100
+                                                  ) / 100
+                                                );
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "00";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text___8SfAv
+                                          )}
+                                        >
+                                          {"Acre Lot"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318729"}
+                                      data-plasmic-override={
+                                        overrides.frame427318729
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318729
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame80"}
+                                        data-plasmic-override={
+                                          overrides.frame80
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame80
+                                        )}
+                                      >
+                                        <div
+                                          data-plasmic-name={"bathtub027"}
+                                          data-plasmic-override={
+                                            overrides.bathtub027
+                                          }
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.bathtub027
+                                          )}
+                                        >
+                                          <Elements35Icon
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.svg__qcHcq
+                                            )}
+                                            role={"img"}
+                                          />
+                                        </div>
+                                      </Stack__>
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame86"}
+                                        data-plasmic-override={
+                                          overrides.frame86
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame86
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__hJbet
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return $queries.getComps.data.find(
+                                                  entry =>
+                                                    entry.id ==
+                                                    $state.homeSoldId
+                                                ).stories;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "00";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__d6YM4
+                                          )}
+                                        >
+                                          {"Stories"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318730"}
+                                      data-plasmic-override={
+                                        overrides.frame427318730
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318730
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame81"}
+                                        data-plasmic-override={
+                                          overrides.frame81
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame81
+                                        )}
+                                      >
+                                        <div
+                                          data-plasmic-name={"bathtub028"}
+                                          data-plasmic-override={
+                                            overrides.bathtub028
+                                          }
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.bathtub028
+                                          )}
+                                        >
+                                          <Elements25Icon
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.svg__htGa1
+                                            )}
+                                            role={"img"}
+                                          />
+                                        </div>
+                                      </Stack__>
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame88"}
+                                        data-plasmic-override={
+                                          overrides.frame88
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame88
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__wMead
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return $queries.getComps.data.find(
+                                                  entry =>
+                                                    entry.id ==
+                                                    $state.homeSoldId
+                                                ).RoomsTotal;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "00";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__uwRv
+                                          )}
+                                        >
+                                          {"Rooms"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                    <Stack__
+                                      as={"div"}
+                                      data-plasmic-name={"frame427318731"}
+                                      data-plasmic-override={
+                                        overrides.frame427318731
+                                      }
+                                      hasGap={true}
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.frame427318731
+                                      )}
+                                    >
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame89"}
+                                        data-plasmic-override={
+                                          overrides.frame89
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame89
+                                        )}
+                                      >
+                                        <div
+                                          data-plasmic-name={"bathtub029"}
+                                          data-plasmic-override={
+                                            overrides.bathtub029
+                                          }
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.bathtub029
+                                          )}
+                                        >
+                                          <Elements25Icon
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.svg__rp9UB
+                                            )}
+                                            role={"img"}
+                                          />
+                                        </div>
+                                      </Stack__>
+                                      <Stack__
+                                        as={"div"}
+                                        data-plasmic-name={"frame91"}
+                                        data-plasmic-override={
+                                          overrides.frame91
+                                        }
+                                        hasGap={true}
+                                        className={classNames(
+                                          projectcss.all,
+                                          sty.frame91
+                                        )}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__ijdyq
+                                          )}
+                                        >
+                                          <React.Fragment>
+                                            {(() => {
+                                              try {
+                                                return (
+                                                  Math.round(
+                                                    $queries.getComps.data.find(
+                                                      entry =>
+                                                        entry.id ==
+                                                        $state.homeSoldId
+                                                    ).Distance * 100
+                                                  ) / 100
+                                                );
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return "00";
+                                                }
+                                                throw e;
+                                              }
+                                            })()}
+                                          </React.Fragment>
+                                        </div>
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__xZtva
+                                          )}
+                                        >
+                                          {"Distance"}
+                                        </div>
+                                      </Stack__>
+                                    </Stack__>
+                                  </div>
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          data-plasmic-name={"cashOffer"}
+                          data-plasmic-override={overrides.cashOffer}
+                          className={classNames(projectcss.all, sty.cashOffer)}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox___2Ofaz
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__isLuE
+                              )}
+                            >
+                              {"Interested in a Cash offer?"}
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__uoJt1
+                              )}
+                            >
+                              <AntdButton
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.button__ir9Pv
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__cpyx
+                                  )}
+                                >
+                                  <Idea01Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__qsKZs
+                                    )}
+                                    role={"img"}
+                                  />
+
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__txMGx
+                                    )}
+                                  >
+                                    {"Insights"}
+                                  </div>
+                                </div>
+                              </AntdButton>
+                            </div>
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              projectcss.__wab_text,
+                              sty.text__mgCw
+                            )}
+                          >
+                            {
+                              "Enjoy the convenience of a cash offer with no need to show your house, make repairs, or worry about timing. If you prefer simplicity and flexibility over getting the highest price, a cash offer is the perfect choice for you. "
+                            }
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__uF2
+                            )}
+                          >
+                            <AntdModal
+                              data-plasmic-name={"modal2"}
+                              data-plasmic-override={overrides.modal2}
+                              className={classNames(
+                                "__wab_instance",
+                                sty.modal2
+                              )}
+                              defaultStylesClassName={classNames(
+                                projectcss.root_reset,
+                                projectcss.plasmic_default_styles,
+                                projectcss.plasmic_mixins,
+                                projectcss.plasmic_tokens,
+                                plasmic_antd_5_hostless_css.plasmic_tokens,
+                                plasmic_plasmic_rich_components_css.plasmic_tokens
+                              )}
+                              modalScopeClassName={sty["modal2__modal"]}
+                              onOpenChange={generateStateOnChangeProp($state, [
+                                "modal2",
+                                "open"
+                              ])}
+                              open={generateStateValueProp($state, [
+                                "modal2",
+                                "open"
+                              ])}
+                              title={"Modal title"}
+                              trigger={
+                                <AntdButton
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.button__vcEqg
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__pywdq
+                                    )}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__vCcye
+                                      )}
+                                    >
+                                      {"Request Offer"}
+                                    </div>
+                                  </div>
+                                </AntdButton>
+                              }
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__wkgda
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__b82SU
+                                  )}
+                                >
+                                  {"Modal content"}
+                                </div>
+                              </div>
+                            </AntdModal>
+                          </div>
+                        </div>
+                        <div
+                          className={classNames(
+                            projectcss.all,
+                            sty.freeBox___3We5L
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__dirQw
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text___0Q8Md
+                              )}
+                            >
+                              {"Let's Work Together"}
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__dTHa
+                              )}
+                            >
+                              <AntdButton
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.button__v9CdR
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__sfw87
+                                  )}
+                                >
+                                  <Idea01Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__t3W7N
+                                    )}
+                                    role={"img"}
+                                  />
+
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__oAgj6
+                                    )}
+                                  >
+                                    {"Insights"}
+                                  </div>
+                                </div>
+                              </AntdButton>
+                            </div>
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__pg2Qa
+                            )}
+                          >
+                            <PlasmicImg__
+                              alt={""}
+                              className={classNames(sty.img__fazEz)}
+                              displayHeight={"90px"}
+                              displayMaxHeight={"none"}
+                              displayMaxWidth={"100%"}
+                              displayMinHeight={"0"}
+                              displayMinWidth={"0"}
+                              displayWidth={"90px"}
+                              loading={"lazy"}
+                              src={(() => {
+                                try {
+                                  return $queries.getEntity.data[0].photo;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return {
+                                      src: "/plasmic/real_estate_dashboard/images/image.png",
+                                      fullWidth: 100,
+                                      fullHeight: 100,
+                                      aspectRatio: undefined
+                                    };
+                                  }
+                                  throw e;
+                                }
+                              })()}
+                            />
+
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__ohjlf
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__sjzIn
+                                )}
+                              >
+                                {"Jeff Eaves"}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__tNyTg
+                                )}
+                              >
+                                {"KW South Valley Keller Williams"}
+                              </div>
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame427318812"}
+                                data-plasmic-override={overrides.frame427318812}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame427318812
+                                )}
+                              >
+                                <div
+                                  data-plasmic-name={"call2"}
+                                  data-plasmic-override={overrides.call2}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.call2
+                                  )}
+                                >
+                                  <Elements44Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__w0TQr
+                                    )}
+                                    role={"img"}
+                                  />
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text___8HmTs
+                                  )}
+                                >
+                                  {"+1 801 682-90832"}
+                                </div>
+                              </Stack__>
+                              <Stack__
+                                as={"div"}
+                                data-plasmic-name={"frame427318813"}
+                                data-plasmic-override={overrides.frame427318813}
+                                hasGap={true}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.frame427318813
+                                )}
+                              >
+                                <div
+                                  data-plasmic-name={"mail022"}
+                                  data-plasmic-override={overrides.mail022}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.mail022
+                                  )}
+                                >
+                                  <Elements45Icon
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.svg__anQd1
+                                    )}
+                                    role={"img"}
+                                  />
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__hhN5V
+                                  )}
+                                >
+                                  {"JeffEaves@gmail.com"}
+                                </div>
+                              </Stack__>
+                            </div>
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__npXmV
+                            )}
+                          >
+                            {(_par =>
+                              !_par ? [] : Array.isArray(_par) ? _par : [_par])(
+                              (() => {
+                                try {
+                                  return $queries.getTestimonials.data;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return [];
+                                  }
+                                  throw e;
+                                }
+                              })()
+                            ).map((__plasmic_item_0, __plasmic_idx_0) => {
+                              const currentItem = __plasmic_item_0;
+                              const currentIndex = __plasmic_idx_0;
+                              return (
+                                <Stack__
+                                  as={"div"}
+                                  data-plasmic-name={"testimonials7"}
+                                  data-plasmic-override={
+                                    overrides.testimonials7
+                                  }
+                                  hasGap={true}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.testimonials7
+                                  )}
+                                  key={currentIndex}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__ioy91
+                                    )}
+                                  >
+                                    <Elements43Icon
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.svg___6ZgXo
+                                      )}
+                                      role={"img"}
+                                    />
+
+                                    <Elements43Icon
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.svg__h8Beb
+                                      )}
+                                      role={"img"}
+                                    />
+
+                                    <Elements43Icon
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.svg__yumzD
+                                      )}
+                                      role={"img"}
+                                    />
+
+                                    <Elements43Icon
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.svg__qfH0P
+                                      )}
+                                      role={"img"}
+                                    />
+
+                                    <Elements43Icon
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.svg__slTRf
+                                      )}
+                                      role={"img"}
+                                    />
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__ul7Bs
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return currentItem.testimonial;
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return " ";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </div>
+                                </Stack__>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </Stack__>
+                    </Stack__>
+                  ) : null}
+                </div>
+              ) : null}
+              {(() => {
+                try {
+                  return (
+                    $queries.getProperty.data.find(
+                      entry => entry.id == $state.homeId.value
+                    ).done != true
+                  );
+                } catch (e) {
+                  if (
+                    e instanceof TypeError ||
+                    e?.plasmicType === "PlasmicUndefinedDataError"
+                  ) {
+                    return true;
+                  }
+                  throw e;
+                }
+              })() ? (
+                <section
+                  data-plasmic-name={"onItsWay"}
+                  data-plasmic-override={overrides.onItsWay}
+                  className={classNames(projectcss.all, sty.onItsWay)}
+                >
+                  <h1
+                    className={classNames(
+                      projectcss.all,
+                      projectcss.h1,
+                      projectcss.__wab_text,
+                      sty.h1___1UlUv
+                    )}
+                  >
+                    {
+                      "Your Personalized Home Analytics\nDashboard is on the way!"
+                    }
+                  </h1>
+                  <PlasmicImg__
+                    alt={""}
+                    className={classNames(sty.img__ggLyo)}
+                    displayHeight={"auto"}
+                    displayMaxHeight={"none"}
+                    displayMaxWidth={"100%"}
+                    displayMinHeight={"0"}
+                    displayMinWidth={"0"}
+                    displayWidth={"405px"}
+                    loading={"lazy"}
+                    src={{
+                      src: "/plasmic/real_estate_dashboard/images/dallESep14ImageVibeLargeJpeg.jpg",
+                      fullWidth: 1024,
+                      fullHeight: 1024,
+                      aspectRatio: undefined
+                    }}
+                  />
+
+                  <div
+                    className={classNames(
+                      projectcss.all,
+                      projectcss.__wab_text,
+                      sty.text__gimeT
+                    )}
+                  >
+                    {
+                      "Check your email in a minute to receive personalized insights for you home."
+                    }
+                  </div>
+                </section>
+              ) : null}
+            </section>
           ) : null}
           {(() => {
             try {
@@ -6849,9 +8361,9 @@ function PlasmicProperties__RenderFunc(props: {
             }
           })() ? (
             <section
-              data-plasmic-name={"section"}
-              data-plasmic-override={overrides.section}
-              className={classNames(projectcss.all, sty.section)}
+              data-plasmic-name={"loading"}
+              data-plasmic-override={overrides.loading}
+              className={classNames(projectcss.all, sty.loading)}
             >
               <PlasmicImg__
                 alt={""}
@@ -6883,6 +8395,43 @@ function PlasmicProperties__RenderFunc(props: {
               </h1>
             </section>
           ) : null}
+          {(() => {
+            try {
+              return (() => {
+                const isLoading =
+                  $queries.getProperty.isLoading ||
+                  $queries.getClient.isLoading ||
+                  $queries.getComps.isLoading ||
+                  $queries.getCountyData.isLoading ||
+                  $queries.getValuations.isLoading;
+                return !isLoading;
+              })();
+            } catch (e) {
+              if (
+                e instanceof TypeError ||
+                e?.plasmicType === "PlasmicUndefinedDataError"
+              ) {
+                return true;
+              }
+              throw e;
+            }
+          })() ? (
+            <div
+              data-plasmic-name={"footer"}
+              data-plasmic-override={overrides.footer}
+              className={classNames(projectcss.all, sty.footer)}
+            >
+              <div
+                className={classNames(
+                  projectcss.all,
+                  projectcss.__wab_text,
+                  sty.text__sZcE
+                )}
+              >
+                {"Terms and Conditions\nPrivacy Policy"}
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </React.Fragment>
@@ -6892,6 +8441,14 @@ function PlasmicProperties__RenderFunc(props: {
 const PlasmicDescendants = {
   root: [
     "root",
+    "adminMode",
+    "table",
+    "homeId",
+    "header",
+    "select3",
+    "drawer",
+    "body",
+    "dash",
     "modal3",
     "checkbox2",
     "input2",
@@ -6977,6 +8534,7 @@ const PlasmicDescendants = {
     "_8881SAspenViewDr3",
     "_8881SAspenViewDr4",
     "frame427318736",
+    "mapComponent",
     "frame427318725",
     "frame73",
     "bathtub023",
@@ -7012,14 +8570,265 @@ const PlasmicDescendants = {
     "frame427318813",
     "mail022",
     "testimonials7",
-    "frame427318805",
-    "frame427318806",
-    "star",
-    "star2",
-    "star3",
-    "star4",
-    "star5",
-    "section"
+    "onItsWay",
+    "loading",
+    "footer"
+  ],
+  adminMode: ["adminMode", "table", "homeId"],
+  table: ["table"],
+  homeId: ["homeId"],
+  header: ["header", "select3", "drawer"],
+  select3: ["select3"],
+  drawer: ["drawer"],
+  body: [
+    "body",
+    "dash",
+    "modal3",
+    "checkbox2",
+    "input2",
+    "checkbox3",
+    "input4",
+    "agentBlock",
+    "modal",
+    "iframe",
+    "topLeft",
+    "homeEstimateBlock3",
+    "homeEstimateBlock",
+    "homeEstimateBlock2",
+    "frame38",
+    "frame36",
+    "building04",
+    "frame31",
+    "frame33",
+    "frame32",
+    "bed",
+    "frame25",
+    "frame45",
+    "frame37",
+    "bathtub02",
+    "frame26",
+    "frame44",
+    "frame41",
+    "squareSquare",
+    "frame30",
+    "frame43",
+    "frame42",
+    "building03",
+    "frame29",
+    "frame35",
+    "frame34",
+    "square",
+    "frame87",
+    "countStatsBlock",
+    "select",
+    "frame60",
+    "frame61",
+    "hotPrice",
+    "frame62",
+    "frame49",
+    "frame40",
+    "chartMedium",
+    "frame50",
+    "frame54",
+    "frame55",
+    "chartIncrease",
+    "frame427318657",
+    "frame56",
+    "frame66",
+    "frame67",
+    "money03",
+    "frame427318659",
+    "frame68",
+    "select2",
+    "frame63",
+    "frame64",
+    "hotPrice2",
+    "frame65",
+    "frame51",
+    "frame52",
+    "chartMedium2",
+    "frame53",
+    "frame57",
+    "frame58",
+    "chartIncrease2",
+    "frame427318658",
+    "frame59",
+    "frame69",
+    "frame70",
+    "money032",
+    "frame427318664",
+    "frame71",
+    "youTube",
+    "input",
+    "topRight",
+    "homeTrendBlock",
+    "homesSoldInArea",
+    "propertyCard4",
+    "frame427318655",
+    "_8881SAspenViewDr3",
+    "_8881SAspenViewDr4",
+    "frame427318736",
+    "mapComponent",
+    "frame427318725",
+    "frame73",
+    "bathtub023",
+    "frame82",
+    "frame427318726",
+    "frame74",
+    "bathtub024",
+    "frame83",
+    "frame427318727",
+    "frame75",
+    "bathtub025",
+    "frame84",
+    "frame427318728",
+    "frame76",
+    "bathtub026",
+    "frame85",
+    "frame427318729",
+    "frame80",
+    "bathtub027",
+    "frame86",
+    "frame427318730",
+    "frame81",
+    "bathtub028",
+    "frame88",
+    "frame427318731",
+    "frame89",
+    "bathtub029",
+    "frame91",
+    "cashOffer",
+    "modal2",
+    "frame427318812",
+    "call2",
+    "frame427318813",
+    "mail022",
+    "testimonials7",
+    "onItsWay"
+  ],
+  dash: [
+    "dash",
+    "modal3",
+    "checkbox2",
+    "input2",
+    "checkbox3",
+    "input4",
+    "agentBlock",
+    "modal",
+    "iframe",
+    "topLeft",
+    "homeEstimateBlock3",
+    "homeEstimateBlock",
+    "homeEstimateBlock2",
+    "frame38",
+    "frame36",
+    "building04",
+    "frame31",
+    "frame33",
+    "frame32",
+    "bed",
+    "frame25",
+    "frame45",
+    "frame37",
+    "bathtub02",
+    "frame26",
+    "frame44",
+    "frame41",
+    "squareSquare",
+    "frame30",
+    "frame43",
+    "frame42",
+    "building03",
+    "frame29",
+    "frame35",
+    "frame34",
+    "square",
+    "frame87",
+    "countStatsBlock",
+    "select",
+    "frame60",
+    "frame61",
+    "hotPrice",
+    "frame62",
+    "frame49",
+    "frame40",
+    "chartMedium",
+    "frame50",
+    "frame54",
+    "frame55",
+    "chartIncrease",
+    "frame427318657",
+    "frame56",
+    "frame66",
+    "frame67",
+    "money03",
+    "frame427318659",
+    "frame68",
+    "select2",
+    "frame63",
+    "frame64",
+    "hotPrice2",
+    "frame65",
+    "frame51",
+    "frame52",
+    "chartMedium2",
+    "frame53",
+    "frame57",
+    "frame58",
+    "chartIncrease2",
+    "frame427318658",
+    "frame59",
+    "frame69",
+    "frame70",
+    "money032",
+    "frame427318664",
+    "frame71",
+    "youTube",
+    "input",
+    "topRight",
+    "homeTrendBlock",
+    "homesSoldInArea",
+    "propertyCard4",
+    "frame427318655",
+    "_8881SAspenViewDr3",
+    "_8881SAspenViewDr4",
+    "frame427318736",
+    "mapComponent",
+    "frame427318725",
+    "frame73",
+    "bathtub023",
+    "frame82",
+    "frame427318726",
+    "frame74",
+    "bathtub024",
+    "frame83",
+    "frame427318727",
+    "frame75",
+    "bathtub025",
+    "frame84",
+    "frame427318728",
+    "frame76",
+    "bathtub026",
+    "frame85",
+    "frame427318729",
+    "frame80",
+    "bathtub027",
+    "frame86",
+    "frame427318730",
+    "frame81",
+    "bathtub028",
+    "frame88",
+    "frame427318731",
+    "frame89",
+    "bathtub029",
+    "frame91",
+    "cashOffer",
+    "modal2",
+    "frame427318812",
+    "call2",
+    "frame427318813",
+    "mail022",
+    "testimonials7"
   ],
   modal3: ["modal3", "checkbox2", "input2", "checkbox3", "input4"],
   checkbox2: ["checkbox2"],
@@ -7249,6 +9058,7 @@ const PlasmicDescendants = {
     "_8881SAspenViewDr3",
     "_8881SAspenViewDr4",
     "frame427318736",
+    "mapComponent",
     "frame427318725",
     "frame73",
     "bathtub023",
@@ -7283,14 +9093,7 @@ const PlasmicDescendants = {
     "call2",
     "frame427318813",
     "mail022",
-    "testimonials7",
-    "frame427318805",
-    "frame427318806",
-    "star",
-    "star2",
-    "star3",
-    "star4",
-    "star5"
+    "testimonials7"
   ],
   homeTrendBlock: ["homeTrendBlock"],
   homesSoldInArea: [
@@ -7300,6 +9103,7 @@ const PlasmicDescendants = {
     "_8881SAspenViewDr3",
     "_8881SAspenViewDr4",
     "frame427318736",
+    "mapComponent",
     "frame427318725",
     "frame73",
     "bathtub023",
@@ -7345,6 +9149,7 @@ const PlasmicDescendants = {
   _8881SAspenViewDr3: ["_8881SAspenViewDr3"],
   _8881SAspenViewDr4: ["_8881SAspenViewDr4"],
   frame427318736: ["frame427318736"],
+  mapComponent: ["mapComponent"],
   frame427318725: ["frame427318725", "frame73", "bathtub023", "frame82"],
   frame73: ["frame73", "bathtub023"],
   bathtub023: ["bathtub023"],
@@ -7379,45 +9184,24 @@ const PlasmicDescendants = {
   call2: ["call2"],
   frame427318813: ["frame427318813", "mail022"],
   mail022: ["mail022"],
-  testimonials7: [
-    "testimonials7",
-    "frame427318805",
-    "frame427318806",
-    "star",
-    "star2",
-    "star3",
-    "star4",
-    "star5"
-  ],
-  frame427318805: [
-    "frame427318805",
-    "frame427318806",
-    "star",
-    "star2",
-    "star3",
-    "star4",
-    "star5"
-  ],
-  frame427318806: [
-    "frame427318806",
-    "star",
-    "star2",
-    "star3",
-    "star4",
-    "star5"
-  ],
-  star: ["star"],
-  star2: ["star2"],
-  star3: ["star3"],
-  star4: ["star4"],
-  star5: ["star5"],
-  section: ["section"]
+  testimonials7: ["testimonials7"],
+  onItsWay: ["onItsWay"],
+  loading: ["loading"],
+  footer: ["footer"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
   (typeof PlasmicDescendants)[T][number];
 type NodeDefaultElementType = {
   root: "div";
+  adminMode: "section";
+  table: typeof RichTable;
+  homeId: typeof AntdInputNumber;
+  header: "div";
+  select3: typeof AntdSelect;
+  drawer: typeof Drawer;
+  body: "section";
+  dash: "div";
   modal3: typeof AntdModal;
   checkbox2: typeof AntdCheckbox;
   input2: typeof AntdInput;
@@ -7503,6 +9287,7 @@ type NodeDefaultElementType = {
   _8881SAspenViewDr3: "div";
   _8881SAspenViewDr4: "div";
   frame427318736: "div";
+  mapComponent: typeof MapComponent;
   frame427318725: "div";
   frame73: "div";
   bathtub023: "div";
@@ -7538,14 +9323,9 @@ type NodeDefaultElementType = {
   frame427318813: "div";
   mail022: "div";
   testimonials7: "div";
-  frame427318805: "div";
-  frame427318806: "div";
-  star: "div";
-  star2: "div";
-  star3: "div";
-  star4: "div";
-  star5: "div";
-  section: "section";
+  onItsWay: "section";
+  loading: "section";
+  footer: "div";
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -7633,6 +9413,14 @@ export const PlasmicProperties = Object.assign(
   withUsePlasmicAuth(makeNodeComponent("root")),
   {
     // Helper components rendering sub-elements
+    adminMode: makeNodeComponent("adminMode"),
+    table: makeNodeComponent("table"),
+    homeId: makeNodeComponent("homeId"),
+    header: makeNodeComponent("header"),
+    select3: makeNodeComponent("select3"),
+    drawer: makeNodeComponent("drawer"),
+    body: makeNodeComponent("body"),
+    dash: makeNodeComponent("dash"),
     modal3: makeNodeComponent("modal3"),
     checkbox2: makeNodeComponent("checkbox2"),
     input2: makeNodeComponent("input2"),
@@ -7718,6 +9506,7 @@ export const PlasmicProperties = Object.assign(
     _8881SAspenViewDr3: makeNodeComponent("_8881SAspenViewDr3"),
     _8881SAspenViewDr4: makeNodeComponent("_8881SAspenViewDr4"),
     frame427318736: makeNodeComponent("frame427318736"),
+    mapComponent: makeNodeComponent("mapComponent"),
     frame427318725: makeNodeComponent("frame427318725"),
     frame73: makeNodeComponent("frame73"),
     bathtub023: makeNodeComponent("bathtub023"),
@@ -7753,14 +9542,9 @@ export const PlasmicProperties = Object.assign(
     frame427318813: makeNodeComponent("frame427318813"),
     mail022: makeNodeComponent("mail022"),
     testimonials7: makeNodeComponent("testimonials7"),
-    frame427318805: makeNodeComponent("frame427318805"),
-    frame427318806: makeNodeComponent("frame427318806"),
-    star: makeNodeComponent("star"),
-    star2: makeNodeComponent("star2"),
-    star3: makeNodeComponent("star3"),
-    star4: makeNodeComponent("star4"),
-    star5: makeNodeComponent("star5"),
-    section: makeNodeComponent("section"),
+    onItsWay: makeNodeComponent("onItsWay"),
+    loading: makeNodeComponent("loading"),
+    footer: makeNodeComponent("footer"),
 
     // Metadata about props expected for PlasmicProperties
     internalVariantProps: PlasmicProperties__VariantProps,
