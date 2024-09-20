@@ -78,6 +78,8 @@ import { AntdCheckbox } from "@plasmicpkgs/antd5/skinny/registerCheckbox";
 import { AntdInput } from "@plasmicpkgs/antd5/skinny/registerInput";
 import { inputHelpers as AntdInput_Helpers } from "@plasmicpkgs/antd5/skinny/registerInput";
 import { Iframe } from "@plasmicpkgs/plasmic-basic-components";
+import { FormWrapper } from "@plasmicpkgs/antd5/skinny/SchemaForm";
+import { formHelpers as FormWrapper_Helpers } from "@plasmicpkgs/antd5/skinny/Form";
 import { SimpleChart } from "@plasmicpkgs/react-chartjs-2";
 import YouTube from "@plasmicpkgs/react-youtube";
 import MapComponent from "../../MapComponent"; // plasmic-import: aSaTcETCxkUE/component
@@ -147,11 +149,16 @@ export type PlasmicProperties__OverridesType = {
   input4?: Flex__<typeof AntdInput>;
   agentBlock?: Flex__<"div">;
   modal?: Flex__<typeof AntdModal>;
-  iframe?: Flex__<typeof Iframe>;
+  agentBlock2?: Flex__<"div">;
+  modal6?: Flex__<typeof AntdModal>;
+  agentBlock3?: Flex__<"div">;
+  modal5?: Flex__<typeof AntdModal>;
   topLeft?: Flex__<"div">;
   homeEstimateBlock3?: Flex__<"div">;
   homeEstimateBlock?: Flex__<"div">;
   homeEstimateBlock2?: Flex__<"div">;
+  modal4?: Flex__<typeof AntdModal>;
+  form?: Flex__<typeof FormWrapper>;
   frame38?: Flex__<"div">;
   frame36?: Flex__<"div">;
   building04?: Flex__<"div">;
@@ -255,7 +262,6 @@ export type PlasmicProperties__OverridesType = {
   bathtub029?: Flex__<"div">;
   frame91?: Flex__<"div">;
   cashOffer?: Flex__<"div">;
-  modal2?: Flex__<typeof AntdModal>;
   frame427318812?: Flex__<"div">;
   call2?: Flex__<"div">;
   frame427318813?: Flex__<"div">;
@@ -400,12 +406,6 @@ function PlasmicProperties__RenderFunc(props: {
         type: "private",
         variableType: "boolean",
         initFunc: ({ $props, $state, $queries, $ctx }) => false
-      },
-      {
-        path: "modal2.open",
-        type: "private",
-        variableType: "boolean",
-        initFunc: ({ $props, $state, $queries, $ctx }) => undefined
       },
       {
         path: "input2.value",
@@ -555,6 +555,54 @@ function PlasmicProperties__RenderFunc(props: {
         type: "private",
         variableType: "boolean",
         initFunc: ({ $props, $state, $queries, $ctx }) => false
+      },
+      {
+        path: "modal4.open",
+        type: "private",
+        variableType: "boolean",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined
+      },
+      {
+        path: "form.value",
+        type: "private",
+        variableType: "object",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
+
+        refName: "form",
+        onMutate: generateOnMutateForSpec("value", FormWrapper_Helpers)
+      },
+      {
+        path: "form.isSubmitting",
+        type: "private",
+        variableType: "boolean",
+        initFunc: ({ $props, $state, $queries, $ctx }) => false,
+
+        refName: "form",
+        onMutate: generateOnMutateForSpec("isSubmitting", FormWrapper_Helpers)
+      },
+      {
+        path: "modal6.open",
+        type: "private",
+        variableType: "boolean",
+        initFunc: ({ $props, $state, $queries, $ctx }) => false
+      },
+      {
+        path: "variable",
+        type: "private",
+        variableType: "array",
+        initFunc: ({ $props, $state, $queries, $ctx }) => []
+      },
+      {
+        path: "modal5.open",
+        type: "private",
+        variableType: "boolean",
+        initFunc: ({ $props, $state, $queries, $ctx }) => false
+      },
+      {
+        path: "altered",
+        type: "private",
+        variableType: "boolean",
+        initFunc: ({ $props, $state, $queries, $ctx }) => false
       }
     ],
     [$props, $ctx, $refs]
@@ -642,11 +690,15 @@ function PlasmicProperties__RenderFunc(props: {
     pageView: usePlasmicDataOp(() => {
       return {
         sourceId: "94DwF4GLwVL8D9jt9sN8Dy",
-        opId: "f16cb19b-e095-441b-b3c4-13bda4c16e8c",
+        opId: "106008e0-2c98-4262-bbb6-3c04716efa3e",
         userArgs: {
-          params: [$state.homeId.value]
+          params: [
+            $state.homeId.value,
+            $ctx.query.admin == "" ? false : $ctx.query.admin,
+            $ctx.query.preview == "true" ? "true" : $state.altered
+          ]
         },
-        cacheKey: `plasmic.$.f16cb19b-e095-441b-b3c4-13bda4c16e8c.$.`,
+        cacheKey: `plasmic.$.106008e0-2c98-4262-bbb6-3c04716efa3e.$.`,
         invalidatedKeys: null,
         roleId: null
       };
@@ -1224,6 +1276,21 @@ function PlasmicProperties__RenderFunc(props: {
                     </div>
                   </Stack__>
                 }
+                trigger={
+                  <Button
+                    className={classNames("__wab_instance", sty.button__jOm7E)}
+                  >
+                    <div
+                      className={classNames(
+                        projectcss.all,
+                        projectcss.__wab_text,
+                        sty.text___9P7M
+                      )}
+                    >
+                      {"Show dialog"}
+                    </div>
+                  </Button>
+                }
               />
             </div>
           </div>
@@ -1320,6 +1387,46 @@ function PlasmicProperties__RenderFunc(props: {
                             "Welcome to your Personalized Home Analytics Dashboard"
                           }
                         </div>
+                        <h1
+                          className={classNames(
+                            projectcss.all,
+                            projectcss.h1,
+                            projectcss.__wab_text,
+                            sty.h1___7ZAou
+                          )}
+                        >
+                          <React.Fragment>
+                            {(() => {
+                              try {
+                                return (
+                                  $queries.getProperty.data.find(
+                                    entry => entry.id == $state.homeId.value
+                                  ).address1 +
+                                  " " +
+                                  $queries.getProperty.data.find(
+                                    entry => entry.id == $state.homeId.value
+                                  ).city +
+                                  ", " +
+                                  $queries.getProperty.data.find(
+                                    entry => entry.id == $state.homeId.value
+                                  ).state +
+                                  " " +
+                                  $queries.getProperty.data.find(
+                                    entry => entry.id == $state.homeId.value
+                                  ).zipCode
+                                );
+                              } catch (e) {
+                                if (
+                                  e instanceof TypeError ||
+                                  e?.plasmicType === "PlasmicUndefinedDataError"
+                                ) {
+                                  return " ";
+                                }
+                                throw e;
+                              }
+                            })()}
+                          </React.Fragment>
+                        </h1>
                       </div>
                       <Stack__
                         as={"div"}
@@ -2161,6 +2268,160 @@ function PlasmicProperties__RenderFunc(props: {
                                                       "postgresUpdateById"
                                                     ];
                                                   }
+
+                                                  $steps["useIntegration"] =
+                                                    true
+                                                      ? (() => {
+                                                          const actionArgs = {
+                                                            dataOp: {
+                                                              sourceId:
+                                                                "33LCJKUUYeeeZEYXFqVtgQ",
+                                                              opId: "43cd731c-2198-4a80-bcfb-5e99d1d26c4e",
+                                                              userArgs: {
+                                                                variables: [
+                                                                  $queries
+                                                                    .getClient
+                                                                    .data[0].id,
+                                                                  $state.homeId
+                                                                    .value,
+                                                                  (() => {
+                                                                    const checkbox2 =
+                                                                      $state.checkbox2;
+                                                                    const keyValuePairs =
+                                                                      [
+                                                                        {
+                                                                          key: "open to receiving a cash offer",
+                                                                          value: 0
+                                                                        },
+                                                                        {
+                                                                          key: "willing to sell if price and timing is right",
+                                                                          value: 1
+                                                                        },
+                                                                        {
+                                                                          key: "looking to sell in 0-2 years",
+                                                                          value: 2
+                                                                        },
+                                                                        {
+                                                                          key: "looking to sell in 2+ years",
+                                                                          value: 3
+                                                                        },
+                                                                        {
+                                                                          key: $state
+                                                                            .input2
+                                                                            .value,
+                                                                          value: 4
+                                                                        }
+                                                                      ];
+
+                                                                    function listTrues(
+                                                                      checkboxArray
+                                                                    ) {
+                                                                      const checkedItems =
+                                                                        checkboxArray
+                                                                          .map(
+                                                                            (
+                                                                              item,
+                                                                              index
+                                                                            ) =>
+                                                                              item.checked
+                                                                                ? keyValuePairs[
+                                                                                    index
+                                                                                  ]
+                                                                                    .key
+                                                                                : null
+                                                                          )
+                                                                          .filter(
+                                                                            Boolean
+                                                                          );
+                                                                      if (
+                                                                        checkedItems.length ===
+                                                                        0
+                                                                      ) {
+                                                                        return "No items checked";
+                                                                      } else if (
+                                                                        checkedItems.length ===
+                                                                        1
+                                                                      ) {
+                                                                        return checkedItems[0];
+                                                                      } else if (
+                                                                        checkedItems.length ===
+                                                                        2
+                                                                      ) {
+                                                                        return checkedItems.join(
+                                                                          " and "
+                                                                        );
+                                                                      } else {
+                                                                        const lastItem =
+                                                                          checkedItems.pop();
+                                                                        return `${checkedItems.join(
+                                                                          ", "
+                                                                        )}, and ${lastItem}`;
+                                                                      }
+                                                                    }
+                                                                    const result =
+                                                                      listTrues(
+                                                                        checkbox2
+                                                                      );
+                                                                    return (
+                                                                      "Home Status changed to: " +
+                                                                      result +
+                                                                      "."
+                                                                    );
+                                                                  })()
+                                                                ]
+                                                              },
+                                                              cacheKey: null,
+                                                              invalidatedKeys:
+                                                                [],
+                                                              roleId: null
+                                                            }
+                                                          };
+                                                          return (async ({
+                                                            dataOp,
+                                                            continueOnError
+                                                          }) => {
+                                                            try {
+                                                              const response =
+                                                                await executePlasmicDataOp(
+                                                                  dataOp,
+                                                                  {
+                                                                    userAuthToken:
+                                                                      dataSourcesCtx?.userAuthToken,
+                                                                    user: dataSourcesCtx?.user
+                                                                  }
+                                                                );
+                                                              await plasmicInvalidate(
+                                                                dataOp.invalidatedKeys
+                                                              );
+                                                              return response;
+                                                            } catch (e) {
+                                                              if (
+                                                                !continueOnError
+                                                              ) {
+                                                                throw e;
+                                                              }
+                                                              return e;
+                                                            }
+                                                          })?.apply(null, [
+                                                            actionArgs
+                                                          ]);
+                                                        })()
+                                                      : undefined;
+                                                  if (
+                                                    $steps["useIntegration"] !=
+                                                      null &&
+                                                    typeof $steps[
+                                                      "useIntegration"
+                                                    ] === "object" &&
+                                                    typeof $steps[
+                                                      "useIntegration"
+                                                    ].then === "function"
+                                                  ) {
+                                                    $steps["useIntegration"] =
+                                                      await $steps[
+                                                        "useIntegration"
+                                                      ];
+                                                  }
                                                 }).apply(null, eventArgs);
                                               }
                                             };
@@ -2357,8 +2618,12 @@ function PlasmicProperties__RenderFunc(props: {
                                                   label: 3
                                                 },
                                                 {
-                                                  key: "Other",
+                                                  key: "Refinancing",
                                                   label: 4
+                                                },
+                                                {
+                                                  key: "Other",
+                                                  label: 5
                                                 }
                                               ];
 
@@ -2519,6 +2784,158 @@ function PlasmicProperties__RenderFunc(props: {
                                                     ] = await $steps[
                                                       "postgresUpdateById"
                                                     ];
+                                                  }
+
+                                                  $steps["postgresCreate"] =
+                                                    true
+                                                      ? (() => {
+                                                          const actionArgs = {
+                                                            dataOp: {
+                                                              sourceId:
+                                                                "33LCJKUUYeeeZEYXFqVtgQ",
+                                                              opId: "43cd731c-2198-4a80-bcfb-5e99d1d26c4e",
+                                                              userArgs: {
+                                                                variables: [
+                                                                  $queries
+                                                                    .getClient
+                                                                    .data[0].id,
+                                                                  $state.homeId
+                                                                    .value,
+                                                                  (() => {
+                                                                    const checkbox2 =
+                                                                      $state.checkbox3;
+                                                                    const keyValuePairs =
+                                                                      [
+                                                                        {
+                                                                          key: "upgrading to a larger home",
+                                                                          label: 0
+                                                                        },
+                                                                        {
+                                                                          key: "downsizing to a smaller home",
+                                                                          label: 1
+                                                                        },
+                                                                        {
+                                                                          key: "purchasing an investment property",
+                                                                          label: 2
+                                                                        },
+                                                                        {
+                                                                          key: "purchasing another property",
+                                                                          label: 3
+                                                                        },
+                                                                        {
+                                                                          key: $state.input2,
+                                                                          label: 4
+                                                                        }
+                                                                      ];
+
+                                                                    function listTrues(
+                                                                      checkboxArray
+                                                                    ) {
+                                                                      const checkedItems =
+                                                                        checkboxArray
+                                                                          .map(
+                                                                            (
+                                                                              item,
+                                                                              index
+                                                                            ) =>
+                                                                              item.checked
+                                                                                ? keyValuePairs[
+                                                                                    index
+                                                                                  ]
+                                                                                    .key
+                                                                                : null
+                                                                          )
+                                                                          .filter(
+                                                                            Boolean
+                                                                          );
+                                                                      if (
+                                                                        checkedItems.length ===
+                                                                        0
+                                                                      ) {
+                                                                        return "No items checked";
+                                                                      } else if (
+                                                                        checkedItems.length ===
+                                                                        1
+                                                                      ) {
+                                                                        return checkedItems[0];
+                                                                      } else if (
+                                                                        checkedItems.length ===
+                                                                        2
+                                                                      ) {
+                                                                        return checkedItems.join(
+                                                                          " and "
+                                                                        );
+                                                                      } else {
+                                                                        const lastItem =
+                                                                          checkedItems.pop();
+                                                                        return `${checkedItems.join(
+                                                                          ", "
+                                                                        )}, and ${lastItem}`;
+                                                                      }
+                                                                    }
+                                                                    const result =
+                                                                      listTrues(
+                                                                        checkbox2
+                                                                      );
+                                                                    return (
+                                                                      "Next Move changed to: " +
+                                                                      result +
+                                                                      "."
+                                                                    );
+                                                                  })()
+                                                                ]
+                                                              },
+                                                              cacheKey: null,
+                                                              invalidatedKeys:
+                                                                [],
+                                                              roleId: null
+                                                            }
+                                                          };
+                                                          return (async ({
+                                                            dataOp,
+                                                            continueOnError
+                                                          }) => {
+                                                            try {
+                                                              const response =
+                                                                await executePlasmicDataOp(
+                                                                  dataOp,
+                                                                  {
+                                                                    userAuthToken:
+                                                                      dataSourcesCtx?.userAuthToken,
+                                                                    user: dataSourcesCtx?.user
+                                                                  }
+                                                                );
+                                                              await plasmicInvalidate(
+                                                                dataOp.invalidatedKeys
+                                                              );
+                                                              return response;
+                                                            } catch (e) {
+                                                              if (
+                                                                !continueOnError
+                                                              ) {
+                                                                throw e;
+                                                              }
+                                                              return e;
+                                                            }
+                                                          })?.apply(null, [
+                                                            actionArgs
+                                                          ]);
+                                                        })()
+                                                      : undefined;
+                                                  if (
+                                                    $steps["postgresCreate"] !=
+                                                      null &&
+                                                    typeof $steps[
+                                                      "postgresCreate"
+                                                    ] === "object" &&
+                                                    typeof $steps[
+                                                      "postgresCreate"
+                                                    ].then === "function"
+                                                  ) {
+                                                    $steps["postgresCreate"] =
+                                                      await $steps[
+                                                        "postgresCreate"
+                                                      ];
                                                   }
                                                 }).apply(null, eventArgs);
                                               }
@@ -2724,6 +3141,65 @@ function PlasmicProperties__RenderFunc(props: {
                                         ) {
                                           $steps["updateModal3Open"] =
                                             await $steps["updateModal3Open"];
+                                        }
+
+                                        $steps["postgresUpdateById"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                dataOp: {
+                                                  sourceId:
+                                                    "33LCJKUUYeeeZEYXFqVtgQ",
+                                                  opId: "46848770-76de-473b-b2f5-13667654d5e2",
+                                                  userArgs: {
+                                                    keys: [$state.homeId.value],
+                                                    variables: [
+                                                      $state.input2.value,
+                                                      $state.input4.value
+                                                    ]
+                                                  },
+                                                  cacheKey: null,
+                                                  invalidatedKeys: [],
+                                                  roleId: null
+                                                }
+                                              };
+                                              return (async ({
+                                                dataOp,
+                                                continueOnError
+                                              }) => {
+                                                try {
+                                                  const response =
+                                                    await executePlasmicDataOp(
+                                                      dataOp,
+                                                      {
+                                                        userAuthToken:
+                                                          dataSourcesCtx?.userAuthToken,
+                                                        user: dataSourcesCtx?.user
+                                                      }
+                                                    );
+                                                  await plasmicInvalidate(
+                                                    dataOp.invalidatedKeys
+                                                  );
+                                                  return response;
+                                                } catch (e) {
+                                                  if (!continueOnError) {
+                                                    throw e;
+                                                  }
+                                                  return e;
+                                                }
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["postgresUpdateById"] !=
+                                            null &&
+                                          typeof $steps[
+                                            "postgresUpdateById"
+                                          ] === "object" &&
+                                          typeof $steps["postgresUpdateById"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["postgresUpdateById"] =
+                                            await $steps["postgresUpdateById"];
                                         }
                                       }}
                                     >
@@ -2962,11 +3438,9 @@ function PlasmicProperties__RenderFunc(props: {
                                   width={"1000"}
                                 >
                                   <Iframe
-                                    data-plasmic-name={"iframe"}
-                                    data-plasmic-override={overrides.iframe}
                                     className={classNames(
                                       "__wab_instance",
-                                      sty.iframe
+                                      sty.iframe__trXl7
                                     )}
                                     preview={true}
                                     src={(() => {
@@ -3014,6 +3488,1461 @@ function PlasmicProperties__RenderFunc(props: {
                                 projectcss.all,
                                 projectcss.__wab_text,
                                 sty.text__upb0W
+                              )}
+                            >
+                              {"Your Real Estate Agent"}
+                            </div>
+                          </div>
+                        </Stack__>
+                      </Stack__>
+                      <Stack__
+                        as={"div"}
+                        hasGap={true}
+                        className={classNames(
+                          projectcss.all,
+                          sty.columns__me9E5
+                        )}
+                      >
+                        <Stack__
+                          as={"div"}
+                          hasGap={true}
+                          className={classNames(
+                            projectcss.all,
+                            sty.column__yrsPd
+                          )}
+                        >
+                          <div
+                            data-plasmic-name={"agentBlock2"}
+                            data-plasmic-override={overrides.agentBlock2}
+                            className={classNames(
+                              projectcss.all,
+                              sty.agentBlock2
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__uliUi
+                              )}
+                            >
+                              {"Your Real Estate Agent"}
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__gZ61M
+                              )}
+                            >
+                              <PlasmicImg__
+                                alt={""}
+                                className={classNames(sty.img__ic8Jy)}
+                                displayHeight={"90px"}
+                                displayMaxHeight={"none"}
+                                displayMaxWidth={"100%"}
+                                displayMinHeight={"0"}
+                                displayMinWidth={"0"}
+                                displayWidth={"90px"}
+                                loading={"lazy"}
+                                src={(() => {
+                                  try {
+                                    return $queries.getEntity.data[0].photo;
+                                  } catch (e) {
+                                    if (
+                                      e instanceof TypeError ||
+                                      e?.plasmicType ===
+                                        "PlasmicUndefinedDataError"
+                                    ) {
+                                      return {
+                                        src: "/plasmic/real_estate_dashboard/images/image.png",
+                                        fullWidth: 100,
+                                        fullHeight: 100,
+                                        aspectRatio: undefined
+                                      };
+                                    }
+                                    throw e;
+                                  }
+                                })()}
+                              />
+
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__b3YJ
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__lRwHt
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__kaaii
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return (
+                                            $queries.getEntity.data[0]
+                                              .firstName +
+                                            " " +
+                                            $queries.getEntity.data[0].lastName
+                                          );
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return "Real Estate Agent";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </div>
+                                  <AntdButton
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.button__g4B0E
+                                    )}
+                                    onClick={async () => {
+                                      const $steps = {};
+
+                                      $steps["updateModalOpen"] = true
+                                        ? (() => {
+                                            const actionArgs = {
+                                              variable: {
+                                                objRoot: $state,
+                                                variablePath: ["modal6", "open"]
+                                              },
+                                              operation: 0,
+                                              value: true
+                                            };
+                                            return (({
+                                              variable,
+                                              value,
+                                              startIndex,
+                                              deleteCount
+                                            }) => {
+                                              if (!variable) {
+                                                return;
+                                              }
+                                              const { objRoot, variablePath } =
+                                                variable;
+
+                                              $stateSet(
+                                                objRoot,
+                                                variablePath,
+                                                value
+                                              );
+                                              return value;
+                                            })?.apply(null, [actionArgs]);
+                                          })()
+                                        : undefined;
+                                      if (
+                                        $steps["updateModalOpen"] != null &&
+                                        typeof $steps["updateModalOpen"] ===
+                                          "object" &&
+                                        typeof $steps["updateModalOpen"]
+                                          .then === "function"
+                                      ) {
+                                        $steps["updateModalOpen"] =
+                                          await $steps["updateModalOpen"];
+                                      }
+                                    }}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.freeBox__gzBjY
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__v1YqI
+                                        )}
+                                      >
+                                        {"Contact Me"}
+                                      </div>
+                                    </div>
+                                  </AntdButton>
+                                </div>
+                                <AntdModal
+                                  data-plasmic-name={"modal6"}
+                                  data-plasmic-override={overrides.modal6}
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.modal6
+                                  )}
+                                  defaultStylesClassName={classNames(
+                                    projectcss.root_reset,
+                                    projectcss.plasmic_default_styles,
+                                    projectcss.plasmic_mixins,
+                                    projectcss.plasmic_tokens,
+                                    plasmic_antd_5_hostless_css.plasmic_tokens,
+                                    plasmic_plasmic_rich_components_css.plasmic_tokens
+                                  )}
+                                  hideFooter={true}
+                                  modalScopeClassName={sty["modal6__modal"]}
+                                  onOpenChange={generateStateOnChangeProp(
+                                    $state,
+                                    ["modal6", "open"]
+                                  )}
+                                  open={generateStateValueProp($state, [
+                                    "modal6",
+                                    "open"
+                                  ])}
+                                  title={" "}
+                                  trigger={
+                                    <AntdButton
+                                      className={classNames(
+                                        "__wab_instance",
+                                        sty.button__qPcfi
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__aFzby
+                                        )}
+                                      >
+                                        {"Show modal"}
+                                      </div>
+                                    </AntdButton>
+                                  }
+                                  width={"1000"}
+                                >
+                                  <Iframe
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.iframe__vSBbX
+                                    )}
+                                    preview={true}
+                                    src={(() => {
+                                      try {
+                                        return (() => {
+                                          const clientId =
+                                            $queries.getProperty.data.find(
+                                              entry =>
+                                                entry.id == $ctx.params.id
+                                            ).clientId;
+                                          const client =
+                                            $queries.getClient.data.find(
+                                              entry => entry.id == clientId
+                                            );
+                                          return (
+                                            $queries.getEntity.data[0]
+                                              .calendar_link +
+                                            "?email=" +
+                                            client.email +
+                                            "&phone=" +
+                                            client.phone +
+                                            "&first_name=" +
+                                            client.firstName +
+                                            "&last_name=" +
+                                            client.lastName
+                                          );
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return undefined;
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  />
+                                </AntdModal>
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text___3KRgh
+                              )}
+                            >
+                              {"Your Real Estate Agent"}
+                            </div>
+                          </div>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__jlXqg
+                            )}
+                          >
+                            {(() => {
+                              try {
+                                return true;
+                              } catch (e) {
+                                if (
+                                  e instanceof TypeError ||
+                                  e?.plasmicType === "PlasmicUndefinedDataError"
+                                ) {
+                                  return true;
+                                }
+                                throw e;
+                              }
+                            })() ? (
+                              <PlasmicImg__
+                                alt={""}
+                                className={classNames(sty.img__r1Bwy)}
+                                displayHeight={"182px"}
+                                displayMaxHeight={"none"}
+                                displayMaxWidth={"100%"}
+                                displayMinHeight={"0"}
+                                displayMinWidth={"0"}
+                                displayWidth={"100%"}
+                                loading={"lazy"}
+                                src={(() => {
+                                  try {
+                                    return $queries.getProperty.data.find(
+                                      entry => entry.id == $state.homeId.value
+                                    ).streetPhoto;
+                                  } catch (e) {
+                                    if (
+                                      e instanceof TypeError ||
+                                      e?.plasmicType ===
+                                        "PlasmicUndefinedDataError"
+                                    ) {
+                                      return {
+                                        src: "/plasmic/real_estate_dashboard/images/rectangle66.png",
+                                        fullWidth: 768,
+                                        fullHeight: 576,
+                                        aspectRatio: undefined
+                                      };
+                                    }
+                                    throw e;
+                                  }
+                                })()}
+                              />
+                            ) : null}
+                          </div>
+                        </Stack__>
+                        <div
+                          className={classNames(
+                            projectcss.all,
+                            sty.column__lWlKq
+                          )}
+                        >
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__tzpJx
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__blmS
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox___4EXwG
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__eUazJ
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text___4QZn
+                                    )}
+                                  >
+                                    {
+                                      "The current status of this property is you are:"
+                                    }
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__mpuau
+                                    )}
+                                  >
+                                    {(_par =>
+                                      !_par
+                                        ? []
+                                        : Array.isArray(_par)
+                                        ? _par
+                                        : [_par])(
+                                      (() => {
+                                        try {
+                                          return (() => {
+                                            const checkbox2 = $state.checkbox2;
+                                            const keyValuePairs = [
+                                              {
+                                                label:
+                                                  "Open to Receiving a Cash Offer",
+                                                value: 0
+                                              },
+                                              {
+                                                label:
+                                                  "Would Sell if Price and Timing is right",
+                                                value: 1
+                                              },
+                                              {
+                                                label:
+                                                  "Looking to Sell in 0-2 years",
+                                                value: 2
+                                              },
+                                              {
+                                                label:
+                                                  "Looking to Sell in 2+ years",
+                                                value: 3
+                                              },
+                                              {
+                                                label:
+                                                  $state.input2.value == "" ||
+                                                  null
+                                                    ? "Other"
+                                                    : $state.input2.value,
+                                                value: 4
+                                              }
+                                            ];
+
+                                            function listCheckedItems(
+                                              checkboxArray
+                                            ) {
+                                              return checkboxArray
+                                                .map((item, index) => {
+                                                  if (
+                                                    index < keyValuePairs.length
+                                                  ) {
+                                                    return {
+                                                      label:
+                                                        keyValuePairs[index]
+                                                          .label,
+                                                      value:
+                                                        keyValuePairs[index]
+                                                          .value,
+                                                      checked: item.checked
+                                                    };
+                                                  }
+                                                })
+                                                .filter(Boolean);
+                                            }
+                                            const result =
+                                              listCheckedItems(checkbox2);
+                                            return result;
+                                          })();
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return [];
+                                          }
+                                          throw e;
+                                        }
+                                      })()
+                                    ).map(
+                                      (__plasmic_item_0, __plasmic_idx_0) => {
+                                        const currentItem = __plasmic_item_0;
+                                        const currentIndex = __plasmic_idx_0;
+                                        return (
+                                          <div
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.freeBox__v3GJe
+                                            )}
+                                            key={currentIndex}
+                                            onClick={async event => {
+                                              const $steps = {};
+
+                                              $steps["updateCheckbox2"] = true
+                                                ? (() => {
+                                                    const actionArgs = {
+                                                      variable: {
+                                                        objRoot: $state,
+                                                        variablePath: [
+                                                          "checkbox2"
+                                                        ]
+                                                      },
+                                                      operation: 0,
+                                                      value: (() => {
+                                                        function toggleCheckbox() {
+                                                          if (
+                                                            $state &&
+                                                            $state.checkbox2 &&
+                                                            typeof currentIndex ===
+                                                              "number" &&
+                                                            $state.checkbox2[
+                                                              currentIndex
+                                                            ]
+                                                          ) {
+                                                            $state.checkbox2[
+                                                              currentIndex
+                                                            ].checked =
+                                                              !$state.checkbox2[
+                                                                currentIndex
+                                                              ].checked;
+                                                            return $state.checkbox2;
+                                                          } else {
+                                                            throw new Error(
+                                                              "Invalid index or $state.checkbox2 is undefined"
+                                                            );
+                                                          }
+                                                        }
+                                                        let updatedArray =
+                                                          toggleCheckbox();
+                                                        return updatedArray;
+                                                      })()
+                                                    };
+                                                    return (({
+                                                      variable,
+                                                      value,
+                                                      startIndex,
+                                                      deleteCount
+                                                    }) => {
+                                                      if (!variable) {
+                                                        return;
+                                                      }
+                                                      const {
+                                                        objRoot,
+                                                        variablePath
+                                                      } = variable;
+
+                                                      $stateSet(
+                                                        objRoot,
+                                                        variablePath,
+                                                        value
+                                                      );
+                                                      return value;
+                                                    })?.apply(null, [
+                                                      actionArgs
+                                                    ]);
+                                                  })()
+                                                : undefined;
+                                              if (
+                                                $steps["updateCheckbox2"] !=
+                                                  null &&
+                                                typeof $steps[
+                                                  "updateCheckbox2"
+                                                ] === "object" &&
+                                                typeof $steps["updateCheckbox2"]
+                                                  .then === "function"
+                                              ) {
+                                                $steps["updateCheckbox2"] =
+                                                  await $steps[
+                                                    "updateCheckbox2"
+                                                  ];
+                                              }
+
+                                              $steps["useIntegration"] = true
+                                                ? (() => {
+                                                    const actionArgs = {
+                                                      dataOp: {
+                                                        sourceId:
+                                                          "33LCJKUUYeeeZEYXFqVtgQ",
+                                                        opId: "cadebcda-bfb4-43a5-a9c4-d63b4d39bf90",
+                                                        userArgs: {
+                                                          keys: [
+                                                            $state.homeId.value
+                                                          ],
+                                                          variables: [
+                                                            (() => {
+                                                              const result =
+                                                                $state.checkbox2
+                                                                  .map(
+                                                                    (
+                                                                      item,
+                                                                      index
+                                                                    ) =>
+                                                                      item.checked
+                                                                        ? index
+                                                                        : null
+                                                                  )
+                                                                  .filter(
+                                                                    index =>
+                                                                      index !==
+                                                                      null
+                                                                  );
+                                                              return result;
+                                                            })()
+                                                          ]
+                                                        },
+                                                        cacheKey: null,
+                                                        invalidatedKeys: [],
+                                                        roleId: null
+                                                      }
+                                                    };
+                                                    return (async ({
+                                                      dataOp,
+                                                      continueOnError
+                                                    }) => {
+                                                      try {
+                                                        const response =
+                                                          await executePlasmicDataOp(
+                                                            dataOp,
+                                                            {
+                                                              userAuthToken:
+                                                                dataSourcesCtx?.userAuthToken,
+                                                              user: dataSourcesCtx?.user
+                                                            }
+                                                          );
+                                                        await plasmicInvalidate(
+                                                          dataOp.invalidatedKeys
+                                                        );
+                                                        return response;
+                                                      } catch (e) {
+                                                        if (!continueOnError) {
+                                                          throw e;
+                                                        }
+                                                        return e;
+                                                      }
+                                                    })?.apply(null, [
+                                                      actionArgs
+                                                    ]);
+                                                  })()
+                                                : undefined;
+                                              if (
+                                                $steps["useIntegration"] !=
+                                                  null &&
+                                                typeof $steps[
+                                                  "useIntegration"
+                                                ] === "object" &&
+                                                typeof $steps["useIntegration"]
+                                                  .then === "function"
+                                              ) {
+                                                $steps["useIntegration"] =
+                                                  await $steps[
+                                                    "useIntegration"
+                                                  ];
+                                              }
+                                            }}
+                                          >
+                                            {(() => {
+                                              try {
+                                                return !currentItem.checked;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <div
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  projectcss.__wab_text,
+                                                  sty.text__p6915
+                                                )}
+                                              >
+                                                <React.Fragment>
+                                                  {(() => {
+                                                    try {
+                                                      return currentItem.label;
+                                                    } catch (e) {
+                                                      if (
+                                                        e instanceof
+                                                          TypeError ||
+                                                        e?.plasmicType ===
+                                                          "PlasmicUndefinedDataError"
+                                                      ) {
+                                                        return "";
+                                                      }
+                                                      throw e;
+                                                    }
+                                                  })()}
+                                                </React.Fragment>
+                                              </div>
+                                            ) : null}
+                                            {(() => {
+                                              try {
+                                                return currentItem.checked;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <div
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  projectcss.__wab_text,
+                                                  sty.text__uq5Nv
+                                                )}
+                                              >
+                                                <React.Fragment>
+                                                  {(() => {
+                                                    try {
+                                                      return currentItem.label;
+                                                    } catch (e) {
+                                                      if (
+                                                        e instanceof
+                                                          TypeError ||
+                                                        e?.plasmicType ===
+                                                          "PlasmicUndefinedDataError"
+                                                      ) {
+                                                        return "";
+                                                      }
+                                                      throw e;
+                                                    }
+                                                  })()}
+                                                </React.Fragment>
+                                              </div>
+                                            ) : null}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__uTigw
+                                    )}
+                                  >
+                                    {"Your next Real Estate move is:"}
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox___36CG7
+                                    )}
+                                  >
+                                    {(_par =>
+                                      !_par
+                                        ? []
+                                        : Array.isArray(_par)
+                                        ? _par
+                                        : [_par])(
+                                      (() => {
+                                        try {
+                                          return (() => {
+                                            const checkbox2 = $state.checkbox3;
+                                            const keyValuePairs = [
+                                              {
+                                                label:
+                                                  "Upgrading to a Larger Home",
+                                                value: 0
+                                              },
+                                              {
+                                                label:
+                                                  "Downsizing to a Smaller Home",
+                                                value: 1
+                                              },
+                                              {
+                                                label:
+                                                  "Purchasing an Investment",
+                                                value: 2
+                                              },
+                                              {
+                                                label:
+                                                  "Purchasing Another Property",
+                                                value: 3
+                                              },
+                                              {
+                                                label: "Refinancing",
+                                                value: 4
+                                              },
+                                              {
+                                                label:
+                                                  $state.input2.value == "" ||
+                                                  null
+                                                    ? "Other"
+                                                    : $state.input2.value,
+                                                value: 5
+                                              }
+                                            ];
+
+                                            function listCheckedItems(
+                                              checkboxArray
+                                            ) {
+                                              return checkboxArray.map(
+                                                (item, index) => ({
+                                                  label:
+                                                    keyValuePairs[index].label,
+                                                  value:
+                                                    keyValuePairs[index].value,
+                                                  checked: item.checked
+                                                })
+                                              );
+                                            }
+                                            const result =
+                                              listCheckedItems(checkbox2);
+                                            return result;
+                                          })();
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return [];
+                                          }
+                                          throw e;
+                                        }
+                                      })()
+                                    ).map(
+                                      (__plasmic_item_0, __plasmic_idx_0) => {
+                                        const currentItem = __plasmic_item_0;
+                                        const currentIndex = __plasmic_idx_0;
+                                        return (
+                                          <div
+                                            className={classNames(
+                                              projectcss.all,
+                                              sty.freeBox___6FbMz
+                                            )}
+                                            key={currentIndex}
+                                            onClick={async event => {
+                                              const $steps = {};
+
+                                              $steps["updateCheckbox3"] = true
+                                                ? (() => {
+                                                    const actionArgs = {
+                                                      variable: {
+                                                        objRoot: $state,
+                                                        variablePath: [
+                                                          "checkbox3"
+                                                        ]
+                                                      },
+                                                      operation: 0,
+                                                      value: (() => {
+                                                        function toggleCheckbox() {
+                                                          if (
+                                                            $state &&
+                                                            $state.checkbox3 &&
+                                                            $state.checkbox3[
+                                                              currentIndex
+                                                            ] !== undefined
+                                                          ) {
+                                                            $state.checkbox3[
+                                                              currentIndex
+                                                            ].checked =
+                                                              !$state.checkbox3[
+                                                                currentIndex
+                                                              ].checked;
+                                                            return $state.checkbox3;
+                                                          } else {
+                                                            throw new Error(
+                                                              "Invalid index or $state.checkbox3 is undefined"
+                                                            );
+                                                          }
+                                                        }
+                                                        let updatedArray =
+                                                          toggleCheckbox();
+                                                        return updatedArray;
+                                                      })()
+                                                    };
+                                                    return (({
+                                                      variable,
+                                                      value,
+                                                      startIndex,
+                                                      deleteCount
+                                                    }) => {
+                                                      if (!variable) {
+                                                        return;
+                                                      }
+                                                      const {
+                                                        objRoot,
+                                                        variablePath
+                                                      } = variable;
+
+                                                      $stateSet(
+                                                        objRoot,
+                                                        variablePath,
+                                                        value
+                                                      );
+                                                      return value;
+                                                    })?.apply(null, [
+                                                      actionArgs
+                                                    ]);
+                                                  })()
+                                                : undefined;
+                                              if (
+                                                $steps["updateCheckbox3"] !=
+                                                  null &&
+                                                typeof $steps[
+                                                  "updateCheckbox3"
+                                                ] === "object" &&
+                                                typeof $steps["updateCheckbox3"]
+                                                  .then === "function"
+                                              ) {
+                                                $steps["updateCheckbox3"] =
+                                                  await $steps[
+                                                    "updateCheckbox3"
+                                                  ];
+                                              }
+
+                                              $steps["postgresUpdateById"] =
+                                                true
+                                                  ? (() => {
+                                                      const actionArgs = {
+                                                        dataOp: {
+                                                          sourceId:
+                                                            "33LCJKUUYeeeZEYXFqVtgQ",
+                                                          opId: "3974f3f8-85b2-4eab-bdd4-402a4fb8e4da",
+                                                          userArgs: {
+                                                            keys: [
+                                                              $state.homeId
+                                                                .value
+                                                            ],
+                                                            variables: [
+                                                              (() => {
+                                                                const result =
+                                                                  $state.checkbox3
+                                                                    .map(
+                                                                      (
+                                                                        item,
+                                                                        index
+                                                                      ) =>
+                                                                        item.checked
+                                                                          ? index
+                                                                          : null
+                                                                    )
+                                                                    .filter(
+                                                                      index =>
+                                                                        index !==
+                                                                        null
+                                                                    );
+                                                                return result;
+                                                              })()
+                                                            ]
+                                                          },
+                                                          cacheKey: null,
+                                                          invalidatedKeys: [],
+                                                          roleId: null
+                                                        }
+                                                      };
+                                                      return (async ({
+                                                        dataOp,
+                                                        continueOnError
+                                                      }) => {
+                                                        try {
+                                                          const response =
+                                                            await executePlasmicDataOp(
+                                                              dataOp,
+                                                              {
+                                                                userAuthToken:
+                                                                  dataSourcesCtx?.userAuthToken,
+                                                                user: dataSourcesCtx?.user
+                                                              }
+                                                            );
+                                                          await plasmicInvalidate(
+                                                            dataOp.invalidatedKeys
+                                                          );
+                                                          return response;
+                                                        } catch (e) {
+                                                          if (
+                                                            !continueOnError
+                                                          ) {
+                                                            throw e;
+                                                          }
+                                                          return e;
+                                                        }
+                                                      })?.apply(null, [
+                                                        actionArgs
+                                                      ]);
+                                                    })()
+                                                  : undefined;
+                                              if (
+                                                $steps["postgresUpdateById"] !=
+                                                  null &&
+                                                typeof $steps[
+                                                  "postgresUpdateById"
+                                                ] === "object" &&
+                                                typeof $steps[
+                                                  "postgresUpdateById"
+                                                ].then === "function"
+                                              ) {
+                                                $steps["postgresUpdateById"] =
+                                                  await $steps[
+                                                    "postgresUpdateById"
+                                                  ];
+                                              }
+                                            }}
+                                          >
+                                            {(() => {
+                                              try {
+                                                return !currentItem.checked;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <div
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  projectcss.__wab_text,
+                                                  sty.text__xaNG
+                                                )}
+                                              >
+                                                <React.Fragment>
+                                                  {(() => {
+                                                    try {
+                                                      return currentItem.label;
+                                                    } catch (e) {
+                                                      if (
+                                                        e instanceof
+                                                          TypeError ||
+                                                        e?.plasmicType ===
+                                                          "PlasmicUndefinedDataError"
+                                                      ) {
+                                                        return "";
+                                                      }
+                                                      throw e;
+                                                    }
+                                                  })()}
+                                                </React.Fragment>
+                                              </div>
+                                            ) : null}
+                                            {(() => {
+                                              try {
+                                                return currentItem.checked;
+                                              } catch (e) {
+                                                if (
+                                                  e instanceof TypeError ||
+                                                  e?.plasmicType ===
+                                                    "PlasmicUndefinedDataError"
+                                                ) {
+                                                  return true;
+                                                }
+                                                throw e;
+                                              }
+                                            })() ? (
+                                              <div
+                                                className={classNames(
+                                                  projectcss.all,
+                                                  projectcss.__wab_text,
+                                                  sty.text__j7Cin
+                                                )}
+                                              >
+                                                <React.Fragment>
+                                                  {(() => {
+                                                    try {
+                                                      return currentItem.label;
+                                                    } catch (e) {
+                                                      if (
+                                                        e instanceof
+                                                          TypeError ||
+                                                        e?.plasmicType ===
+                                                          "PlasmicUndefinedDataError"
+                                                      ) {
+                                                        return "";
+                                                      }
+                                                      throw e;
+                                                    }
+                                                  })()}
+                                                </React.Fragment>
+                                              </div>
+                                            ) : null}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <Stack__
+                          as={"div"}
+                          hasGap={true}
+                          className={classNames(
+                            projectcss.all,
+                            sty.column___2B31R
+                          )}
+                        >
+                          <div
+                            data-plasmic-name={"agentBlock3"}
+                            data-plasmic-override={overrides.agentBlock3}
+                            className={classNames(
+                              projectcss.all,
+                              sty.agentBlock3
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__w0Dn
+                              )}
+                            >
+                              {"Your Real Estate Agent"}
+                            </div>
+                            <PlasmicImg__
+                              alt={""}
+                              className={classNames(sty.img__esSvl)}
+                              displayHeight={"90px"}
+                              displayMaxHeight={"none"}
+                              displayMaxWidth={"100%"}
+                              displayMinHeight={"0"}
+                              displayMinWidth={"0"}
+                              displayWidth={"90px"}
+                              loading={"lazy"}
+                              src={(() => {
+                                try {
+                                  return $queries.getEntity.data[0].photo;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return {
+                                      src: "/plasmic/real_estate_dashboard/images/image.png",
+                                      fullWidth: 100,
+                                      fullHeight: 100,
+                                      aspectRatio: undefined
+                                    };
+                                  }
+                                  throw e;
+                                }
+                              })()}
+                            />
+
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__nmNye
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__fzeOs
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox___0FzzX
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__hQNkX
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return (
+                                            $queries.getEntity.data[0]
+                                              .firstName +
+                                            " " +
+                                            $queries.getEntity.data[0].lastName
+                                          );
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return "Agent";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </div>
+                                  <AntdButton
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.button___3NqvF
+                                    )}
+                                    onClick={async () => {
+                                      const $steps = {};
+
+                                      $steps["updateModalOpen"] = true
+                                        ? (() => {
+                                            const actionArgs = {
+                                              variable: {
+                                                objRoot: $state,
+                                                variablePath: ["modal5", "open"]
+                                              },
+                                              operation: 0,
+                                              value: true
+                                            };
+                                            return (({
+                                              variable,
+                                              value,
+                                              startIndex,
+                                              deleteCount
+                                            }) => {
+                                              if (!variable) {
+                                                return;
+                                              }
+                                              const { objRoot, variablePath } =
+                                                variable;
+
+                                              $stateSet(
+                                                objRoot,
+                                                variablePath,
+                                                value
+                                              );
+                                              return value;
+                                            })?.apply(null, [actionArgs]);
+                                          })()
+                                        : undefined;
+                                      if (
+                                        $steps["updateModalOpen"] != null &&
+                                        typeof $steps["updateModalOpen"] ===
+                                          "object" &&
+                                        typeof $steps["updateModalOpen"]
+                                          .then === "function"
+                                      ) {
+                                        $steps["updateModalOpen"] =
+                                          await $steps["updateModalOpen"];
+                                      }
+
+                                      $steps["updateAltered"] = true
+                                        ? (() => {
+                                            const actionArgs = {
+                                              variable: {
+                                                objRoot: $state,
+                                                variablePath: ["altered"]
+                                              },
+                                              operation: 0,
+                                              value: true
+                                            };
+                                            return (({
+                                              variable,
+                                              value,
+                                              startIndex,
+                                              deleteCount
+                                            }) => {
+                                              if (!variable) {
+                                                return;
+                                              }
+                                              const { objRoot, variablePath } =
+                                                variable;
+
+                                              $stateSet(
+                                                objRoot,
+                                                variablePath,
+                                                value
+                                              );
+                                              return value;
+                                            })?.apply(null, [actionArgs]);
+                                          })()
+                                        : undefined;
+                                      if (
+                                        $steps["updateAltered"] != null &&
+                                        typeof $steps["updateAltered"] ===
+                                          "object" &&
+                                        typeof $steps["updateAltered"].then ===
+                                          "function"
+                                      ) {
+                                        $steps["updateAltered"] = await $steps[
+                                          "updateAltered"
+                                        ];
+                                      }
+
+                                      $steps["postgresCreate"] = true
+                                        ? (() => {
+                                            const actionArgs = {
+                                              dataOp: {
+                                                sourceId:
+                                                  "33LCJKUUYeeeZEYXFqVtgQ",
+                                                opId: "b1c20cf0-1fc7-4cd6-a602-a5e7e329058f",
+                                                userArgs: {
+                                                  variables: [
+                                                    $queries.getClient.data[0]
+                                                      .id,
+                                                    $state.homeId.value
+                                                  ]
+                                                },
+                                                cacheKey: null,
+                                                invalidatedKeys: [],
+                                                roleId: null
+                                              }
+                                            };
+                                            return (async ({
+                                              dataOp,
+                                              continueOnError
+                                            }) => {
+                                              try {
+                                                const response =
+                                                  await executePlasmicDataOp(
+                                                    dataOp,
+                                                    {
+                                                      userAuthToken:
+                                                        dataSourcesCtx?.userAuthToken,
+                                                      user: dataSourcesCtx?.user
+                                                    }
+                                                  );
+                                                await plasmicInvalidate(
+                                                  dataOp.invalidatedKeys
+                                                );
+                                                return response;
+                                              } catch (e) {
+                                                if (!continueOnError) {
+                                                  throw e;
+                                                }
+                                                return e;
+                                              }
+                                            })?.apply(null, [actionArgs]);
+                                          })()
+                                        : undefined;
+                                      if (
+                                        $steps["postgresCreate"] != null &&
+                                        typeof $steps["postgresCreate"] ===
+                                          "object" &&
+                                        typeof $steps["postgresCreate"].then ===
+                                          "function"
+                                      ) {
+                                        $steps["postgresCreate"] = await $steps[
+                                          "postgresCreate"
+                                        ];
+                                      }
+                                    }}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        sty.freeBox__jqkmR
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__mre2I
+                                        )}
+                                      >
+                                        {"Contact Me"}
+                                      </div>
+                                    </div>
+                                  </AntdButton>
+                                </div>
+                                <AntdModal
+                                  data-plasmic-name={"modal5"}
+                                  data-plasmic-override={overrides.modal5}
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.modal5
+                                  )}
+                                  defaultStylesClassName={classNames(
+                                    projectcss.root_reset,
+                                    projectcss.plasmic_default_styles,
+                                    projectcss.plasmic_mixins,
+                                    projectcss.plasmic_tokens,
+                                    plasmic_antd_5_hostless_css.plasmic_tokens,
+                                    plasmic_plasmic_rich_components_css.plasmic_tokens
+                                  )}
+                                  hideFooter={true}
+                                  modalScopeClassName={sty["modal5__modal"]}
+                                  onOpenChange={generateStateOnChangeProp(
+                                    $state,
+                                    ["modal5", "open"]
+                                  )}
+                                  open={generateStateValueProp($state, [
+                                    "modal5",
+                                    "open"
+                                  ])}
+                                  title={" "}
+                                  trigger={
+                                    <AntdButton
+                                      className={classNames(
+                                        "__wab_instance",
+                                        sty.button__ggjxd
+                                      )}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__yJzaX
+                                        )}
+                                      >
+                                        {"Show modal"}
+                                      </div>
+                                    </AntdButton>
+                                  }
+                                  width={"1000"}
+                                >
+                                  <Iframe
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.iframe__s9Uy4
+                                    )}
+                                    preview={true}
+                                    src={(() => {
+                                      try {
+                                        return (() => {
+                                          const clientId =
+                                            $queries.getProperty.data.find(
+                                              entry =>
+                                                entry.id == $ctx.params.id
+                                            ).clientId;
+                                          const client =
+                                            $queries.getClient.data.find(
+                                              entry => entry.id == clientId
+                                            );
+                                          return (
+                                            $queries.getEntity.data[0]
+                                              .calendar_link +
+                                            "?email=" +
+                                            client.email +
+                                            "&phone=" +
+                                            client.phone +
+                                            "&first_name=" +
+                                            client.firstName +
+                                            "&last_name=" +
+                                            client.lastName
+                                          );
+                                        })();
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return undefined;
+                                        }
+                                        throw e;
+                                      }
+                                    })()}
+                                  />
+                                </AntdModal>
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__umYB
                               )}
                             >
                               {"Your Real Estate Agent"}
@@ -3236,6 +5165,817 @@ function PlasmicProperties__RenderFunc(props: {
                                   </div>
                                 </div>
                               </AntdButton>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__sDl8E
+                              )}
+                            >
+                              <AntdModal
+                                data-plasmic-name={"modal4"}
+                                data-plasmic-override={overrides.modal4}
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.modal4
+                                )}
+                                defaultStylesClassName={classNames(
+                                  projectcss.root_reset,
+                                  projectcss.plasmic_default_styles,
+                                  projectcss.plasmic_mixins,
+                                  projectcss.plasmic_tokens,
+                                  plasmic_antd_5_hostless_css.plasmic_tokens,
+                                  plasmic_plasmic_rich_components_css.plasmic_tokens
+                                )}
+                                hideFooter={true}
+                                modalScopeClassName={sty["modal4__modal"]}
+                                onOpenChange={generateStateOnChangeProp(
+                                  $state,
+                                  ["modal4", "open"]
+                                )}
+                                open={generateStateValueProp($state, [
+                                  "modal4",
+                                  "open"
+                                ])}
+                                title={"Edit your Home Info"}
+                                trigger={
+                                  <AntdButton
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.button__uSwZm
+                                    )}
+                                  >
+                                    <div
+                                      className={classNames(
+                                        projectcss.all,
+                                        projectcss.__wab_text,
+                                        sty.text__kiSs2
+                                      )}
+                                    >
+                                      {"Edit Info"}
+                                    </div>
+                                  </AntdButton>
+                                }
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__hAdIp
+                                  )}
+                                >
+                                  {(() => {
+                                    const child$Props = {
+                                      className: classNames(
+                                        "__wab_instance",
+                                        sty.form
+                                      ),
+                                      colon: false,
+                                      data: {
+                                        sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
+                                        opId: "190cf431-5266-4cf5-9387-3a659455c039",
+                                        userArgs: {
+                                          filters: [$state.homeId.value]
+                                        },
+                                        cacheKey: `plasmic.$.${(() => {
+                                          try {
+                                            return "getOne";
+                                          } catch (e) {
+                                            if (
+                                              e instanceof TypeError ||
+                                              e?.plasmicType ===
+                                                "PlasmicUndefinedDataError"
+                                            ) {
+                                              return "";
+                                            }
+                                            throw e;
+                                          }
+                                        })()}.$.190cf431-5266-4cf5-9387-3a659455c039.$.`,
+                                        invalidatedKeys: null,
+                                        roleId: null
+                                      },
+                                      dataFormItems: (() => {
+                                        const __composite = [
+                                          {
+                                            key: "id",
+                                            inputType: "Number",
+                                            fieldId: "id",
+                                            label: "id",
+                                            name: "id",
+                                            initialValue: null,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "RoomsTotal",
+                                            inputType: "Number",
+                                            fieldId: "RoomsTotal",
+                                            label: null,
+                                            name: "RoomsTotal",
+                                            initialValue: null
+                                          },
+                                          {
+                                            key: "BathroomsTotal",
+                                            inputType: "Number",
+                                            fieldId: "BathroomsTotal",
+                                            label: null,
+                                            name: "BathroomsTotal",
+                                            initialValue: null
+                                          },
+                                          {
+                                            key: "year_built",
+                                            inputType: "Number",
+                                            fieldId: "year_built",
+                                            label: null,
+                                            name: "year_built",
+                                            initialValue: null
+                                          },
+                                          {
+                                            key: "BedroomsTotal",
+                                            inputType: "Number",
+                                            fieldId: "BedroomsTotal",
+                                            label: null,
+                                            name: "BedroomsTotal",
+                                            initialValue: null
+                                          },
+                                          {
+                                            key: "prop_status_other",
+                                            inputType: "Text",
+                                            fieldId: "prop_status_other",
+                                            label: "prop_status_other",
+                                            name: "prop_status_other",
+                                            initialValue: "",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "lotSize",
+                                            inputType: "Number",
+                                            fieldId: "lotSize",
+                                            label: null,
+                                            name: "lotSize",
+                                            initialValue: null
+                                          },
+                                          {
+                                            key: "stories",
+                                            inputType: "Number",
+                                            fieldId: "stories",
+                                            label: null,
+                                            name: "stories",
+                                            initialValue: null
+                                          },
+                                          {
+                                            key: "clientId",
+                                            inputType: "Number",
+                                            fieldId: "clientId",
+                                            label: "clientId",
+                                            name: "clientId",
+                                            initialValue: null,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "pricePerSqFoot",
+                                            inputType: "Number",
+                                            fieldId: "pricePerSqFoot",
+                                            label: "pricePerSqFoot",
+                                            name: "pricePerSqFoot",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "addressFull",
+                                            inputType: "Text",
+                                            fieldId: "addressFull",
+                                            label: "addressFull",
+                                            name: "addressFull",
+                                            initialValue:
+                                              "5401 W MAYFLOWER ST, WEST JORDAN, UT 84081",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "pageViews",
+                                            inputType: "Number",
+                                            fieldId: "pageViews",
+                                            label: "pageViews",
+                                            name: "pageViews",
+                                            initialValue: null,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "address1",
+                                            inputType: "Text",
+                                            fieldId: "address1",
+                                            label: "address1",
+                                            name: "address1",
+                                            initialValue:
+                                              "5401 Mayflower Street",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "created_at",
+                                            inputType: "Text",
+                                            fieldId: "created_at",
+                                            label: "created_at",
+                                            name: "created_at",
+                                            initialValue:
+                                              "2024-09-11T22:48:03.134Z",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "notif_2",
+                                            inputType: "Checkbox",
+                                            fieldId: "notif_2",
+                                            label: "notif_2",
+                                            name: "notif_2",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "propsubtype",
+                                            inputType: "Text",
+                                            fieldId: "propsubtype",
+                                            label: "propsubtype",
+                                            name: "propsubtype",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "propclass",
+                                            inputType: "Text",
+                                            fieldId: "propclass",
+                                            label: "propclass",
+                                            name: "propclass",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "neighborhood_code",
+                                            inputType: "Text",
+                                            fieldId: "neighborhood_code",
+                                            label: "neighborhood_code",
+                                            name: "neighborhood_code",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "ListingKeyNumeric",
+                                            inputType: "Number",
+                                            fieldId: "ListingKeyNumeric",
+                                            label: "ListingKeyNumeric",
+                                            name: "ListingKeyNumeric",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "done",
+                                            inputType: "Checkbox",
+                                            fieldId: "done",
+                                            label: "done",
+                                            name: "done",
+                                            initialValue: true,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "latitude",
+                                            inputType: "Number",
+                                            fieldId: "latitude",
+                                            label: "latitude",
+                                            name: "latitude",
+                                            initialValue: null,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "atommId",
+                                            inputType: "Number",
+                                            fieldId: "atommId",
+                                            label: "atommId",
+                                            name: "atommId",
+                                            initialValue: null,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "property_type",
+                                            inputType: "Text",
+                                            fieldId: "property_type",
+                                            label: "property_type",
+                                            name: "property_type",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "contactId",
+                                            inputType: "Text",
+                                            fieldId: "contactId",
+                                            label: "contactId",
+                                            name: "contactId",
+                                            initialValue:
+                                              "WkIxUxhQfUy9e7NKe0my",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "client_email",
+                                            inputType: "Text",
+                                            fieldId: "client_email",
+                                            label: "client_email",
+                                            name: "client_email",
+                                            initialValue:
+                                              "hpriehle+20@gmail.com",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "state",
+                                            inputType: "Text",
+                                            fieldId: "state",
+                                            label: "state",
+                                            name: "state",
+                                            initialValue: "UT",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "parcel_number",
+                                            inputType: "Text",
+                                            fieldId: "parcel_number",
+                                            label: "parcel_number",
+                                            name: "parcel_number",
+                                            initialValue: "26-01-155-006",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "notif_3",
+                                            inputType: "Checkbox",
+                                            fieldId: "notif_3",
+                                            label: "notif_3",
+                                            name: "notif_3",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "StreetType",
+                                            inputType: "Text",
+                                            fieldId: "StreetType",
+                                            label: "StreetType",
+                                            name: "StreetType",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "PreDir",
+                                            inputType: "Text",
+                                            fieldId: "PreDir",
+                                            label: "PreDir",
+                                            name: "PreDir",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "zipCode",
+                                            inputType: "Text",
+                                            fieldId: "zipCode",
+                                            label: "zipCode",
+                                            name: "zipCode",
+                                            initialValue: "84081",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "StreetName",
+                                            inputType: "Text",
+                                            fieldId: "StreetName",
+                                            label: "StreetName",
+                                            name: "StreetName",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "address2",
+                                            inputType: "Text",
+                                            fieldId: "address2",
+                                            label: "address2",
+                                            name: "address2",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "entityId",
+                                            inputType: "Number",
+                                            fieldId: "entityId",
+                                            label: "entityId",
+                                            name: "entityId",
+                                            initialValue: null,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "HouseNum",
+                                            inputType: "Number",
+                                            fieldId: "HouseNum",
+                                            label: "HouseNum",
+                                            name: "HouseNum",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "county",
+                                            inputType: "Text",
+                                            fieldId: "county",
+                                            label: "county",
+                                            name: "county",
+                                            initialValue: "Salt Lake",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "homeEstimate",
+                                            inputType: "Number",
+                                            fieldId: "homeEstimate",
+                                            label: "homeEstimate",
+                                            name: "homeEstimate",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "StreetDir",
+                                            inputType: "Text",
+                                            fieldId: "StreetDir",
+                                            label: "StreetDir",
+                                            name: "StreetDir",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "longitude",
+                                            inputType: "Number",
+                                            fieldId: "longitude",
+                                            label: "longitude",
+                                            name: "longitude",
+                                            initialValue: null,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "prop_next_move",
+                                            inputType: "Text",
+                                            fieldId: "prop_next_move",
+                                            label: "prop_next_move",
+                                            name: "prop_next_move",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "comp_map",
+                                            inputType: "Text",
+                                            fieldId: "comp_map",
+                                            label: "comp_map",
+                                            name: "comp_map",
+                                            initialValue:
+                                              "https://maps.googleapis.com/maps/api/staticmap?size=640x640&maptype=roadmap&markers=color:red%7C40.588606,-112.019422%7C40.588218,-112.016419%7C40.587636,-112.014368%7C40.59324,-112.016033%7C40.588962,-112.011582%7C40.593067,-112.013783%7C40.582813,-112.014281%7C40.593314,-112.013784%7C40.581953,-112.013404%7C40.585847,-112.009393&markers=color:yellow%7C40.588203,-112.019619&key=AIzaSyATfwK78rrMglC2UiaomrD7lij1j_AQ_IU",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "parcel_acres",
+                                            inputType: "Number",
+                                            fieldId: "parcel_acres",
+                                            label: "parcel_acres",
+                                            name: "parcel_acres",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "streetPhoto",
+                                            inputType: "Text",
+                                            fieldId: "streetPhoto",
+                                            label: "streetPhoto",
+                                            name: "streetPhoto",
+                                            initialValue:
+                                              "https://maps.googleapis.com/maps/api/streetview?size=640x640&location=40.58840693213876,-112.019651598144&heading=173.0787619095339&fov=50&pitch=0&key=AIzaSyATfwK78rrMglC2UiaomrD7lij1j_AQ_IU",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "onboarding_done",
+                                            inputType: "Checkbox",
+                                            fieldId: "onboarding_done",
+                                            label: "onboarding_done",
+                                            name: "onboarding_done",
+                                            initialValue: false,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "prop_next_move_other",
+                                            inputType: "Text",
+                                            fieldId: "prop_next_move_other",
+                                            label: "prop_next_move_other",
+                                            name: "prop_next_move_other",
+                                            initialValue: "",
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "taxable_value",
+                                            inputType: "Number",
+                                            fieldId: "taxable_value",
+                                            label: "taxable_value",
+                                            name: "taxable_value",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "total_assessed",
+                                            inputType: "Number",
+                                            fieldId: "total_assessed",
+                                            label: "total_assessed",
+                                            name: "total_assessed",
+                                            initialValue: null,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "total_sq_ft",
+                                            inputType: "Number",
+                                            fieldId: "total_sq_ft",
+                                            label: "total_sq_ft",
+                                            name: "total_sq_ft",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "prop_status",
+                                            inputType: "Text",
+                                            fieldId: "prop_status",
+                                            label: "prop_status",
+                                            name: "prop_status",
+                                            initialValue: {},
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "notif_1",
+                                            inputType: "Checkbox",
+                                            fieldId: "notif_1",
+                                            label: "notif_1",
+                                            name: "notif_1",
+                                            initialValue: true,
+                                            hidden: null
+                                          },
+                                          {
+                                            key: "city",
+                                            inputType: "Text",
+                                            fieldId: "city",
+                                            label: "city",
+                                            name: "city",
+                                            initialValue: "West Jordan",
+                                            hidden: null
+                                          }
+                                        ];
+                                        __composite["0"]["initialValue"] = 108;
+                                        __composite["0"]["hidden"] = true;
+                                        __composite["1"]["label"] =
+                                          "Number of Rooms";
+                                        __composite["1"]["initialValue"] =
+                                          $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).RoomsTotal;
+                                        __composite["2"]["label"] =
+                                          "Number of Bathrooms";
+                                        __composite["2"]["initialValue"] =
+                                          $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).BathroomsTotal;
+                                        __composite["3"]["label"] =
+                                          "Year Built";
+                                        __composite["3"]["initialValue"] =
+                                          $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).year_built;
+                                        __composite["4"]["label"] =
+                                          "Number of Bedrooms";
+                                        __composite["4"]["initialValue"] =
+                                          $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).BedroomsTotal;
+                                        __composite["5"]["hidden"] = true;
+                                        __composite["6"]["label"] =
+                                          "Size of Lot (Acres)";
+                                        __composite["6"]["initialValue"] =
+                                          $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).lotSize == null
+                                            ? "?"
+                                            : Math.round(
+                                                $queries.getProperty.data[0]
+                                                  .lotSize * 100
+                                              ) / 100;
+                                        __composite["7"]["label"] =
+                                          "Square Footage";
+                                        __composite["7"]["initialValue"] =
+                                          $queries.getProperty.data.find(
+                                            entry =>
+                                              entry.id == $state.homeId.value
+                                          ).stories;
+                                        __composite["8"]["initialValue"] = 40;
+                                        __composite["8"]["hidden"] = true;
+                                        __composite["9"]["hidden"] = true;
+                                        __composite["10"]["hidden"] = true;
+                                        __composite["11"]["initialValue"] = 12;
+                                        __composite["11"]["hidden"] = true;
+                                        __composite["12"]["hidden"] = true;
+                                        __composite["13"]["hidden"] = true;
+                                        __composite["14"]["hidden"] = true;
+                                        __composite["15"]["hidden"] = true;
+                                        __composite["16"]["hidden"] = true;
+                                        __composite["17"]["hidden"] = true;
+                                        __composite["18"]["hidden"] = true;
+                                        __composite["19"]["hidden"] = true;
+                                        __composite["20"][
+                                          "initialValue"
+                                        ] = 40.588203;
+                                        __composite["20"]["hidden"] = true;
+                                        __composite["21"][
+                                          "initialValue"
+                                        ] = 35868754;
+                                        __composite["21"]["hidden"] = true;
+                                        __composite["22"]["hidden"] = true;
+                                        __composite["23"]["hidden"] = true;
+                                        __composite["24"]["hidden"] = true;
+                                        __composite["25"]["hidden"] = true;
+                                        __composite["26"]["hidden"] = true;
+                                        __composite["27"]["hidden"] = true;
+                                        __composite["28"]["hidden"] = true;
+                                        __composite["29"]["hidden"] = true;
+                                        __composite["30"]["hidden"] = true;
+                                        __composite["31"]["hidden"] = true;
+                                        __composite["32"]["hidden"] = true;
+                                        __composite["33"]["initialValue"] = 1;
+                                        __composite["33"]["hidden"] = true;
+                                        __composite["34"]["hidden"] = true;
+                                        __composite["35"]["hidden"] = true;
+                                        __composite["36"]["hidden"] = true;
+                                        __composite["37"]["hidden"] = true;
+                                        __composite["38"]["initialValue"] =
+                                          -112.019619;
+                                        __composite["38"]["hidden"] = true;
+                                        __composite["39"]["hidden"] = true;
+                                        __composite["40"]["hidden"] = true;
+                                        __composite["41"]["hidden"] = true;
+                                        __composite["42"]["hidden"] = true;
+                                        __composite["43"]["hidden"] = true;
+                                        __composite["44"]["hidden"] = true;
+                                        __composite["45"]["hidden"] = true;
+                                        __composite["46"][
+                                          "initialValue"
+                                        ] = 552000;
+                                        __composite["46"]["hidden"] = true;
+                                        __composite["47"]["hidden"] = true;
+                                        __composite["48"]["hidden"] = true;
+                                        __composite["49"]["hidden"] = true;
+                                        __composite["50"]["hidden"] = true;
+                                        return __composite;
+                                      })(),
+
+                                      extendedOnValuesChange:
+                                        generateStateOnChangePropForCodeComponents(
+                                          $state,
+                                          "value",
+                                          ["form", "value"],
+                                          FormWrapper_Helpers
+                                        ),
+                                      formItems: [],
+                                      labelAlign: "left",
+                                      labelCol: {
+                                        span: 8,
+                                        horizontalOnly: true
+                                      },
+                                      layout: "horizontal",
+                                      mode: "simplified",
+                                      onFinish: async values => {
+                                        const $steps = {};
+
+                                        $steps["defaultSubmit"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                dataOp: {
+                                                  sourceId:
+                                                    "33LCJKUUYeeeZEYXFqVtgQ",
+                                                  opId: "ac978bd9-7753-4c4c-a0c7-fcf06e82b8da",
+                                                  userArgs: {
+                                                    conditions: [
+                                                      $state.homeId.value
+                                                    ],
+                                                    variables: [
+                                                      $state.form.value
+                                                    ]
+                                                  },
+                                                  cacheKey: null,
+                                                  invalidatedKeys: [
+                                                    "plasmic_refresh_all"
+                                                  ],
+                                                  roleId: null
+                                                }
+                                              };
+                                              return (async ({
+                                                dataOp,
+                                                continueOnError
+                                              }) => {
+                                                try {
+                                                  const response =
+                                                    await executePlasmicDataOp(
+                                                      dataOp,
+                                                      {
+                                                        userAuthToken:
+                                                          dataSourcesCtx?.userAuthToken,
+                                                        user: dataSourcesCtx?.user
+                                                      }
+                                                    );
+                                                  await plasmicInvalidate(
+                                                    dataOp.invalidatedKeys
+                                                  );
+                                                  return response;
+                                                } catch (e) {
+                                                  if (!continueOnError) {
+                                                    throw e;
+                                                  }
+                                                  return e;
+                                                }
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["defaultSubmit"] != null &&
+                                          typeof $steps["defaultSubmit"] ===
+                                            "object" &&
+                                          typeof $steps["defaultSubmit"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["defaultSubmit"] =
+                                            await $steps["defaultSubmit"];
+                                        }
+                                      },
+                                      onFinishFailed: async data => {
+                                        const $steps = {};
+                                      },
+                                      onIsSubmittingChange:
+                                        generateStateOnChangePropForCodeComponents(
+                                          $state,
+                                          "isSubmitting",
+                                          ["form", "isSubmitting"],
+                                          FormWrapper_Helpers
+                                        ),
+                                      ref: ref => {
+                                        $refs["form"] = ref;
+                                      },
+                                      submitSlot: (
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            sty.freeBox__rojDg
+                                          )}
+                                        >
+                                          <AntdButton
+                                            className={classNames(
+                                              "__wab_instance",
+                                              sty.button___7BHpb
+                                            )}
+                                            submitsForm={true}
+                                            type={"primary"}
+                                          >
+                                            <div
+                                              className={classNames(
+                                                projectcss.all,
+                                                projectcss.__wab_text,
+                                                sty.text___6XK3S
+                                              )}
+                                            >
+                                              {"Submit"}
+                                            </div>
+                                          </AntdButton>
+                                        </div>
+                                      ),
+                                      wrapperCol: {
+                                        span: 16,
+                                        horizontalOnly: true
+                                      }
+                                    };
+                                    initializeCodeComponentStates(
+                                      $state,
+                                      [
+                                        {
+                                          name: "value",
+                                          plasmicStateName: "form.value"
+                                        },
+                                        {
+                                          name: "isSubmitting",
+                                          plasmicStateName: "form.isSubmitting"
+                                        }
+                                      ],
+                                      [],
+                                      FormWrapper_Helpers ?? {},
+                                      child$Props
+                                    );
+
+                                    return (
+                                      <FormWrapper
+                                        data-plasmic-name={"form"}
+                                        data-plasmic-override={overrides.form}
+                                        {...child$Props}
+                                      />
+                                    );
+                                  })()}
+                                </div>
+                              </AntdModal>
                             </div>
                           </div>
                           <div
@@ -3927,10 +6667,116 @@ function PlasmicProperties__RenderFunc(props: {
                                         throw e;
                                       }
                                     })()}
-                                    onChange={generateStateOnChangeProp(
-                                      $state,
-                                      ["select", "value"]
-                                    )}
+                                    onChange={async (...eventArgs: any) => {
+                                      generateStateOnChangeProp($state, [
+                                        "select",
+                                        "value"
+                                      ]).apply(null, eventArgs);
+                                      (async (value, option) => {
+                                        const $steps = {};
+
+                                        $steps["updateAltered"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                variable: {
+                                                  objRoot: $state,
+                                                  variablePath: ["altered"]
+                                                },
+                                                operation: 0,
+                                                value: true
+                                              };
+                                              return (({
+                                                variable,
+                                                value,
+                                                startIndex,
+                                                deleteCount
+                                              }) => {
+                                                if (!variable) {
+                                                  return;
+                                                }
+                                                const {
+                                                  objRoot,
+                                                  variablePath
+                                                } = variable;
+
+                                                $stateSet(
+                                                  objRoot,
+                                                  variablePath,
+                                                  value
+                                                );
+                                                return value;
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["updateAltered"] != null &&
+                                          typeof $steps["updateAltered"] ===
+                                            "object" &&
+                                          typeof $steps["updateAltered"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["updateAltered"] =
+                                            await $steps["updateAltered"];
+                                        }
+
+                                        $steps["postgresCreate"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                dataOp: {
+                                                  sourceId:
+                                                    "33LCJKUUYeeeZEYXFqVtgQ",
+                                                  opId: "200ac835-3f10-427d-a122-fe9f9673a314",
+                                                  userArgs: {
+                                                    variables: [
+                                                      $queries.getClient.data[0]
+                                                        .id,
+                                                      $state.homeId.value
+                                                    ]
+                                                  },
+                                                  cacheKey: null,
+                                                  invalidatedKeys: [],
+                                                  roleId: null
+                                                }
+                                              };
+                                              return (async ({
+                                                dataOp,
+                                                continueOnError
+                                              }) => {
+                                                try {
+                                                  const response =
+                                                    await executePlasmicDataOp(
+                                                      dataOp,
+                                                      {
+                                                        userAuthToken:
+                                                          dataSourcesCtx?.userAuthToken,
+                                                        user: dataSourcesCtx?.user
+                                                      }
+                                                    );
+                                                  await plasmicInvalidate(
+                                                    dataOp.invalidatedKeys
+                                                  );
+                                                  return response;
+                                                } catch (e) {
+                                                  if (!continueOnError) {
+                                                    throw e;
+                                                  }
+                                                  return e;
+                                                }
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["postgresCreate"] != null &&
+                                          typeof $steps["postgresCreate"] ===
+                                            "object" &&
+                                          typeof $steps["postgresCreate"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["postgresCreate"] =
+                                            await $steps["postgresCreate"];
+                                        }
+                                      }).apply(null, eventArgs);
+                                    }}
                                     options={(() => {
                                       try {
                                         return (() => {
@@ -4637,10 +7483,116 @@ function PlasmicProperties__RenderFunc(props: {
                                         throw e;
                                       }
                                     })()}
-                                    onChange={generateStateOnChangeProp(
-                                      $state,
-                                      ["select2", "value"]
-                                    )}
+                                    onChange={async (...eventArgs: any) => {
+                                      generateStateOnChangeProp($state, [
+                                        "select2",
+                                        "value"
+                                      ]).apply(null, eventArgs);
+                                      (async (value, option) => {
+                                        const $steps = {};
+
+                                        $steps["updateAltered"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                variable: {
+                                                  objRoot: $state,
+                                                  variablePath: ["altered"]
+                                                },
+                                                operation: 0,
+                                                value: true
+                                              };
+                                              return (({
+                                                variable,
+                                                value,
+                                                startIndex,
+                                                deleteCount
+                                              }) => {
+                                                if (!variable) {
+                                                  return;
+                                                }
+                                                const {
+                                                  objRoot,
+                                                  variablePath
+                                                } = variable;
+
+                                                $stateSet(
+                                                  objRoot,
+                                                  variablePath,
+                                                  value
+                                                );
+                                                return value;
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["updateAltered"] != null &&
+                                          typeof $steps["updateAltered"] ===
+                                            "object" &&
+                                          typeof $steps["updateAltered"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["updateAltered"] =
+                                            await $steps["updateAltered"];
+                                        }
+
+                                        $steps["postgresCreate"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                dataOp: {
+                                                  sourceId:
+                                                    "33LCJKUUYeeeZEYXFqVtgQ",
+                                                  opId: "200ac835-3f10-427d-a122-fe9f9673a314",
+                                                  userArgs: {
+                                                    variables: [
+                                                      $queries.getClient.data[0]
+                                                        .id,
+                                                      $state.homeId.value
+                                                    ]
+                                                  },
+                                                  cacheKey: null,
+                                                  invalidatedKeys: [],
+                                                  roleId: null
+                                                }
+                                              };
+                                              return (async ({
+                                                dataOp,
+                                                continueOnError
+                                              }) => {
+                                                try {
+                                                  const response =
+                                                    await executePlasmicDataOp(
+                                                      dataOp,
+                                                      {
+                                                        userAuthToken:
+                                                          dataSourcesCtx?.userAuthToken,
+                                                        user: dataSourcesCtx?.user
+                                                      }
+                                                    );
+                                                  await plasmicInvalidate(
+                                                    dataOp.invalidatedKeys
+                                                  );
+                                                  return response;
+                                                } catch (e) {
+                                                  if (!continueOnError) {
+                                                    throw e;
+                                                  }
+                                                  return e;
+                                                }
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["postgresCreate"] != null &&
+                                          typeof $steps["postgresCreate"] ===
+                                            "object" &&
+                                          typeof $steps["postgresCreate"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["postgresCreate"] =
+                                            await $steps["postgresCreate"];
+                                        }
+                                      }).apply(null, eventArgs);
+                                    }}
                                     options={(() => {
                                       try {
                                         return (() => {
@@ -6619,6 +9571,107 @@ function PlasmicProperties__RenderFunc(props: {
                                           $steps["updateHomeSoldId"] =
                                             await $steps["updateHomeSoldId"];
                                         }
+
+                                        $steps["updateAltered"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                variable: {
+                                                  objRoot: $state,
+                                                  variablePath: ["altered"]
+                                                },
+                                                operation: 0,
+                                                value: true
+                                              };
+                                              return (({
+                                                variable,
+                                                value,
+                                                startIndex,
+                                                deleteCount
+                                              }) => {
+                                                if (!variable) {
+                                                  return;
+                                                }
+                                                const {
+                                                  objRoot,
+                                                  variablePath
+                                                } = variable;
+
+                                                $stateSet(
+                                                  objRoot,
+                                                  variablePath,
+                                                  value
+                                                );
+                                                return value;
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["updateAltered"] != null &&
+                                          typeof $steps["updateAltered"] ===
+                                            "object" &&
+                                          typeof $steps["updateAltered"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["updateAltered"] =
+                                            await $steps["updateAltered"];
+                                        }
+
+                                        $steps["postgresCreate"] = true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                dataOp: {
+                                                  sourceId:
+                                                    "33LCJKUUYeeeZEYXFqVtgQ",
+                                                  opId: "60f01ce9-212c-42c3-abf7-b16906be8f51",
+                                                  userArgs: {
+                                                    variables: [
+                                                      $queries.getClient.data[0]
+                                                        .id,
+                                                      $state.homeId.value
+                                                    ]
+                                                  },
+                                                  cacheKey: null,
+                                                  invalidatedKeys: [],
+                                                  roleId: null
+                                                }
+                                              };
+                                              return (async ({
+                                                dataOp,
+                                                continueOnError
+                                              }) => {
+                                                try {
+                                                  const response =
+                                                    await executePlasmicDataOp(
+                                                      dataOp,
+                                                      {
+                                                        userAuthToken:
+                                                          dataSourcesCtx?.userAuthToken,
+                                                        user: dataSourcesCtx?.user
+                                                      }
+                                                    );
+                                                  await plasmicInvalidate(
+                                                    dataOp.invalidatedKeys
+                                                  );
+                                                  return response;
+                                                } catch (e) {
+                                                  if (!continueOnError) {
+                                                    throw e;
+                                                  }
+                                                  return e;
+                                                }
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                        if (
+                                          $steps["postgresCreate"] != null &&
+                                          typeof $steps["postgresCreate"] ===
+                                            "object" &&
+                                          typeof $steps["postgresCreate"]
+                                            .then === "function"
+                                        ) {
+                                          $steps["postgresCreate"] =
+                                            await $steps["postgresCreate"];
+                                        }
                                       }}
                                     >
                                       <PlasmicImg__
@@ -7888,74 +10941,316 @@ function PlasmicProperties__RenderFunc(props: {
                               sty.freeBox__uF2
                             )}
                           >
-                            <AntdModal
-                              data-plasmic-name={"modal2"}
-                              data-plasmic-override={overrides.modal2}
-                              className={classNames(
-                                "__wab_instance",
-                                sty.modal2
-                              )}
-                              defaultStylesClassName={classNames(
-                                projectcss.root_reset,
-                                projectcss.plasmic_default_styles,
-                                projectcss.plasmic_mixins,
-                                projectcss.plasmic_tokens,
-                                plasmic_antd_5_hostless_css.plasmic_tokens,
-                                plasmic_plasmic_rich_components_css.plasmic_tokens
-                              )}
-                              modalScopeClassName={sty["modal2__modal"]}
-                              onOpenChange={generateStateOnChangeProp($state, [
-                                "modal2",
-                                "open"
-                              ])}
-                              open={generateStateValueProp($state, [
-                                "modal2",
-                                "open"
-                              ])}
-                              title={"Modal title"}
-                              trigger={
-                                <AntdButton
-                                  className={classNames(
-                                    "__wab_instance",
-                                    sty.button__vcEqg
-                                  )}
-                                >
-                                  <div
-                                    className={classNames(
-                                      projectcss.all,
-                                      sty.freeBox__pywdq
-                                    )}
-                                  >
-                                    <div
-                                      className={classNames(
-                                        projectcss.all,
-                                        projectcss.__wab_text,
-                                        sty.text__vCcye
-                                      )}
-                                    >
-                                      {"Request Offer"}
-                                    </div>
-                                  </div>
-                                </AntdButton>
+                            {(() => {
+                              try {
+                                return (
+                                  false ||
+                                  $queries.getProperty.data.find(
+                                    entry => entry.id == $state.homeId.value
+                                  ).offer_requested
+                                );
+                              } catch (e) {
+                                if (
+                                  e instanceof TypeError ||
+                                  e?.plasmicType === "PlasmicUndefinedDataError"
+                                ) {
+                                  return true;
+                                }
+                                throw e;
                               }
-                            >
+                            })() ? (
                               <div
                                 className={classNames(
                                   projectcss.all,
-                                  sty.freeBox__wkgda
+                                  projectcss.__wab_text,
+                                  sty.text__hjynn
                                 )}
+                              >
+                                <React.Fragment>
+                                  {(() => {
+                                    try {
+                                      return (
+                                        $queries.getEntity.data[0].firstName +
+                                        " " +
+                                        $queries.getEntity.data[0].lastName +
+                                        " Will Reach Out to You"
+                                      );
+                                    } catch (e) {
+                                      if (
+                                        e instanceof TypeError ||
+                                        e?.plasmicType ===
+                                          "PlasmicUndefinedDataError"
+                                      ) {
+                                        return "Offer Sent!";
+                                      }
+                                      throw e;
+                                    }
+                                  })()}
+                                </React.Fragment>
+                              </div>
+                            ) : null}
+                            {(() => {
+                              try {
+                                return !$queries.getProperty.data.find(
+                                  entry => entry.id == $state.homeId.value
+                                ).offer_requested;
+                              } catch (e) {
+                                if (
+                                  e instanceof TypeError ||
+                                  e?.plasmicType === "PlasmicUndefinedDataError"
+                                ) {
+                                  return true;
+                                }
+                                throw e;
+                              }
+                            })() ? (
+                              <AntdButton
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.button__xzHqF
+                                )}
+                                loading={(() => {
+                                  try {
+                                    return $queries.getProperty.isLoading;
+                                  } catch (e) {
+                                    if (
+                                      e instanceof TypeError ||
+                                      e?.plasmicType ===
+                                        "PlasmicUndefinedDataError"
+                                    ) {
+                                      return undefined;
+                                    }
+                                    throw e;
+                                  }
+                                })()}
+                                onClick={async () => {
+                                  const $steps = {};
+
+                                  $steps["updateAltered"] = true
+                                    ? (() => {
+                                        const actionArgs = {
+                                          variable: {
+                                            objRoot: $state,
+                                            variablePath: ["altered"]
+                                          },
+                                          operation: 0,
+                                          value: true
+                                        };
+                                        return (({
+                                          variable,
+                                          value,
+                                          startIndex,
+                                          deleteCount
+                                        }) => {
+                                          if (!variable) {
+                                            return;
+                                          }
+                                          const { objRoot, variablePath } =
+                                            variable;
+
+                                          $stateSet(
+                                            objRoot,
+                                            variablePath,
+                                            value
+                                          );
+                                          return value;
+                                        })?.apply(null, [actionArgs]);
+                                      })()
+                                    : undefined;
+                                  if (
+                                    $steps["updateAltered"] != null &&
+                                    typeof $steps["updateAltered"] ===
+                                      "object" &&
+                                    typeof $steps["updateAltered"].then ===
+                                      "function"
+                                  ) {
+                                    $steps["updateAltered"] = await $steps[
+                                      "updateAltered"
+                                    ];
+                                  }
+
+                                  $steps["postgresUpdateById"] = true
+                                    ? (() => {
+                                        const actionArgs = {
+                                          dataOp: {
+                                            sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
+                                            opId: "331ea6bd-141f-4dfc-bedf-4e37e2e5f78b",
+                                            userArgs: {
+                                              keys: [$state.homeId.value]
+                                            },
+                                            cacheKey: null,
+                                            invalidatedKeys: [
+                                              "8c092b6d-8518-4253-b08a-8df79e0921fb"
+                                            ],
+                                            roleId: null
+                                          }
+                                        };
+                                        return (async ({
+                                          dataOp,
+                                          continueOnError
+                                        }) => {
+                                          try {
+                                            const response =
+                                              await executePlasmicDataOp(
+                                                dataOp,
+                                                {
+                                                  userAuthToken:
+                                                    dataSourcesCtx?.userAuthToken,
+                                                  user: dataSourcesCtx?.user
+                                                }
+                                              );
+                                            await plasmicInvalidate(
+                                              dataOp.invalidatedKeys
+                                            );
+                                            return response;
+                                          } catch (e) {
+                                            if (!continueOnError) {
+                                              throw e;
+                                            }
+                                            return e;
+                                          }
+                                        })?.apply(null, [actionArgs]);
+                                      })()
+                                    : undefined;
+                                  if (
+                                    $steps["postgresUpdateById"] != null &&
+                                    typeof $steps["postgresUpdateById"] ===
+                                      "object" &&
+                                    typeof $steps["postgresUpdateById"].then ===
+                                      "function"
+                                  ) {
+                                    $steps["postgresUpdateById"] = await $steps[
+                                      "postgresUpdateById"
+                                    ];
+                                  }
+
+                                  $steps["httpPut"] = true
+                                    ? (() => {
+                                        const actionArgs = {
+                                          dataOp: {
+                                            sourceId: "9knTPZd45SqznZtYFyLRwH",
+                                            opId: "565ed635-5909-4d45-b036-09cd60e7d4ae",
+                                            userArgs: {
+                                              path: [
+                                                $queries.getProperty.data.find(
+                                                  entry =>
+                                                    entry.id ==
+                                                    $state.homeId.value
+                                                ).contactId
+                                              ],
+                                              headers: [
+                                                $queries.getEntity.data[0]
+                                                  .hl_api_key
+                                              ]
+                                            },
+                                            cacheKey: null,
+                                            invalidatedKeys: [],
+                                            roleId: null
+                                          }
+                                        };
+                                        return (async ({
+                                          dataOp,
+                                          continueOnError
+                                        }) => {
+                                          try {
+                                            const response =
+                                              await executePlasmicDataOp(
+                                                dataOp,
+                                                {
+                                                  userAuthToken:
+                                                    dataSourcesCtx?.userAuthToken,
+                                                  user: dataSourcesCtx?.user
+                                                }
+                                              );
+                                            await plasmicInvalidate(
+                                              dataOp.invalidatedKeys
+                                            );
+                                            return response;
+                                          } catch (e) {
+                                            if (!continueOnError) {
+                                              throw e;
+                                            }
+                                            return e;
+                                          }
+                                        })?.apply(null, [actionArgs]);
+                                      })()
+                                    : undefined;
+                                  if (
+                                    $steps["httpPut"] != null &&
+                                    typeof $steps["httpPut"] === "object" &&
+                                    typeof $steps["httpPut"].then === "function"
+                                  ) {
+                                    $steps["httpPut"] = await $steps["httpPut"];
+                                  }
+
+                                  $steps["postgresCreate"] = true
+                                    ? (() => {
+                                        const actionArgs = {
+                                          dataOp: {
+                                            sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
+                                            opId: "5f4004e9-7d16-43f8-a745-b09e84f3b1df",
+                                            userArgs: {
+                                              variables: [
+                                                $queries.getClient.data[0].id,
+                                                $state.homeId.value
+                                              ]
+                                            },
+                                            cacheKey: null,
+                                            invalidatedKeys: [],
+                                            roleId: null
+                                          }
+                                        };
+                                        return (async ({
+                                          dataOp,
+                                          continueOnError
+                                        }) => {
+                                          try {
+                                            const response =
+                                              await executePlasmicDataOp(
+                                                dataOp,
+                                                {
+                                                  userAuthToken:
+                                                    dataSourcesCtx?.userAuthToken,
+                                                  user: dataSourcesCtx?.user
+                                                }
+                                              );
+                                            await plasmicInvalidate(
+                                              dataOp.invalidatedKeys
+                                            );
+                                            return response;
+                                          } catch (e) {
+                                            if (!continueOnError) {
+                                              throw e;
+                                            }
+                                            return e;
+                                          }
+                                        })?.apply(null, [actionArgs]);
+                                      })()
+                                    : undefined;
+                                  if (
+                                    $steps["postgresCreate"] != null &&
+                                    typeof $steps["postgresCreate"] ===
+                                      "object" &&
+                                    typeof $steps["postgresCreate"].then ===
+                                      "function"
+                                  ) {
+                                    $steps["postgresCreate"] = await $steps[
+                                      "postgresCreate"
+                                    ];
+                                  }
+                                }}
                               >
                                 <div
                                   className={classNames(
                                     projectcss.all,
                                     projectcss.__wab_text,
-                                    sty.text__b82SU
+                                    sty.text__xrAwc
                                   )}
                                 >
-                                  {"Modal content"}
+                                  {"Request Offer"}
                                 </div>
-                              </div>
-                            </AntdModal>
+                              </AntdButton>
+                            ) : null}
                           </div>
                         </div>
                         <div
@@ -8456,11 +11751,16 @@ const PlasmicDescendants = {
     "input4",
     "agentBlock",
     "modal",
-    "iframe",
+    "agentBlock2",
+    "modal6",
+    "agentBlock3",
+    "modal5",
     "topLeft",
     "homeEstimateBlock3",
     "homeEstimateBlock",
     "homeEstimateBlock2",
+    "modal4",
+    "form",
     "frame38",
     "frame36",
     "building04",
@@ -8564,7 +11864,6 @@ const PlasmicDescendants = {
     "bathtub029",
     "frame91",
     "cashOffer",
-    "modal2",
     "frame427318812",
     "call2",
     "frame427318813",
@@ -8590,11 +11889,16 @@ const PlasmicDescendants = {
     "input4",
     "agentBlock",
     "modal",
-    "iframe",
+    "agentBlock2",
+    "modal6",
+    "agentBlock3",
+    "modal5",
     "topLeft",
     "homeEstimateBlock3",
     "homeEstimateBlock",
     "homeEstimateBlock2",
+    "modal4",
+    "form",
     "frame38",
     "frame36",
     "building04",
@@ -8698,7 +12002,6 @@ const PlasmicDescendants = {
     "bathtub029",
     "frame91",
     "cashOffer",
-    "modal2",
     "frame427318812",
     "call2",
     "frame427318813",
@@ -8715,11 +12018,16 @@ const PlasmicDescendants = {
     "input4",
     "agentBlock",
     "modal",
-    "iframe",
+    "agentBlock2",
+    "modal6",
+    "agentBlock3",
+    "modal5",
     "topLeft",
     "homeEstimateBlock3",
     "homeEstimateBlock",
     "homeEstimateBlock2",
+    "modal4",
+    "form",
     "frame38",
     "frame36",
     "building04",
@@ -8823,7 +12131,6 @@ const PlasmicDescendants = {
     "bathtub029",
     "frame91",
     "cashOffer",
-    "modal2",
     "frame427318812",
     "call2",
     "frame427318813",
@@ -8835,14 +12142,19 @@ const PlasmicDescendants = {
   input2: ["input2"],
   checkbox3: ["checkbox3"],
   input4: ["input4"],
-  agentBlock: ["agentBlock", "modal", "iframe"],
-  modal: ["modal", "iframe"],
-  iframe: ["iframe"],
+  agentBlock: ["agentBlock", "modal"],
+  modal: ["modal"],
+  agentBlock2: ["agentBlock2", "modal6"],
+  modal6: ["modal6"],
+  agentBlock3: ["agentBlock3", "modal5"],
+  modal5: ["modal5"],
   topLeft: [
     "topLeft",
     "homeEstimateBlock3",
     "homeEstimateBlock",
     "homeEstimateBlock2",
+    "modal4",
+    "form",
     "frame38",
     "frame36",
     "building04",
@@ -8913,6 +12225,8 @@ const PlasmicDescendants = {
   homeEstimateBlock: ["homeEstimateBlock"],
   homeEstimateBlock2: [
     "homeEstimateBlock2",
+    "modal4",
+    "form",
     "frame38",
     "frame36",
     "building04",
@@ -8938,6 +12252,8 @@ const PlasmicDescendants = {
     "square",
     "frame87"
   ],
+  modal4: ["modal4", "form"],
+  form: ["form"],
   frame38: ["frame38", "frame36", "building04", "frame31"],
   frame36: ["frame36", "building04"],
   building04: ["building04"],
@@ -9088,7 +12404,6 @@ const PlasmicDescendants = {
     "bathtub029",
     "frame91",
     "cashOffer",
-    "modal2",
     "frame427318812",
     "call2",
     "frame427318813",
@@ -9178,8 +12493,7 @@ const PlasmicDescendants = {
   frame89: ["frame89", "bathtub029"],
   bathtub029: ["bathtub029"],
   frame91: ["frame91"],
-  cashOffer: ["cashOffer", "modal2"],
-  modal2: ["modal2"],
+  cashOffer: ["cashOffer"],
   frame427318812: ["frame427318812", "call2"],
   call2: ["call2"],
   frame427318813: ["frame427318813", "mail022"],
@@ -9209,11 +12523,16 @@ type NodeDefaultElementType = {
   input4: typeof AntdInput;
   agentBlock: "div";
   modal: typeof AntdModal;
-  iframe: typeof Iframe;
+  agentBlock2: "div";
+  modal6: typeof AntdModal;
+  agentBlock3: "div";
+  modal5: typeof AntdModal;
   topLeft: "div";
   homeEstimateBlock3: "div";
   homeEstimateBlock: "div";
   homeEstimateBlock2: "div";
+  modal4: typeof AntdModal;
+  form: typeof FormWrapper;
   frame38: "div";
   frame36: "div";
   building04: "div";
@@ -9317,7 +12636,6 @@ type NodeDefaultElementType = {
   bathtub029: "div";
   frame91: "div";
   cashOffer: "div";
-  modal2: typeof AntdModal;
   frame427318812: "div";
   call2: "div";
   frame427318813: "div";
@@ -9428,11 +12746,16 @@ export const PlasmicProperties = Object.assign(
     input4: makeNodeComponent("input4"),
     agentBlock: makeNodeComponent("agentBlock"),
     modal: makeNodeComponent("modal"),
-    iframe: makeNodeComponent("iframe"),
+    agentBlock2: makeNodeComponent("agentBlock2"),
+    modal6: makeNodeComponent("modal6"),
+    agentBlock3: makeNodeComponent("agentBlock3"),
+    modal5: makeNodeComponent("modal5"),
     topLeft: makeNodeComponent("topLeft"),
     homeEstimateBlock3: makeNodeComponent("homeEstimateBlock3"),
     homeEstimateBlock: makeNodeComponent("homeEstimateBlock"),
     homeEstimateBlock2: makeNodeComponent("homeEstimateBlock2"),
+    modal4: makeNodeComponent("modal4"),
+    form: makeNodeComponent("form"),
     frame38: makeNodeComponent("frame38"),
     frame36: makeNodeComponent("frame36"),
     building04: makeNodeComponent("building04"),
@@ -9536,7 +12859,6 @@ export const PlasmicProperties = Object.assign(
     bathtub029: makeNodeComponent("bathtub029"),
     frame91: makeNodeComponent("frame91"),
     cashOffer: makeNodeComponent("cashOffer"),
-    modal2: makeNodeComponent("modal2"),
     frame427318812: makeNodeComponent("frame427318812"),
     call2: makeNodeComponent("call2"),
     frame427318813: makeNodeComponent("frame427318813"),
