@@ -125,6 +125,8 @@
   --plasmic-token-block-spacing: var(--token-oc6QWYtHvNmJ);
   --token-196uHX8ghvJQ: 8px;
   --plasmic-token-corner-radius: var(--token-196uHX8ghvJQ);
+  --token-TUxLqxGAGF64: #ffffff;
+  --plasmic-token-unnamed-style-token: var(--token-TUxLqxGAGF64);
 }
 
 .plasmic_tokens {
@@ -164,7 +166,7 @@
   --mixin-FtHP5zB9sEF8_font-family: "Inter", sans-serif;
   --mixin-FtHP5zB9sEF8_letter-spacing: -1%;
   --mixin-FtHP5zB9sEF8_white-space: pre-wrap;
-  --mixin-TBq7Pw8iBJDF_color: #0070f3;
+  --mixin-TBq7Pw8iBJDF_color: #d9d9d9;
   --mixin-TBq7Pw8iBJDF_white-space: pre-wrap;
   --mixin-z_AGJErxjpkq_color: var(--token-4xrBXqQbJ9Qk);
   --mixin-z_AGJErxjpkq_font-size: 20px;

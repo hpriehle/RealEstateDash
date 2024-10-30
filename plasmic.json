@@ -821,6 +821,20 @@
           "cssFilePath": "plasmic/real_estate_dashboard/PlasmicDrawer.module.css",
           "scheme": "blackbox",
           "componentType": "component"
+        },
+        {
+          "id": "c79l0iO1D1hR",
+          "name": "Home",
+          "type": "managed",
+          "projectId": "tkmnpDqLBPFkHbb2kiGN2p",
+          "renderModuleFilePath": "plasmic/real_estate_dashboard/PlasmicHome.tsx",
+          "importSpec": {
+            "modulePath": "../pages/index.tsx"
+          },
+          "cssFilePath": "plasmic/real_estate_dashboard/PlasmicHome.module.css",
+          "scheme": "blackbox",
+          "componentType": "page",
+          "path": "/"
         }
       ],
       "icons": [
@@ -1430,6 +1444,26 @@
           "id": "6TOaRiSDk0nS",
           "name": "DALL·E Sep 14 Image Vibe Large.jpeg",
           "filePath": "../public/plasmic/real_estate_dashboard/images/dallESep14ImageVibeLargeJpeg.jpg"
+        },
+        {
+          "id": "6EYuyPoMWwD9",
+          "name": "Modern Whimsical Map.jpeg",
+          "filePath": "../public/plasmic/real_estate_dashboard/images/modernWhimsicalMapJpeg.jpg"
+        },
+        {
+          "id": "XEqtpsryFseu",
+          "name": "Untitled design background.png",
+          "filePath": "../public/plasmic/real_estate_dashboard/images/untitledDesignBackgroundPng.png"
+        },
+        {
+          "id": "BXhxHs1lq0Cn",
+          "name": "Blurred Amount.png",
+          "filePath": "../public/plasmic/real_estate_dashboard/images/blurredAmountPng.png"
+        },
+        {
+          "id": "Cf6otuA6tiqD",
+          "name": "Amount Blurred 200x50.png",
+          "filePath": "../public/plasmic/real_estate_dashboard/images/amountBlurred200X50Png.png"
         }
       ],
       "indirect": false,
@@ -1636,6 +1670,6 @@
   "nextjsConfig": {
     "pagesDir": "../pages"
   },
-  "cliVersion": "0.1.331",
-  "$schema": "https://unpkg.com/@plasmicapp/cli@0.1.331/dist/plasmic.schema.json"
+  "cliVersion": "0.1.334",
+  "$schema": "https://unpkg.com/@plasmicapp/cli@0.1.334/dist/plasmic.schema.json"
 }

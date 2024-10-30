@@ -59,6 +59,9 @@ import {
   useGlobalActions
 } from "@plasmicapp/react-web/lib/host";
 
+import { AntdInput } from "@plasmicpkgs/antd5/skinny/registerInput";
+import { inputHelpers as AntdInput_Helpers } from "@plasmicpkgs/antd5/skinny/registerInput";
+
 import "@plasmicapp/react-web/lib/plasmic.css";
 
 import plasmic_antd_5_hostless_css from "../antd_5_hostless/plasmic.module.css"; // plasmic-import: ohDidvG9XsCeFumugENU3J/projectcss
@@ -80,6 +83,7 @@ export const PlasmicAddressAutocomplete__ArgProps = new Array<ArgPropType>();
 
 export type PlasmicAddressAutocomplete__OverridesType = {
   root?: Flex__<"div">;
+  input?: Flex__<typeof AntdInput>;
 };
 
 export interface DefaultAddressAutocompleteProps {
@@ -126,6 +130,26 @@ function PlasmicAddressAutocomplete__RenderFunc(props: {
 
   const currentUser = useCurrentUser?.() || {};
 
+  const stateSpecs: Parameters<typeof useDollarState>[0] = React.useMemo(
+    () => [
+      {
+        path: "input.value",
+        type: "private",
+        variableType: "text",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
+
+        onMutate: generateOnMutateForSpec("value", AntdInput_Helpers)
+      }
+    ],
+    [$props, $ctx, $refs]
+  );
+  const $state = useDollarState(stateSpecs, {
+    $props,
+    $ctx,
+    $queries: {},
+    $refs
+  });
+
   return (
     <div
       data-plasmic-name={"root"}
@@ -142,18 +166,53 @@ function PlasmicAddressAutocomplete__RenderFunc(props: {
         plasmic_plasmic_rich_components_css.plasmic_tokens,
         sty.root
       )}
-    />
+    >
+      {(() => {
+        const child$Props = {
+          className: classNames("__wab_instance", sty.input),
+          onChange: generateStateOnChangePropForCodeComponents(
+            $state,
+            "value",
+            ["input", "value"],
+            AntdInput_Helpers
+          ),
+          value: generateStateValueProp($state, ["input", "value"])
+        };
+        initializeCodeComponentStates(
+          $state,
+          [
+            {
+              name: "value",
+              plasmicStateName: "input.value"
+            }
+          ],
+          [],
+          AntdInput_Helpers ?? {},
+          child$Props
+        );
+
+        return (
+          <AntdInput
+            data-plasmic-name={"input"}
+            data-plasmic-override={overrides.input}
+            {...child$Props}
+          />
+        );
+      })()}
+    </div>
   ) as React.ReactElement | null;
 }
 
 const PlasmicDescendants = {
-  root: ["root"]
+  root: ["root", "input"],
+  input: ["input"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
   (typeof PlasmicDescendants)[T][number];
 type NodeDefaultElementType = {
   root: "div";
+  input: typeof AntdInput;
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -216,6 +275,7 @@ export const PlasmicAddressAutocomplete = Object.assign(
   makeNodeComponent("root"),
   {
     // Helper components rendering sub-elements
+    input: makeNodeComponent("input"),
 
     // Metadata about props expected for PlasmicAddressAutocomplete
     internalVariantProps: PlasmicAddressAutocomplete__VariantProps,

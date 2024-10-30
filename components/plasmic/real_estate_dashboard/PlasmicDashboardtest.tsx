@@ -62,6 +62,9 @@ import * as plasmicAuth from "@plasmicapp/react-web/lib/auth";
 import { usePlasmicDataSourceContext } from "@plasmicapp/data-sources-context";
 
 import MapComponent from "../../MapComponent"; // plasmic-import: aSaTcETCxkUE/component
+import { AntdInput } from "@plasmicpkgs/antd5/skinny/registerInput";
+import { inputHelpers as AntdInput_Helpers } from "@plasmicpkgs/antd5/skinny/registerInput";
+import { AntdButton } from "@plasmicpkgs/antd5/skinny/registerButton";
 
 import "@plasmicapp/react-web/lib/plasmic.css";
 
@@ -83,9 +86,9 @@ export const PlasmicDashboardtest__ArgProps = new Array<ArgPropType>();
 
 export type PlasmicDashboardtest__OverridesType = {
   root?: Flex__<"div">;
-  freeBox?: Flex__<"div">;
   mapComponent?: Flex__<typeof MapComponent>;
-  text?: Flex__<"div">;
+  input?: Flex__<typeof AntdInput>;
+  button?: Flex__<typeof AntdButton>;
 };
 
 export interface DefaultDashboardtestProps {}
@@ -130,6 +133,26 @@ function PlasmicDashboardtest__RenderFunc(props: {
 
   const currentUser = useCurrentUser?.() || {};
 
+  const stateSpecs: Parameters<typeof useDollarState>[0] = React.useMemo(
+    () => [
+      {
+        path: "input.value",
+        type: "private",
+        variableType: "text",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
+
+        onMutate: generateOnMutateForSpec("value", AntdInput_Helpers)
+      }
+    ],
+    [$props, $ctx, $refs]
+  );
+  const $state = useDollarState(stateSpecs, {
+    $props,
+    $ctx,
+    $queries: {},
+    $refs
+  });
+
   return (
     <React.Fragment>
       <Head></Head>
@@ -157,11 +180,7 @@ function PlasmicDashboardtest__RenderFunc(props: {
             sty.root
           )}
         >
-          <div
-            data-plasmic-name={"freeBox"}
-            data-plasmic-override={overrides.freeBox}
-            className={classNames(projectcss.all, sty.freeBox)}
-          >
+          <div className={classNames(projectcss.all, sty.freeBox__eDtMp)}>
             <MapComponent
               data-plasmic-name={"mapComponent"}
               data-plasmic-override={overrides.mapComponent}
@@ -170,16 +189,63 @@ function PlasmicDashboardtest__RenderFunc(props: {
             />
 
             <div
-              data-plasmic-name={"text"}
-              data-plasmic-override={overrides.text}
               className={classNames(
                 projectcss.all,
                 projectcss.__wab_text,
-                sty.text
+                sty.text___7MlBc
               )}
             >
               {"hello"}
             </div>
+          </div>
+          <div className={classNames(projectcss.all, sty.freeBox__xg7Mq)}>
+            {(() => {
+              const child$Props = {
+                className: classNames("__wab_instance", sty.input),
+                onChange: generateStateOnChangePropForCodeComponents(
+                  $state,
+                  "value",
+                  ["input", "value"],
+                  AntdInput_Helpers
+                ),
+                value: generateStateValueProp($state, ["input", "value"])
+              };
+              initializeCodeComponentStates(
+                $state,
+                [
+                  {
+                    name: "value",
+                    plasmicStateName: "input.value"
+                  }
+                ],
+                [],
+                AntdInput_Helpers ?? {},
+                child$Props
+              );
+
+              return (
+                <AntdInput
+                  data-plasmic-name={"input"}
+                  data-plasmic-override={overrides.input}
+                  {...child$Props}
+                />
+              );
+            })()}
+            <AntdButton
+              data-plasmic-name={"button"}
+              data-plasmic-override={overrides.button}
+              className={classNames("__wab_instance", sty.button)}
+            >
+              <div
+                className={classNames(
+                  projectcss.all,
+                  projectcss.__wab_text,
+                  sty.text__h6MJk
+                )}
+              >
+                {"Find Out"}
+              </div>
+            </AntdButton>
           </div>
         </div>
       </div>
@@ -188,19 +254,19 @@ function PlasmicDashboardtest__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "freeBox", "mapComponent", "text"],
-  freeBox: ["freeBox", "mapComponent", "text"],
+  root: ["root", "mapComponent", "input", "button"],
   mapComponent: ["mapComponent"],
-  text: ["text"]
+  input: ["input"],
+  button: ["button"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
   (typeof PlasmicDescendants)[T][number];
 type NodeDefaultElementType = {
   root: "div";
-  freeBox: "div";
   mapComponent: typeof MapComponent;
-  text: "div";
+  input: typeof AntdInput;
+  button: typeof AntdButton;
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -288,9 +354,9 @@ export const PlasmicDashboardtest = Object.assign(
   withUsePlasmicAuth(makeNodeComponent("root")),
   {
     // Helper components rendering sub-elements
-    freeBox: makeNodeComponent("freeBox"),
     mapComponent: makeNodeComponent("mapComponent"),
-    text: makeNodeComponent("text"),
+    input: makeNodeComponent("input"),
+    button: makeNodeComponent("button"),
 
     // Metadata about props expected for PlasmicDashboardtest
     internalVariantProps: PlasmicDashboardtest__VariantProps,

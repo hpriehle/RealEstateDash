@@ -2471,6 +2471,16 @@
       }
     },
     {
+      "name": "Unnamed Style Token",
+      "type": "color",
+      "value": "#FFFFFF",
+      "category": "color",
+      "meta": {
+        "projectId": "tkmnpDqLBPFkHbb2kiGN2p",
+        "id": "TUxLqxGAGF64"
+      }
+    },
+    {
       "name": "Warning-100",
       "type": "color",
       "value": "#FAF6D7",

@@ -41,7 +41,7 @@ export default function GlobalContextsProvider(
       colorInfo={
         antdConfigProviderProps && "colorInfo" in antdConfigProviderProps
           ? antdConfigProviderProps.colorInfo!
-          : "#1677ff"
+          : "#FFFFFF"
       }
       colorPrimary={
         antdConfigProviderProps && "colorPrimary" in antdConfigProviderProps
@@ -76,12 +76,12 @@ export default function GlobalContextsProvider(
       loadingText={
         antdConfigProviderProps && "loadingText" in antdConfigProviderProps
           ? antdConfigProviderProps.loadingText!
-          : undefined
+          : " "
       }
       removeLoading={
         antdConfigProviderProps && "removeLoading" in antdConfigProviderProps
           ? antdConfigProviderProps.removeLoading!
-          : undefined
+          : true
       }
       sizeStep={
         antdConfigProviderProps && "sizeStep" in antdConfigProviderProps

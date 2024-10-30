@@ -79,10 +79,10 @@ import { RichTable } from "@plasmicpkgs/plasmic-rich-components/skinny/rich-tabl
 import { tableHelpers as RichTable_Helpers } from "@plasmicpkgs/plasmic-rich-components/skinny/rich-table";
 import { AntdRadioGroup } from "@plasmicpkgs/antd5/skinny/registerRadio";
 import { AntdRadio } from "@plasmicpkgs/antd5/skinny/registerRadio";
-import { FormWrapper } from "@plasmicpkgs/antd5/skinny/SchemaForm";
-import { formHelpers as FormWrapper_Helpers } from "@plasmicpkgs/antd5/skinny/Form";
 import Drawer from "../../Drawer"; // plasmic-import: jBduVDN7iRsf/component
 import { Iframe } from "@plasmicpkgs/plasmic-basic-components";
+import { FormWrapper } from "@plasmicpkgs/antd5/skinny/SchemaForm";
+import { formHelpers as FormWrapper_Helpers } from "@plasmicpkgs/antd5/skinny/Form";
 import { SimpleChart } from "@plasmicpkgs/react-chartjs-2";
 import { Fetcher } from "@plasmicapp/react-web/lib/data-sources";
 
@@ -135,11 +135,11 @@ export type PlasmicAdminDash__OverridesType = {
   table?: Flex__<typeof RichTable>;
   select8?: Flex__<typeof AntdSelect>;
   radioGroup?: Flex__<typeof AntdRadioGroup>;
-  modal?: Flex__<typeof AntdModal>;
-  form4?: Flex__<typeof FormWrapper>;
   drawer?: Flex__<typeof Drawer>;
   iframe?: Flex__<typeof Iframe>;
   img?: Flex__<typeof PlasmicImg__>;
+  modal?: Flex__<typeof AntdModal>;
+  form4?: Flex__<typeof FormWrapper>;
   columns?: Flex__<"div">;
   table3?: Flex__<typeof RichTable>;
   table2?: Flex__<typeof RichTable>;
@@ -627,7 +627,7 @@ function PlasmicAdminDash__RenderFunc(props: {
         path: "drawer.open",
         type: "private",
         variableType: "boolean",
-        initFunc: ({ $props, $state, $queries, $ctx }) => true
+        initFunc: ({ $props, $state, $queries, $ctx }) => false
       }
     ],
     [$props, $ctx, $refs]
@@ -645,11 +645,11 @@ function PlasmicAdminDash__RenderFunc(props: {
     getPartners: usePlasmicDataOp(() => {
       return {
         sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
-        opId: "41e9f968-d21a-47fd-ba16-b1a8e272a3ef",
+        opId: "0c53c5d6-f10f-4a4c-bc87-0e94de0188ae",
         userArgs: {
           filters: [$ctx.query.locationid]
         },
-        cacheKey: `plasmic.$.41e9f968-d21a-47fd-ba16-b1a8e272a3ef.$.`,
+        cacheKey: `plasmic.$.0c53c5d6-f10f-4a4c-bc87-0e94de0188ae.$.`,
         invalidatedKeys: null,
         roleId: null
       };
@@ -1334,900 +1334,144 @@ function PlasmicAdminDash__RenderFunc(props: {
             <div className={classNames(projectcss.all, sty.freeBox___5Dp7Z)}>
               <div className={classNames(projectcss.all, sty.freeBox___8ODfG)}>
                 <div className={classNames(projectcss.all, sty.freeBox__open9)}>
-                  <AntdModal
-                    data-plasmic-name={"modal2"}
-                    data-plasmic-override={overrides.modal2}
-                    className={classNames("__wab_instance", sty.modal2)}
-                    defaultStylesClassName={classNames(
-                      projectcss.root_reset,
-                      projectcss.plasmic_default_styles,
-                      projectcss.plasmic_mixins,
-                      projectcss.plasmic_tokens,
-                      plasmic_antd_5_hostless_css.plasmic_tokens,
-                      plasmic_plasmic_rich_components_css.plasmic_tokens
-                    )}
-                    hideFooter={true}
-                    modalScopeClassName={sty["modal2__modal"]}
-                    onOpenChange={generateStateOnChangeProp($state, [
-                      "modal2",
-                      "open"
-                    ])}
-                    open={generateStateValueProp($state, ["modal2", "open"])}
-                    title={"Add New Client"}
-                    trigger={
-                      <AntdButton
-                        className={classNames(
-                          "__wab_instance",
-                          sty.button__iebur
-                        )}
-                        type={"default"}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__wiInz
-                          )}
-                        >
-                          {"Add New Client"}
-                        </div>
-                      </AntdButton>
-                    }
-                    width={"600"}
+                  <div
+                    className={classNames(projectcss.all, sty.freeBox__qotu)}
                   >
-                    <div
-                      className={classNames(projectcss.all, sty.freeBox__iEf4G)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__jWpzq
-                        )}
-                      >
-                        {
-                          'Enter a search term for the contact you want to find then "Search"'
-                        }
-                      </div>
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__dtyJ
-                        )}
-                      >
-                        {(() => {
-                          const child$Props = {
-                            className: classNames("__wab_instance", sty.input),
-                            onChange:
-                              generateStateOnChangePropForCodeComponents(
-                                $state,
-                                "value",
-                                ["input", "value"],
-                                AntdInput_Helpers
-                              ),
-                            value: generateStateValueProp($state, [
-                              "input",
-                              "value"
-                            ])
-                          };
-                          initializeCodeComponentStates(
-                            $state,
-                            [
-                              {
-                                name: "value",
-                                plasmicStateName: "input.value"
-                              }
-                            ],
-                            [],
-                            AntdInput_Helpers ?? {},
-                            child$Props
-                          );
-
-                          return (
-                            <AntdInput
-                              data-plasmic-name={"input"}
-                              data-plasmic-override={overrides.input}
-                              {...child$Props}
-                            />
-                          );
-                        })()}
+                    <AntdModal
+                      data-plasmic-name={"modal2"}
+                      data-plasmic-override={overrides.modal2}
+                      className={classNames("__wab_instance", sty.modal2)}
+                      defaultStylesClassName={classNames(
+                        projectcss.root_reset,
+                        projectcss.plasmic_default_styles,
+                        projectcss.plasmic_mixins,
+                        projectcss.plasmic_tokens,
+                        plasmic_antd_5_hostless_css.plasmic_tokens,
+                        plasmic_plasmic_rich_components_css.plasmic_tokens
+                      )}
+                      hideFooter={true}
+                      modalScopeClassName={sty["modal2__modal"]}
+                      onOpenChange={generateStateOnChangeProp($state, [
+                        "modal2",
+                        "open"
+                      ])}
+                      open={generateStateValueProp($state, ["modal2", "open"])}
+                      title={"Add New Client"}
+                      trigger={
                         <AntdButton
                           className={classNames(
                             "__wab_instance",
-                            sty.button__r5AYr
+                            sty.button__iebur
                           )}
-                          onClick={async () => {
-                            const $steps = {};
-
-                            $steps["refreshData"] = true
-                              ? (() => {
-                                  const actionArgs = {
-                                    queryInvalidation: [
-                                      "0e080647-501b-4e47-9e13-6ea48e269381"
-                                    ]
-                                  };
-                                  return (async ({ queryInvalidation }) => {
-                                    if (!queryInvalidation) {
-                                      return;
-                                    }
-                                    await plasmicInvalidate(queryInvalidation);
-                                  })?.apply(null, [actionArgs]);
-                                })()
-                              : undefined;
-                            if (
-                              $steps["refreshData"] != null &&
-                              typeof $steps["refreshData"] === "object" &&
-                              typeof $steps["refreshData"].then === "function"
-                            ) {
-                              $steps["refreshData"] = await $steps[
-                                "refreshData"
-                              ];
-                            }
-                          }}
+                          type={"default"}
                         >
                           <div
                             className={classNames(
                               projectcss.all,
                               projectcss.__wab_text,
-                              sty.text__aDlk
+                              sty.text__wiInz
                             )}
                           >
-                            {"Search"}
+                            {"Add New Client"}
                           </div>
                         </AntdButton>
-                        <AntdSelect
-                          data-plasmic-name={"select10"}
-                          data-plasmic-override={overrides.select10}
-                          allowClear={true}
-                          className={classNames("__wab_instance", sty.select10)}
-                          defaultStylesClassName={classNames(
-                            projectcss.root_reset,
-                            projectcss.plasmic_default_styles,
-                            projectcss.plasmic_mixins,
-                            projectcss.plasmic_tokens,
-                            plasmic_antd_5_hostless_css.plasmic_tokens,
-                            plasmic_plasmic_rich_components_css.plasmic_tokens
-                          )}
-                          onChange={generateStateOnChangeProp($state, [
-                            "select10",
-                            "value"
-                          ])}
-                          options={(() => {
-                            try {
-                              return (() => {
-                                return $queries.hlContacts.data.response
-                                  .contacts.length === 0
-                                  ? [
-                                      {
-                                        key: "No Contact Found",
-                                        value: "No Contact Found"
-                                      }
-                                    ]
-                                  : $queries.hlContacts.data.response.contacts.map(
-                                      entry => ({
-                                        label: entry.contactName,
-                                        value: entry.id
-                                      })
-                                    );
-                              })();
-                            } catch (e) {
-                              if (
-                                e instanceof TypeError ||
-                                e?.plasmicType === "PlasmicUndefinedDataError"
-                              ) {
-                                return [
-                                  {
-                                    value: "option1",
-                                    label: "Option 1",
-                                    type: "option"
-                                  },
-                                  {
-                                    value: "option2",
-                                    label: "Option 2",
-                                    type: "option"
-                                  }
-                                ];
-                              }
-                              throw e;
-                            }
-                          })()}
-                          placeholder={"Select..."}
-                          popupScopeClassName={sty["select10__popup"]}
-                          value={generateStateValueProp($state, [
-                            "select10",
-                            "value"
-                          ])}
-                        />
-                      </div>
-                      {(() => {
-                        try {
-                          return $state.select10.value != null;
-                        } catch (e) {
-                          if (
-                            e instanceof TypeError ||
-                            e?.plasmicType === "PlasmicUndefinedDataError"
-                          ) {
-                            return true;
-                          }
-                          throw e;
-                        }
-                      })() ? (
+                      }
+                      width={"600"}
+                    >
+                      <div
+                        className={classNames(
+                          projectcss.all,
+                          sty.freeBox__iEf4G
+                        )}
+                      >
                         <div
                           className={classNames(
                             projectcss.all,
-                            sty.freeBox__cd5IC
+                            projectcss.__wab_text,
+                            sty.text__jWpzq
                           )}
                         >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__hWoXl
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__uFjz
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__tiEwP
-                                )}
-                              >
-                                {"First Name"}
-                              </div>
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input14
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input14", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input14",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input14.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input14"}
-                                    data-plasmic-override={overrides.input14}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__oCf6Y
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text___9KMfO
-                                )}
-                              >
-                                {"Last Name"}
-                              </div>
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input15
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input15", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input15",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input15.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input15"}
-                                    data-plasmic-override={overrides.input15}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__d7HJm
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__esPwf
-                                )}
-                              >
-                                {"Phone"}
-                              </div>
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input16
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input16", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input16",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input16.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input16"}
-                                    data-plasmic-override={overrides.input16}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__eFl52
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text___41GR4
-                                )}
-                              >
-                                {"Email"}
-                              </div>
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input17
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input17", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input17",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input17.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input17"}
-                                    data-plasmic-override={overrides.input17}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                          </div>
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              sty.freeBox__ypSac
-                            )}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__dE5I6
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__czuMw
-                                )}
-                              >
-                                {"Address"}
-                              </div>
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input23
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input23", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input23",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input23.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input23"}
-                                    data-plasmic-override={overrides.input23}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__pUd6C
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__ee1Fy
-                                )}
-                              >
-                                {"City"}
-                              </div>
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input24
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input24", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input24",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input24.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input24"}
-                                    data-plasmic-override={overrides.input24}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__huBwd
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__jjhO
-                                )}
-                              >
-                                {"State"}
-                              </div>
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input25
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input25", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input25",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input25.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input25"}
-                                    data-plasmic-override={overrides.input25}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.freeBox__xIs6A
-                              )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text___5T2Fc
-                                )}
-                              >
-                                {"Zip Code"}
-                              </div>
-                              {(() => {
-                                const child$Props = {
-                                  className: classNames(
-                                    "__wab_instance",
-                                    sty.input26
-                                  ),
-                                  onChange:
-                                    generateStateOnChangePropForCodeComponents(
-                                      $state,
-                                      "value",
-                                      ["input26", "value"],
-                                      AntdInput_Helpers
-                                    ),
-                                  value: generateStateValueProp($state, [
-                                    "input26",
-                                    "value"
-                                  ])
-                                };
-                                initializeCodeComponentStates(
-                                  $state,
-                                  [
-                                    {
-                                      name: "value",
-                                      plasmicStateName: "input26.value"
-                                    }
-                                  ],
-                                  [],
-                                  AntdInput_Helpers ?? {},
-                                  child$Props
-                                );
-
-                                return (
-                                  <AntdInput
-                                    data-plasmic-name={"input26"}
-                                    data-plasmic-override={overrides.input26}
-                                    {...child$Props}
-                                  />
-                                );
-                              })()}
-                            </div>
-                          </div>
+                          {
+                            'Enter a search term for the contact you want to find then "Search"'
+                          }
                         </div>
-                      ) : null}
-                      {(() => {
-                        try {
-                          return $state.select10.value != null;
-                        } catch (e) {
-                          if (
-                            e instanceof TypeError ||
-                            e?.plasmicType === "PlasmicUndefinedDataError"
-                          ) {
-                            return true;
-                          }
-                          throw e;
-                        }
-                      })() ? (
                         <div
                           className={classNames(
                             projectcss.all,
-                            sty.freeBox__qFjC
+                            sty.freeBox__dtyJ
                           )}
                         >
+                          {(() => {
+                            const child$Props = {
+                              className: classNames(
+                                "__wab_instance",
+                                sty.input
+                              ),
+                              onChange:
+                                generateStateOnChangePropForCodeComponents(
+                                  $state,
+                                  "value",
+                                  ["input", "value"],
+                                  AntdInput_Helpers
+                                ),
+                              value: generateStateValueProp($state, [
+                                "input",
+                                "value"
+                              ])
+                            };
+                            initializeCodeComponentStates(
+                              $state,
+                              [
+                                {
+                                  name: "value",
+                                  plasmicStateName: "input.value"
+                                }
+                              ],
+                              [],
+                              AntdInput_Helpers ?? {},
+                              child$Props
+                            );
+
+                            return (
+                              <AntdInput
+                                data-plasmic-name={"input"}
+                                data-plasmic-override={overrides.input}
+                                {...child$Props}
+                              />
+                            );
+                          })()}
                           <AntdButton
                             className={classNames(
                               "__wab_instance",
-                              sty.button__s6Wkq
+                              sty.button__r5AYr
                             )}
                             onClick={async () => {
                               const $steps = {};
 
-                              $steps["updateModal2Open"] = true
+                              $steps["refreshData"] = true
                                 ? (() => {
                                     const actionArgs = {
-                                      variable: {
-                                        objRoot: $state,
-                                        variablePath: ["modal2", "open"]
-                                      },
-                                      operation: 0,
-                                      value: false
+                                      queryInvalidation: [
+                                        "0e080647-501b-4e47-9e13-6ea48e269381"
+                                      ]
                                     };
-                                    return (({
-                                      variable,
-                                      value,
-                                      startIndex,
-                                      deleteCount
-                                    }) => {
-                                      if (!variable) {
+                                    return (async ({ queryInvalidation }) => {
+                                      if (!queryInvalidation) {
                                         return;
                                       }
-                                      const { objRoot, variablePath } =
-                                        variable;
-
-                                      $stateSet(objRoot, variablePath, value);
-                                      return value;
-                                    })?.apply(null, [actionArgs]);
-                                  })()
-                                : undefined;
-                              if (
-                                $steps["updateModal2Open"] != null &&
-                                typeof $steps["updateModal2Open"] ===
-                                  "object" &&
-                                typeof $steps["updateModal2Open"].then ===
-                                  "function"
-                              ) {
-                                $steps["updateModal2Open"] = await $steps[
-                                  "updateModal2Open"
-                                ];
-                              }
-
-                              $steps["useIntegration"] = true
-                                ? (() => {
-                                    const actionArgs = {
-                                      dataOp: {
-                                        sourceId: "94DwF4GLwVL8D9jt9sN8Dy",
-                                        opId: "28629973-9ef4-4cc4-b59b-45f969a88769",
-                                        userArgs: {
-                                          body: [
-                                            $queries.hlContacts.data.response.contacts.find(
-                                              entry =>
-                                                entry.id ==
-                                                $state.select10.value
-                                            ).id,
-                                            $state.input14.value,
-                                            $state.input15.value,
-                                            $state.input17.value,
-                                            $state.input16.value,
-                                            $state.input23.value,
-                                            $state.input24.value,
-                                            $state.input25.value,
-                                            $state.input26.value,
-                                            $queries.getEntity.data[0]
-                                              .AgencyLocationId
-                                          ]
-                                        },
-                                        cacheKey: null,
-                                        invalidatedKeys: [
-                                          "41e9f968-d21a-47fd-ba16-b1a8e272a3ef"
-                                        ],
-                                        roleId: null
-                                      }
-                                    };
-                                    return (async ({
-                                      dataOp,
-                                      continueOnError
-                                    }) => {
-                                      try {
-                                        const response =
-                                          await executePlasmicDataOp(dataOp, {
-                                            userAuthToken:
-                                              dataSourcesCtx?.userAuthToken,
-                                            user: dataSourcesCtx?.user
-                                          });
-                                        await plasmicInvalidate(
-                                          dataOp.invalidatedKeys
-                                        );
-                                        return response;
-                                      } catch (e) {
-                                        if (!continueOnError) {
-                                          throw e;
-                                        }
-                                        return e;
-                                      }
-                                    })?.apply(null, [actionArgs]);
-                                  })()
-                                : undefined;
-                              if (
-                                $steps["useIntegration"] != null &&
-                                typeof $steps["useIntegration"] === "object" &&
-                                typeof $steps["useIntegration"].then ===
-                                  "function"
-                              ) {
-                                $steps["useIntegration"] = await $steps[
-                                  "useIntegration"
-                                ];
-                              }
-
-                              $steps["updateSelect10Value"] = true
-                                ? (() => {
-                                    const actionArgs = {
-                                      variable: {
-                                        objRoot: $state,
-                                        variablePath: ["select10", "value"]
-                                      },
-                                      operation: 1
-                                    };
-                                    return (({
-                                      variable,
-                                      value,
-                                      startIndex,
-                                      deleteCount
-                                    }) => {
-                                      if (!variable) {
-                                        return;
-                                      }
-                                      const { objRoot, variablePath } =
-                                        variable;
-
-                                      $stateSet(
-                                        objRoot,
-                                        variablePath,
-                                        undefined
+                                      await plasmicInvalidate(
+                                        queryInvalidation
                                       );
-                                      return undefined;
                                     })?.apply(null, [actionArgs]);
                                   })()
                                 : undefined;
                               if (
-                                $steps["updateSelect10Value"] != null &&
-                                typeof $steps["updateSelect10Value"] ===
-                                  "object" &&
-                                typeof $steps["updateSelect10Value"].then ===
-                                  "function"
+                                $steps["refreshData"] != null &&
+                                typeof $steps["refreshData"] === "object" &&
+                                typeof $steps["refreshData"].then === "function"
                               ) {
-                                $steps["updateSelect10Value"] = await $steps[
-                                  "updateSelect10Value"
-                                ];
-                              }
-
-                              $steps["updateInputValue"] = true
-                                ? (() => {
-                                    const actionArgs = {
-                                      variable: {
-                                        objRoot: $state,
-                                        variablePath: ["input", "value"]
-                                      },
-                                      operation: 1
-                                    };
-                                    return (({
-                                      variable,
-                                      value,
-                                      startIndex,
-                                      deleteCount
-                                    }) => {
-                                      if (!variable) {
-                                        return;
-                                      }
-                                      const { objRoot, variablePath } =
-                                        variable;
-
-                                      $stateSet(
-                                        objRoot,
-                                        variablePath,
-                                        undefined
-                                      );
-                                      return undefined;
-                                    })?.apply(null, [actionArgs]);
-                                  })()
-                                : undefined;
-                              if (
-                                $steps["updateInputValue"] != null &&
-                                typeof $steps["updateInputValue"] ===
-                                  "object" &&
-                                typeof $steps["updateInputValue"].then ===
-                                  "function"
-                              ) {
-                                $steps["updateInputValue"] = await $steps[
-                                  "updateInputValue"
+                                $steps["refreshData"] = await $steps[
+                                  "refreshData"
                                 ];
                               }
                             }}
@@ -2236,25 +1480,797 @@ function PlasmicAdminDash__RenderFunc(props: {
                               className={classNames(
                                 projectcss.all,
                                 projectcss.__wab_text,
-                                sty.text__dcv7J
+                                sty.text__aDlk
                               )}
                             >
-                              {"Add Client"}
+                              {"Search"}
                             </div>
                           </AntdButton>
+                          <AntdSelect
+                            data-plasmic-name={"select10"}
+                            data-plasmic-override={overrides.select10}
+                            allowClear={true}
+                            className={classNames(
+                              "__wab_instance",
+                              sty.select10
+                            )}
+                            defaultStylesClassName={classNames(
+                              projectcss.root_reset,
+                              projectcss.plasmic_default_styles,
+                              projectcss.plasmic_mixins,
+                              projectcss.plasmic_tokens,
+                              plasmic_antd_5_hostless_css.plasmic_tokens,
+                              plasmic_plasmic_rich_components_css.plasmic_tokens
+                            )}
+                            onChange={generateStateOnChangeProp($state, [
+                              "select10",
+                              "value"
+                            ])}
+                            options={(() => {
+                              try {
+                                return (() => {
+                                  return $queries.hlContacts.data.response
+                                    .contacts.length === 0
+                                    ? [
+                                        {
+                                          key: "No Contact Found",
+                                          value: "No Contact Found"
+                                        }
+                                      ]
+                                    : $queries.hlContacts.data.response.contacts.map(
+                                        entry => ({
+                                          label: entry.contactName,
+                                          value: entry.id
+                                        })
+                                      );
+                                })();
+                              } catch (e) {
+                                if (
+                                  e instanceof TypeError ||
+                                  e?.plasmicType === "PlasmicUndefinedDataError"
+                                ) {
+                                  return [
+                                    {
+                                      value: "option1",
+                                      label: "Option 1",
+                                      type: "option"
+                                    },
+                                    {
+                                      value: "option2",
+                                      label: "Option 2",
+                                      type: "option"
+                                    }
+                                  ];
+                                }
+                                throw e;
+                              }
+                            })()}
+                            placeholder={"Select..."}
+                            popupScopeClassName={sty["select10__popup"]}
+                            value={generateStateValueProp($state, [
+                              "select10",
+                              "value"
+                            ])}
+                          />
+                        </div>
+                        {(() => {
+                          try {
+                            return $state.select10.value != null;
+                          } catch (e) {
+                            if (
+                              e instanceof TypeError ||
+                              e?.plasmicType === "PlasmicUndefinedDataError"
+                            ) {
+                              return true;
+                            }
+                            throw e;
+                          }
+                        })() ? (
                           <div
                             className={classNames(
                               projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__zO2Ar
+                              sty.freeBox__cd5IC
                             )}
                           >
-                            {"This will also create a dashboard."}
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__hWoXl
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__uFjz
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__tiEwP
+                                  )}
+                                >
+                                  {"First Name"}
+                                </div>
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.input14
+                                    ),
+                                    onChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["input14", "value"],
+                                        AntdInput_Helpers
+                                      ),
+                                    value: generateStateValueProp($state, [
+                                      "input14",
+                                      "value"
+                                    ])
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "input14.value"
+                                      }
+                                    ],
+                                    [],
+                                    AntdInput_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <AntdInput
+                                      data-plasmic-name={"input14"}
+                                      data-plasmic-override={overrides.input14}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__oCf6Y
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text___9KMfO
+                                  )}
+                                >
+                                  {"Last Name"}
+                                </div>
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.input15
+                                    ),
+                                    onChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["input15", "value"],
+                                        AntdInput_Helpers
+                                      ),
+                                    value: generateStateValueProp($state, [
+                                      "input15",
+                                      "value"
+                                    ])
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "input15.value"
+                                      }
+                                    ],
+                                    [],
+                                    AntdInput_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <AntdInput
+                                      data-plasmic-name={"input15"}
+                                      data-plasmic-override={overrides.input15}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__d7HJm
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__esPwf
+                                  )}
+                                >
+                                  {"Phone"}
+                                </div>
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.input16
+                                    ),
+                                    onChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["input16", "value"],
+                                        AntdInput_Helpers
+                                      ),
+                                    value: generateStateValueProp($state, [
+                                      "input16",
+                                      "value"
+                                    ])
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "input16.value"
+                                      }
+                                    ],
+                                    [],
+                                    AntdInput_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <AntdInput
+                                      data-plasmic-name={"input16"}
+                                      data-plasmic-override={overrides.input16}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__eFl52
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text___41GR4
+                                  )}
+                                >
+                                  {"Email"}
+                                </div>
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.input17
+                                    ),
+                                    onChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["input17", "value"],
+                                        AntdInput_Helpers
+                                      ),
+                                    value: generateStateValueProp($state, [
+                                      "input17",
+                                      "value"
+                                    ])
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "input17.value"
+                                      }
+                                    ],
+                                    [],
+                                    AntdInput_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <AntdInput
+                                      data-plasmic-name={"input17"}
+                                      data-plasmic-override={overrides.input17}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__ypSac
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__dE5I6
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__czuMw
+                                  )}
+                                >
+                                  {"Address"}
+                                </div>
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.input23
+                                    ),
+                                    onChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["input23", "value"],
+                                        AntdInput_Helpers
+                                      ),
+                                    value: generateStateValueProp($state, [
+                                      "input23",
+                                      "value"
+                                    ])
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "input23.value"
+                                      }
+                                    ],
+                                    [],
+                                    AntdInput_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <AntdInput
+                                      data-plasmic-name={"input23"}
+                                      data-plasmic-override={overrides.input23}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__pUd6C
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__ee1Fy
+                                  )}
+                                >
+                                  {"City"}
+                                </div>
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.input24
+                                    ),
+                                    onChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["input24", "value"],
+                                        AntdInput_Helpers
+                                      ),
+                                    value: generateStateValueProp($state, [
+                                      "input24",
+                                      "value"
+                                    ])
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "input24.value"
+                                      }
+                                    ],
+                                    [],
+                                    AntdInput_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <AntdInput
+                                      data-plasmic-name={"input24"}
+                                      data-plasmic-override={overrides.input24}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__huBwd
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text__jjhO
+                                  )}
+                                >
+                                  {"State"}
+                                </div>
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.input25
+                                    ),
+                                    onChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["input25", "value"],
+                                        AntdInput_Helpers
+                                      ),
+                                    value: generateStateValueProp($state, [
+                                      "input25",
+                                      "value"
+                                    ])
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "input25.value"
+                                      }
+                                    ],
+                                    [],
+                                    AntdInput_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <AntdInput
+                                      data-plasmic-name={"input25"}
+                                      data-plasmic-override={overrides.input25}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__xIs6A
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    projectcss.__wab_text,
+                                    sty.text___5T2Fc
+                                  )}
+                                >
+                                  {"Zip Code"}
+                                </div>
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.input26
+                                    ),
+                                    onChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["input26", "value"],
+                                        AntdInput_Helpers
+                                      ),
+                                    value: generateStateValueProp($state, [
+                                      "input26",
+                                      "value"
+                                    ])
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "input26.value"
+                                      }
+                                    ],
+                                    [],
+                                    AntdInput_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <AntdInput
+                                      data-plasmic-name={"input26"}
+                                      data-plasmic-override={overrides.input26}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      ) : null}
-                    </div>
-                  </AntdModal>
+                        ) : null}
+                        {(() => {
+                          try {
+                            return $state.select10.value != null;
+                          } catch (e) {
+                            if (
+                              e instanceof TypeError ||
+                              e?.plasmicType === "PlasmicUndefinedDataError"
+                            ) {
+                              return true;
+                            }
+                            throw e;
+                          }
+                        })() ? (
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__qFjC
+                            )}
+                          >
+                            <AntdButton
+                              className={classNames(
+                                "__wab_instance",
+                                sty.button__s6Wkq
+                              )}
+                              onClick={async () => {
+                                const $steps = {};
+
+                                $steps["updateModal2Open"] = true
+                                  ? (() => {
+                                      const actionArgs = {
+                                        variable: {
+                                          objRoot: $state,
+                                          variablePath: ["modal2", "open"]
+                                        },
+                                        operation: 0,
+                                        value: false
+                                      };
+                                      return (({
+                                        variable,
+                                        value,
+                                        startIndex,
+                                        deleteCount
+                                      }) => {
+                                        if (!variable) {
+                                          return;
+                                        }
+                                        const { objRoot, variablePath } =
+                                          variable;
+
+                                        $stateSet(objRoot, variablePath, value);
+                                        return value;
+                                      })?.apply(null, [actionArgs]);
+                                    })()
+                                  : undefined;
+                                if (
+                                  $steps["updateModal2Open"] != null &&
+                                  typeof $steps["updateModal2Open"] ===
+                                    "object" &&
+                                  typeof $steps["updateModal2Open"].then ===
+                                    "function"
+                                ) {
+                                  $steps["updateModal2Open"] = await $steps[
+                                    "updateModal2Open"
+                                  ];
+                                }
+
+                                $steps["useIntegration"] = true
+                                  ? (() => {
+                                      const actionArgs = {
+                                        dataOp: {
+                                          sourceId: "94DwF4GLwVL8D9jt9sN8Dy",
+                                          opId: "28629973-9ef4-4cc4-b59b-45f969a88769",
+                                          userArgs: {
+                                            body: [
+                                              $queries.hlContacts.data.response.contacts.find(
+                                                entry =>
+                                                  entry.id ==
+                                                  $state.select10.value
+                                              ).id,
+                                              $state.input14.value,
+                                              $state.input15.value,
+                                              $state.input17.value,
+                                              $state.input16.value,
+                                              $state.input23.value,
+                                              $state.input24.value,
+                                              $state.input25.value,
+                                              $state.input26.value,
+                                              $queries.getEntity.data[0]
+                                                .AgencyLocationId
+                                            ]
+                                          },
+                                          cacheKey: null,
+                                          invalidatedKeys: [
+                                            "0c53c5d6-f10f-4a4c-bc87-0e94de0188ae"
+                                          ],
+                                          roleId: null
+                                        }
+                                      };
+                                      return (async ({
+                                        dataOp,
+                                        continueOnError
+                                      }) => {
+                                        try {
+                                          const response =
+                                            await executePlasmicDataOp(dataOp, {
+                                              userAuthToken:
+                                                dataSourcesCtx?.userAuthToken,
+                                              user: dataSourcesCtx?.user
+                                            });
+                                          await plasmicInvalidate(
+                                            dataOp.invalidatedKeys
+                                          );
+                                          return response;
+                                        } catch (e) {
+                                          if (!continueOnError) {
+                                            throw e;
+                                          }
+                                          return e;
+                                        }
+                                      })?.apply(null, [actionArgs]);
+                                    })()
+                                  : undefined;
+                                if (
+                                  $steps["useIntegration"] != null &&
+                                  typeof $steps["useIntegration"] ===
+                                    "object" &&
+                                  typeof $steps["useIntegration"].then ===
+                                    "function"
+                                ) {
+                                  $steps["useIntegration"] = await $steps[
+                                    "useIntegration"
+                                  ];
+                                }
+
+                                $steps["updateSelect10Value"] = true
+                                  ? (() => {
+                                      const actionArgs = {
+                                        variable: {
+                                          objRoot: $state,
+                                          variablePath: ["select10", "value"]
+                                        },
+                                        operation: 1
+                                      };
+                                      return (({
+                                        variable,
+                                        value,
+                                        startIndex,
+                                        deleteCount
+                                      }) => {
+                                        if (!variable) {
+                                          return;
+                                        }
+                                        const { objRoot, variablePath } =
+                                          variable;
+
+                                        $stateSet(
+                                          objRoot,
+                                          variablePath,
+                                          undefined
+                                        );
+                                        return undefined;
+                                      })?.apply(null, [actionArgs]);
+                                    })()
+                                  : undefined;
+                                if (
+                                  $steps["updateSelect10Value"] != null &&
+                                  typeof $steps["updateSelect10Value"] ===
+                                    "object" &&
+                                  typeof $steps["updateSelect10Value"].then ===
+                                    "function"
+                                ) {
+                                  $steps["updateSelect10Value"] = await $steps[
+                                    "updateSelect10Value"
+                                  ];
+                                }
+
+                                $steps["updateInputValue"] = true
+                                  ? (() => {
+                                      const actionArgs = {
+                                        variable: {
+                                          objRoot: $state,
+                                          variablePath: ["input", "value"]
+                                        },
+                                        operation: 1
+                                      };
+                                      return (({
+                                        variable,
+                                        value,
+                                        startIndex,
+                                        deleteCount
+                                      }) => {
+                                        if (!variable) {
+                                          return;
+                                        }
+                                        const { objRoot, variablePath } =
+                                          variable;
+
+                                        $stateSet(
+                                          objRoot,
+                                          variablePath,
+                                          undefined
+                                        );
+                                        return undefined;
+                                      })?.apply(null, [actionArgs]);
+                                    })()
+                                  : undefined;
+                                if (
+                                  $steps["updateInputValue"] != null &&
+                                  typeof $steps["updateInputValue"] ===
+                                    "object" &&
+                                  typeof $steps["updateInputValue"].then ===
+                                    "function"
+                                ) {
+                                  $steps["updateInputValue"] = await $steps[
+                                    "updateInputValue"
+                                  ];
+                                }
+                              }}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__dcv7J
+                                )}
+                              >
+                                {"Add Client"}
+                              </div>
+                            </AntdButton>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__zO2Ar
+                              )}
+                            >
+                              {"This will also create a dashboard."}
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
+                    </AntdModal>
+                  </div>
                   {(() => {
                     const child$Props = {
                       canSelectRows: "single",
@@ -2364,6 +2380,7 @@ function PlasmicAdminDash__RenderFunc(props: {
 
                       hideColumnPicker: true,
                       hideExports: true,
+                      hideSelectionBar: true,
                       onRowSelectionChanged: async (...eventArgs: any) => {
                         generateStateOnChangePropForCodeComponents(
                           $state,
@@ -2390,6 +2407,7 @@ function PlasmicAdminDash__RenderFunc(props: {
                           RichTable_Helpers
                         ).apply(null, eventArgs);
                       },
+                      pageSize: 15,
                       pagination: (() => {
                         try {
                           return $queries.getPartners.data.length > 15;
@@ -2634,813 +2652,9 @@ function PlasmicAdminDash__RenderFunc(props: {
                       </AntdRadio>
                     </AntdRadioGroup>
                   </div>
-                  <div
-                    className={classNames(projectcss.all, sty.freeBox__g1MTl)}
-                  >
-                    <AntdModal
-                      data-plasmic-name={"modal"}
-                      data-plasmic-override={overrides.modal}
-                      className={classNames("__wab_instance", sty.modal)}
-                      defaultStylesClassName={classNames(
-                        projectcss.root_reset,
-                        projectcss.plasmic_default_styles,
-                        projectcss.plasmic_mixins,
-                        projectcss.plasmic_tokens,
-                        plasmic_antd_5_hostless_css.plasmic_tokens,
-                        plasmic_plasmic_rich_components_css.plasmic_tokens
-                      )}
-                      hideFooter={true}
-                      modalScopeClassName={sty["modal__modal"]}
-                      onOpenChange={generateStateOnChangeProp($state, [
-                        "modal",
-                        "open"
-                      ])}
-                      open={generateStateValueProp($state, ["modal", "open"])}
-                      title={"Edit Home Info"}
-                      trigger={
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__kv68
-                          )}
-                        >
-                          <AntdButton
-                            className={classNames(
-                              "__wab_instance",
-                              sty.button__bG7Bh
-                            )}
-                            type={"default"}
-                          >
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                projectcss.__wab_text,
-                                sty.text__ek1Cm
-                              )}
-                            >
-                              {"Edit Property Info"}
-                            </div>
-                          </AntdButton>
-                        </div>
-                      }
-                    >
-                      {(() => {
-                        const child$Props = {
-                          className: classNames("__wab_instance", sty.form4),
-                          data: {
-                            sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
-                            opId: "186a6867-5ac4-453b-98fd-15ba95372a28",
-                            userArgs: {
-                              filters: [
-                                $queries.getProperties.data.find(
-                                  entry =>
-                                    entry.address1 === $state.select8.value
-                                ).id
-                              ]
-                            },
-                            cacheKey: `plasmic.$.${(() => {
-                              try {
-                                return "getOne";
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "";
-                                }
-                                throw e;
-                              }
-                            })()}.$.186a6867-5ac4-453b-98fd-15ba95372a28.$.`,
-                            invalidatedKeys: null,
-                            roleId: null
-                          },
-                          dataFormItems: (() => {
-                            const __composite = [
-                              {
-                                key: "address1",
-                                inputType: "Text",
-                                fieldId: "address1",
-                                label: null,
-                                name: "address1",
-                                initialValue: "123 W Main ST"
-                              },
-                              {
-                                key: "state",
-                                inputType: "Text",
-                                fieldId: "state",
-                                label: null,
-                                name: "state",
-                                initialValue: "UT"
-                              },
-                              {
-                                key: "city",
-                                inputType: "Text",
-                                fieldId: "city",
-                                label: null,
-                                name: "city",
-                                initialValue: "West Jordan"
-                              },
-                              {
-                                key: "zipCode",
-                                inputType: "Text",
-                                fieldId: "zipCode",
-                                label: null,
-                                name: "zipCode",
-                                initialValue: "84081"
-                              },
-                              {
-                                key: "county",
-                                inputType: null,
-                                fieldId: "county",
-                                label: null,
-                                name: "county",
-                                initialValue: "Salt Lake"
-                              },
-                              {
-                                key: "id",
-                                inputType: "Number",
-                                fieldId: "id",
-                                label: "id",
-                                name: "id",
-                                initialValue: null,
-                                hidden: null
-                              },
-                              {
-                                key: "BedroomsTotal",
-                                inputType: "Number",
-                                fieldId: "BedroomsTotal",
-                                label: "BedroomsTotal",
-                                name: "BedroomsTotal",
-                                initialValue: "3"
-                              },
-                              {
-                                key: "BathroomsTotal",
-                                inputType: "Number",
-                                fieldId: "BathroomsTotal",
-                                label: "BathroomsTotal",
-                                name: "BathroomsTotal",
-                                initialValue: "2"
-                              },
-                              {
-                                key: "RoomsTotal",
-                                inputType: "Number",
-                                fieldId: "RoomsTotal",
-                                label: "RoomsTotal",
-                                name: "RoomsTotal",
-                                initialValue: "9"
-                              },
-                              {
-                                key: "lotSize",
-                                inputType: "Number",
-                                fieldId: "lotSize",
-                                label: null,
-                                name: "lotSize",
-                                initialValue: null
-                              },
-                              {
-                                key: "clientId",
-                                inputType: "Number",
-                                fieldId: "clientId",
-                                label: "clientId",
-                                name: "clientId",
-                                initialValue: null,
-                                hidden: null
-                              },
-                              {
-                                key: "pricePerSqFoot",
-                                inputType: "Number",
-                                fieldId: "pricePerSqFoot",
-                                label: "pricePerSqFoot",
-                                name: "pricePerSqFoot",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "addressFull",
-                                inputType: "Text",
-                                fieldId: "addressFull",
-                                label: "addressFull",
-                                name: "addressFull",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "stories",
-                                inputType: "Number",
-                                fieldId: "stories",
-                                label: null,
-                                name: "stories",
-                                initialValue: null
-                              },
-                              {
-                                key: "year_built",
-                                inputType: "Number",
-                                fieldId: "year_built",
-                                label: null,
-                                name: "year_built",
-                                initialValue: null
-                              },
-                              {
-                                key: "created_at",
-                                inputType: "Text",
-                                fieldId: "created_at",
-                                label: "created_at",
-                                name: "created_at",
-                                initialValue: "2024-07-15T15:12:05.070Z",
-                                hidden: null
-                              },
-                              {
-                                key: "neighborhood_code",
-                                inputType: "Text",
-                                fieldId: "neighborhood_code",
-                                label: "neighborhood_code",
-                                name: "neighborhood_code",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "ListingKeyNumeric",
-                                inputType: "Number",
-                                fieldId: "ListingKeyNumeric",
-                                label: "ListingKeyNumeric",
-                                name: "ListingKeyNumeric",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "latitude",
-                                inputType: "Number",
-                                fieldId: "latitude",
-                                label: "latitude",
-                                name: "latitude",
-                                initialValue: null,
-                                hidden: null
-                              },
-                              {
-                                key: "atommId",
-                                inputType: "Number",
-                                fieldId: "atommId",
-                                label: "atommId",
-                                name: "atommId",
-                                initialValue: null,
-                                hidden: null
-                              },
-                              {
-                                key: "property_type",
-                                inputType: "Text",
-                                fieldId: "property_type",
-                                label: "property_type",
-                                name: "property_type",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "client_email",
-                                inputType: "Text",
-                                fieldId: "client_email",
-                                label: "client_email",
-                                name: "client_email",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "parcel_number",
-                                inputType: "Text",
-                                fieldId: "parcel_number",
-                                label: "parcel_number",
-                                name: "parcel_number",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "StreetType",
-                                inputType: "Text",
-                                fieldId: "StreetType",
-                                label: "StreetType",
-                                name: "StreetType",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "PreDir",
-                                inputType: "Text",
-                                fieldId: "PreDir",
-                                label: "PreDir",
-                                name: "PreDir",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "StreetName",
-                                inputType: "Text",
-                                fieldId: "StreetName",
-                                label: "StreetName",
-                                name: "StreetName",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "address2",
-                                inputType: "Text",
-                                fieldId: "address2",
-                                label: "address2",
-                                name: "address2",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "entityId",
-                                inputType: "Number",
-                                fieldId: "entityId",
-                                label: "entityId",
-                                name: "entityId",
-                                initialValue: null,
-                                hidden: null
-                              },
-                              {
-                                key: "HouseNum",
-                                inputType: "Number",
-                                fieldId: "HouseNum",
-                                label: "HouseNum",
-                                name: "HouseNum",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "homeEstimate",
-                                inputType: "Number",
-                                fieldId: "homeEstimate",
-                                label: "homeEstimate",
-                                name: "homeEstimate",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "StreetDir",
-                                inputType: "Text",
-                                fieldId: "StreetDir",
-                                label: "StreetDir",
-                                name: "StreetDir",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "longitude",
-                                inputType: "Number",
-                                fieldId: "longitude",
-                                label: "longitude",
-                                name: "longitude",
-                                initialValue: null,
-                                hidden: null
-                              },
-                              {
-                                key: "parcel_acres",
-                                inputType: "Number",
-                                fieldId: "parcel_acres",
-                                label: "parcel_acres",
-                                name: "parcel_acres",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "streetPhoto",
-                                inputType: "Text",
-                                fieldId: "streetPhoto",
-                                label: "streetPhoto",
-                                name: "streetPhoto",
-                                initialValue:
-                                  "https://assets.utahrealestate.com/photos/640x480/901698.jpg",
-                                hidden: null
-                              },
-                              {
-                                key: "taxable_value",
-                                inputType: "Number",
-                                fieldId: "taxable_value",
-                                label: "taxable_value",
-                                name: "taxable_value",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "total_assessed",
-                                inputType: "Number",
-                                fieldId: "total_assessed",
-                                label: null,
-                                name: "total_assessed",
-                                initialValue: null
-                              },
-                              {
-                                key: "total_sq_ft",
-                                inputType: "Number",
-                                fieldId: "total_sq_ft",
-                                label: "total_sq_ft",
-                                name: "total_sq_ft",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "pageViews",
-                                inputType: "Number",
-                                fieldId: "pageViews",
-                                label: "pageViews",
-                                name: "pageViews",
-                                initialValue: null,
-                                hidden: null
-                              },
-                              {
-                                key: "prop_status_other",
-                                inputType: "Text",
-                                fieldId: "prop_status_other",
-                                label: "prop_status_other",
-                                name: "prop_status_other",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "notif_2",
-                                inputType: "Checkbox",
-                                fieldId: "notif_2",
-                                label: "notif_2",
-                                name: "notif_2",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "propsubtype",
-                                inputType: "Text",
-                                fieldId: "propsubtype",
-                                label: "propsubtype",
-                                name: "propsubtype",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "propclass",
-                                inputType: "Text",
-                                fieldId: "propclass",
-                                label: "propclass",
-                                name: "propclass",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "done",
-                                inputType: "Checkbox",
-                                fieldId: "done",
-                                label: "done",
-                                name: "done",
-                                initialValue: true,
-                                hidden: null
-                              },
-                              {
-                                key: "contactId",
-                                inputType: "Text",
-                                fieldId: "contactId",
-                                label: "contactId",
-                                name: "contactId",
-                                initialValue: "WkIxUxhQfUy9e7NKe0my",
-                                hidden: null
-                              },
-                              {
-                                key: "offer_requested",
-                                inputType: "Checkbox",
-                                fieldId: "offer_requested",
-                                label: "offer_requested",
-                                name: "offer_requested",
-                                initialValue: false,
-                                hidden: null
-                              },
-                              {
-                                key: "notif_3",
-                                inputType: "Checkbox",
-                                fieldId: "notif_3",
-                                label: "notif_3",
-                                name: "notif_3",
-                                initialValue: {},
-                                hidden: null
-                              },
-                              {
-                                key: "prop_next_move",
-                                inputType: "Text",
-                                fieldId: "prop_next_move",
-                                label: "prop_next_move",
-                                name: "prop_next_move",
-                                initialValue: [2],
-                                hidden: null
-                              },
-                              {
-                                key: "comp_map",
-                                inputType: "Text",
-                                fieldId: "comp_map",
-                                label: "comp_map",
-                                name: "comp_map",
-                                initialValue:
-                                  "https://maps.googleapis.com/maps/api/staticmap?size=640x640&maptype=roadmap&markers=color:red%7C40.588606,-112.019422%7C40.588218,-112.016419%7C40.587636,-112.014368%7C40.59324,-112.016033%7C40.588962,-112.011582%7C40.593067,-112.013783%7C40.582813,-112.014281%7C40.593314,-112.013784%7C40.581953,-112.013404%7C40.585847,-112.009393&markers=color:yellow%7C40.588203,-112.019619&key=AIzaSyATfwK78rrMglC2UiaomrD7lij1j_AQ_IU",
-                                hidden: null
-                              },
-                              {
-                                key: "onboarding_done",
-                                inputType: "Checkbox",
-                                fieldId: "onboarding_done",
-                                label: "onboarding_done",
-                                name: "onboarding_done",
-                                initialValue: true,
-                                hidden: null
-                              },
-                              {
-                                key: "prop_next_move_other",
-                                inputType: "Text",
-                                fieldId: "prop_next_move_other",
-                                label: "prop_next_move_other",
-                                name: "prop_next_move_other",
-                                initialValue: "",
-                                hidden: null
-                              },
-                              {
-                                key: "prop_status",
-                                inputType: "Text",
-                                fieldId: "prop_status",
-                                label: "prop_status",
-                                name: "prop_status",
-                                initialValue: [0],
-                                hidden: null
-                              },
-                              {
-                                key: "notif_1",
-                                inputType: "Checkbox",
-                                fieldId: "notif_1",
-                                label: "notif_1",
-                                name: "notif_1",
-                                initialValue: true,
-                                hidden: null
-                              }
-                            ];
-                            __composite["0"]["label"] = "Address";
-                            __composite["1"]["label"] = "State";
-                            __composite["2"]["label"] = "City";
-                            __composite["3"]["label"] = "Zip Code";
-                            __composite["4"]["inputType"] = "Select";
-                            __composite["4"]["label"] = "County";
-                            __composite["5"]["initialValue"] = 2;
-                            __composite["5"]["hidden"] = true;
-                            __composite["9"]["label"] = "Lot Size";
-                            __composite["9"]["initialValue"] = 0.1899908;
-                            __composite["10"]["initialValue"] = 1;
-                            __composite["10"]["hidden"] = true;
-                            __composite["11"]["hidden"] = true;
-                            __composite["12"]["hidden"] = true;
-                            __composite["13"]["label"] = "Stories";
-                            __composite["13"]["initialValue"] = 2;
-                            __composite["14"]["label"] = "Year Built";
-                            __composite["14"]["initialValue"] = 2004;
-                            __composite["15"]["hidden"] = true;
-                            __composite["16"]["hidden"] = true;
-                            __composite["17"]["hidden"] = true;
-                            __composite["18"]["initialValue"] = 40.588203;
-                            __composite["18"]["hidden"] = true;
-                            __composite["19"]["initialValue"] = 35868754;
-                            __composite["19"]["hidden"] = true;
-                            __composite["20"]["hidden"] = true;
-                            __composite["21"]["hidden"] = true;
-                            __composite["22"]["hidden"] = true;
-                            __composite["23"]["hidden"] = true;
-                            __composite["24"]["hidden"] = true;
-                            __composite["25"]["hidden"] = true;
-                            __composite["26"]["hidden"] = true;
-                            __composite["27"]["initialValue"] = 1;
-                            __composite["27"]["hidden"] = true;
-                            __composite["28"]["hidden"] = true;
-                            __composite["29"]["hidden"] = true;
-                            __composite["30"]["hidden"] = true;
-                            __composite["31"]["initialValue"] = -112.019619;
-                            __composite["31"]["hidden"] = true;
-                            __composite["32"]["hidden"] = true;
-                            __composite["33"]["hidden"] = true;
-                            __composite["34"]["hidden"] = true;
-                            __composite["35"]["label"] = "Home Estimate";
-                            __composite["35"]["initialValue"] = 552000;
-                            __composite["36"]["hidden"] = true;
-                            __composite["37"]["initialValue"] = 3;
-                            __composite["37"]["hidden"] = true;
-                            __composite["38"]["hidden"] = true;
-                            __composite["39"]["hidden"] = true;
-                            __composite["40"]["hidden"] = true;
-                            __composite["41"]["hidden"] = true;
-                            __composite["42"]["hidden"] = true;
-                            __composite["43"]["hidden"] = true;
-                            __composite["44"]["hidden"] = true;
-                            __composite["45"]["hidden"] = true;
-                            __composite["46"]["hidden"] = true;
-                            __composite["47"]["hidden"] = true;
-                            __composite["48"]["hidden"] = true;
-                            __composite["49"]["hidden"] = true;
-                            __composite["50"]["hidden"] = true;
-                            __composite["51"]["hidden"] = true;
-                            return __composite;
-                          })(),
-
-                          extendedOnValuesChange:
-                            generateStateOnChangePropForCodeComponents(
-                              $state,
-                              "value",
-                              ["form4", "value"],
-                              FormWrapper_Helpers
-                            ),
-                          formItems: [],
-                          labelCol: { span: 8, horizontalOnly: true },
-                          layout: "inline",
-                          mode: "simplified",
-                          onFinish: async values => {
-                            const $steps = {};
-
-                            $steps["defaultSubmit"] = true
-                              ? (() => {
-                                  const actionArgs = {
-                                    dataOp: {
-                                      sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
-                                      opId: "a058aa78-6196-4994-b25e-a5a31e92b822",
-                                      userArgs: {
-                                        conditions: [
-                                          $queries.getProperties.data.find(
-                                            entry =>
-                                              entry.address1 ===
-                                              $state.select8.value
-                                          ).id
-                                        ],
-                                        variables: [$state.form4.value]
-                                      },
-                                      cacheKey: null,
-                                      invalidatedKeys: ["plasmic_refresh_all"],
-                                      roleId: null
-                                    }
-                                  };
-                                  return (async ({
-                                    dataOp,
-                                    continueOnError
-                                  }) => {
-                                    try {
-                                      const response =
-                                        await executePlasmicDataOp(dataOp, {
-                                          userAuthToken:
-                                            dataSourcesCtx?.userAuthToken,
-                                          user: dataSourcesCtx?.user
-                                        });
-                                      await plasmicInvalidate(
-                                        dataOp.invalidatedKeys
-                                      );
-                                      return response;
-                                    } catch (e) {
-                                      if (!continueOnError) {
-                                        throw e;
-                                      }
-                                      return e;
-                                    }
-                                  })?.apply(null, [actionArgs]);
-                                })()
-                              : undefined;
-                            if (
-                              $steps["defaultSubmit"] != null &&
-                              typeof $steps["defaultSubmit"] === "object" &&
-                              typeof $steps["defaultSubmit"].then === "function"
-                            ) {
-                              $steps["defaultSubmit"] = await $steps[
-                                "defaultSubmit"
-                              ];
-                            }
-                          },
-                          onIsSubmittingChange:
-                            generateStateOnChangePropForCodeComponents(
-                              $state,
-                              "isSubmitting",
-                              ["form4", "isSubmitting"],
-                              FormWrapper_Helpers
-                            ),
-                          ref: ref => {
-                            $refs["form4"] = ref;
-                          },
-                          submitSlot: (
-                            <AntdButton
-                              className={classNames(
-                                "__wab_instance",
-                                sty.button__yFjxc
-                              )}
-                              submitsForm={true}
-                              type={"primary"}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__zNouY
-                                )}
-                              >
-                                {"Submit"}
-                              </div>
-                            </AntdButton>
-                          ),
-                          wrapperCol: { span: 16, horizontalOnly: true }
-                        };
-                        initializeCodeComponentStates(
-                          $state,
-                          [
-                            {
-                              name: "value",
-                              plasmicStateName: "form4.value"
-                            },
-                            {
-                              name: "isSubmitting",
-                              plasmicStateName: "form4.isSubmitting"
-                            }
-                          ],
-                          [],
-                          FormWrapper_Helpers ?? {},
-                          child$Props
-                        );
-
-                        return (
-                          <FormWrapper
-                            data-plasmic-name={"form4"}
-                            data-plasmic-override={overrides.form4}
-                            {...child$Props}
-                          />
-                        );
-                      })()}
-                    </AntdModal>
-                    <Drawer
-                      data-plasmic-name={"drawer"}
-                      data-plasmic-override={overrides.drawer}
-                      className={classNames("__wab_instance", sty.drawer)}
-                      onOpenChange={generateStateOnChangeProp($state, [
-                        "drawer",
-                        "open"
-                      ])}
-                      open={generateStateValueProp($state, ["drawer", "open"])}
-                      slot={
-                        <Stack__
-                          as={"div"}
-                          hasGap={true}
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__wBfT
-                          )}
-                        >
-                          <Iframe
-                            data-plasmic-name={"iframe"}
-                            data-plasmic-override={overrides.iframe}
-                            className={classNames("__wab_instance", sty.iframe)}
-                            preview={true}
-                            src={(() => {
-                              try {
-                                return (
-                                  "https://my.utahhomevaluation.com/home/" +
-                                  $queries.getProperties.data.find(
-                                    entry =>
-                                      entry.address1 === $state.select8.value
-                                  ).contactId +
-                                  "/" +
-                                  $queries.getProperties.data.find(
-                                    entry =>
-                                      entry.address1 === $state.select8.value
-                                  ).id
-                                );
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return undefined;
-                                }
-                                throw e;
-                              }
-                            })()}
-                          />
-                        </Stack__>
-                      }
-                      trigger={
-                        <Button
-                          className={classNames(
-                            "__wab_instance",
-                            sty.button__idp4R
-                          )}
-                        >
-                          <div
-                            className={classNames(
-                              projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__led2A
-                            )}
-                          >
-                            {"View Dashboard "}
-                          </div>
-                        </Button>
-                      }
-                    >
-                      {"Dashboard View"}
-                    </Drawer>
-                  </div>
                   {(() => {
                     try {
-                      return $state.radioGroup?.value == "1";
+                      return $state.select8.value != undefined;
                     } catch (e) {
                       if (
                         e instanceof TypeError ||
@@ -3451,220 +2665,151 @@ function PlasmicAdminDash__RenderFunc(props: {
                       throw e;
                     }
                   })() ? (
-                    <section
-                      className={classNames(projectcss.all, sty.section__v6ZCw)}
+                    <div
+                      className={classNames(
+                        projectcss.all,
+                        sty.freeBox___5KuUx
+                      )}
                     >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__b0I0A
-                        )}
-                      >
-                        <div
+                      {(() => {
+                        try {
+                          return $state.radioGroup?.value == "1";
+                        } catch (e) {
+                          if (
+                            e instanceof TypeError ||
+                            e?.plasmicType === "PlasmicUndefinedDataError"
+                          ) {
+                            return true;
+                          }
+                          throw e;
+                        }
+                      })() ? (
+                        <section
                           className={classNames(
                             projectcss.all,
-                            sty.freeBox__roCej
-                          )}
-                        >
-                          <PlasmicImg__
-                            data-plasmic-name={"img"}
-                            data-plasmic-override={overrides.img}
-                            alt={""}
-                            className={classNames(sty.img)}
-                            displayHeight={"123px"}
-                            displayMaxHeight={"none"}
-                            displayMaxWidth={"100%"}
-                            displayMinHeight={"0"}
-                            displayMinWidth={"0"}
-                            displayWidth={"163px"}
-                            loading={"lazy"}
-                            src={(() => {
-                              try {
-                                return $queries.getProperties.data.find(
-                                  entry =>
-                                    entry.address1 === $state.select8.value
-                                ).streetPhoto;
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return undefined;
-                                }
-                                throw e;
-                              }
-                            })()}
-                          />
-                        </div>
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            sty.freeBox__yPvpI
+                            sty.section__v6ZCw
                           )}
                         >
                           <div
                             className={classNames(
                               projectcss.all,
-                              projectcss.__wab_text,
-                              sty.text__tdnsJ
+                              sty.freeBox__g1MTl
                             )}
                           >
-                            <React.Fragment>
-                              {(() => {
-                                try {
-                                  return (
-                                    $queries.getProperties.data.find(
-                                      entry =>
-                                        entry.address1 === $state.select8.value
-                                    ).address1 +
-                                    " " +
-                                    $queries.getProperties.data.find(
-                                      entry =>
-                                        entry.address1 === $state.select8.value
-                                    ).state +
-                                    " " +
-                                    $queries.getProperties.data.find(
-                                      entry =>
-                                        entry.address1 === $state.select8.value
-                                    ).zipCode
-                                  );
-                                } catch (e) {
-                                  if (
-                                    e instanceof TypeError ||
-                                    e?.plasmicType ===
-                                      "PlasmicUndefinedDataError"
-                                  ) {
-                                    return "";
-                                  }
-                                  throw e;
-                                }
-                              })()}
-                            </React.Fragment>
-                          </div>
-                          <div
-                            data-plasmic-name={"columns"}
-                            data-plasmic-override={overrides.columns}
-                            className={classNames(projectcss.all, sty.columns)}
-                          >
-                            <div
+                            <Drawer
+                              data-plasmic-name={"drawer"}
+                              data-plasmic-override={overrides.drawer}
                               className={classNames(
-                                projectcss.all,
-                                sty.column__y2GoM
+                                "__wab_instance",
+                                sty.drawer
                               )}
-                            >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__rEKC
-                                )}
-                              >
-                                {"Valuation:"}
-                              </div>
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__nyCk
-                                )}
-                              >
-                                <React.Fragment>
-                                  {(() => {
-                                    try {
-                                      return (() => {
-                                        function getHighestYearFormatted(data) {
-                                          data.sort((a, b) => b.year - a.year);
-                                          const highestYearValue =
-                                            data[0]?.mktTtlValue;
-                                          return highestYearValue
-                                            ? "$" +
-                                                Number(
-                                                  highestYearValue
-                                                ).toLocaleString()
-                                            : undefined;
-                                        }
-                                        const result = getHighestYearFormatted(
-                                          $queries.getValuation.data
+                              onOpenChange={generateStateOnChangeProp($state, [
+                                "drawer",
+                                "open"
+                              ])}
+                              open={generateStateValueProp($state, [
+                                "drawer",
+                                "open"
+                              ])}
+                              slot={
+                                <Stack__
+                                  as={"div"}
+                                  hasGap={true}
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__wBfT
+                                  )}
+                                >
+                                  <Iframe
+                                    data-plasmic-name={"iframe"}
+                                    data-plasmic-override={overrides.iframe}
+                                    className={classNames(
+                                      "__wab_instance",
+                                      sty.iframe
+                                    )}
+                                    preview={true}
+                                    src={(() => {
+                                      try {
+                                        return (
+                                          "https://my.utahhomevaluation.com/home/" +
+                                          $queries.getProperties.data.find(
+                                            entry =>
+                                              entry.address1 ===
+                                              $state.select8.value
+                                          ).contactId +
+                                          "/" +
+                                          $queries.getProperties.data.find(
+                                            entry =>
+                                              entry.address1 ===
+                                              $state.select8.value
+                                          ).id
                                         );
-                                        return result;
-                                      })();
-                                    } catch (e) {
-                                      if (
-                                        e instanceof TypeError ||
-                                        e?.plasmicType ===
-                                          "PlasmicUndefinedDataError"
-                                      ) {
-                                        return "";
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return undefined;
+                                        }
+                                        throw e;
                                       }
-                                      throw e;
-                                    }
-                                  })()}
-                                </React.Fragment>
-                              </div>
-                            </div>
-                            <div
-                              className={classNames(
-                                projectcss.all,
-                                sty.column__wg822
-                              )}
+                                    })()}
+                                  />
+                                </Stack__>
+                              }
+                              trigger={
+                                <Button
+                                  className={classNames(
+                                    "__wab_instance",
+                                    sty.button__idp4R
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__led2A
+                                    )}
+                                  >
+                                    {"View Dashboard "}
+                                  </div>
+                                </Button>
+                              }
                             >
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__cet6K
-                                )}
-                              >
-                                {"Page Views:"}
-                              </div>
-                              <div
-                                className={classNames(
-                                  projectcss.all,
-                                  projectcss.__wab_text,
-                                  sty.text__x5JwB
-                                )}
-                              >
-                                <React.Fragment>
-                                  {(() => {
-                                    try {
-                                      return $queries.getProperties.data.find(
-                                        entry =>
-                                          entry.address1 ===
-                                          $state.select8.value
-                                      ).pageViews;
-                                    } catch (e) {
-                                      if (
-                                        e instanceof TypeError ||
-                                        e?.plasmicType ===
-                                          "PlasmicUndefinedDataError"
-                                      ) {
-                                        return "";
-                                      }
-                                      throw e;
-                                    }
-                                  })()}
-                                </React.Fragment>
-                              </div>
-                            </div>
+                              {"Dashboard View"}
+                            </Drawer>
                           </div>
                           <div
                             className={classNames(
                               projectcss.all,
-                              sty.freeBox__ohoPo
+                              sty.freeBox__b0I0A
                             )}
                           >
-                            {(() => {
-                              const child$Props = {
-                                className: classNames(
-                                  "__wab_instance",
-                                  sty.table3
-                                ),
-                                data: (() => {
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__roCej
+                              )}
+                            >
+                              <PlasmicImg__
+                                data-plasmic-name={"img"}
+                                data-plasmic-override={overrides.img}
+                                alt={""}
+                                className={classNames(sty.img)}
+                                displayHeight={"123px"}
+                                displayMaxHeight={"none"}
+                                displayMaxWidth={"100%"}
+                                displayMinHeight={"0"}
+                                displayMinWidth={"0"}
+                                displayWidth={"163px"}
+                                loading={"lazy"}
+                                src={(() => {
                                   try {
                                     return $queries.getProperties.data.find(
                                       entry =>
                                         entry.address1 === $state.select8.value
-                                    );
+                                    ).streetPhoto;
                                   } catch (e) {
                                     if (
                                       e instanceof TypeError ||
@@ -3675,831 +2820,2114 @@ function PlasmicAdminDash__RenderFunc(props: {
                                     }
                                     throw e;
                                   }
-                                })(),
-                                fields: (() => {
-                                  const __composite = [
-                                    {
-                                      key: "id",
-                                      fieldId: "id",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "city",
-                                      fieldId: "city",
-                                      disableSorting: null,
-                                      title: null
-                                    },
-                                    {
-                                      key: "BedroomsTotal",
-                                      fieldId: "BedroomsTotal",
-                                      disableSorting: null,
-                                      title: null
-                                    },
-                                    {
-                                      key: "BathroomsTotal",
-                                      fieldId: "BathroomsTotal",
-                                      disableSorting: null,
-                                      title: null
-                                    },
-                                    {
-                                      key: "stories",
-                                      fieldId: "stories",
-                                      disableSorting: null,
-                                      title: null
-                                    },
-                                    {
-                                      key: "RoomsTotal",
-                                      fieldId: "RoomsTotal",
-                                      disableSorting: null,
-                                      title: null
-                                    },
-                                    {
-                                      key: "lotSize",
-                                      fieldId: "lotSize",
-                                      title: null,
-                                      disableSorting: null
-                                    },
-                                    {
-                                      key: "clientId",
-                                      fieldId: "clientId",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "pricePerSqFoot",
-                                      fieldId: "pricePerSqFoot",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "addressFull",
-                                      fieldId: "addressFull",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "address1",
-                                      fieldId: "address1",
-                                      title: null,
-                                      disableSorting: null,
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "created_at",
-                                      fieldId: "created_at",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "neighborhood_code",
-                                      fieldId: "neighborhood_code",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "ListingKeyNumeric",
-                                      fieldId: "ListingKeyNumeric",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "latitude",
-                                      fieldId: "latitude",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "atommId",
-                                      fieldId: "atommId",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "property_type",
-                                      fieldId: "property_type",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "client_email",
-                                      fieldId: "client_email",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "state",
-                                      fieldId: "state",
-                                      disableSorting: null,
-                                      title: null,
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "parcel_number",
-                                      fieldId: "parcel_number",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "StreetType",
-                                      fieldId: "StreetType",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "PreDir",
-                                      fieldId: "PreDir",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "zipCode",
-                                      fieldId: "zipCode",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "StreetName",
-                                      fieldId: "StreetName",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "address2",
-                                      fieldId: "address2",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "entityId",
-                                      fieldId: "entityId",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "HouseNum",
-                                      fieldId: "HouseNum",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "county",
-                                      fieldId: "county",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "homeEstimate",
-                                      fieldId: "homeEstimate",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "StreetDir",
-                                      fieldId: "StreetDir",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "longitude",
-                                      fieldId: "longitude",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "parcel_acres",
-                                      fieldId: "parcel_acres",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "streetPhoto",
-                                      fieldId: "streetPhoto",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "year_built",
-                                      fieldId: "year_built",
-                                      disableSorting: null,
-                                      dataType: null,
-                                      title: null
-                                    },
-                                    {
-                                      key: "taxable_value",
-                                      fieldId: "taxable_value",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "total_assessed",
-                                      fieldId: "total_assessed",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "total_sq_ft",
-                                      fieldId: "total_sq_ft",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "pageViews",
-                                      fieldId: "pageViews",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "notif_1",
-                                      fieldId: "notif_1",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "notif_2",
-                                      fieldId: "notif_2",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "notif_3",
-                                      fieldId: "notif_3",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "prop_status",
-                                      fieldId: "prop_status",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "prop_next_move",
-                                      fieldId: "prop_next_move",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "prop_status_other",
-                                      fieldId: "prop_status_other",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "prop_next_move_other",
-                                      fieldId: "prop_next_move_other",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "onboarding_done",
-                                      fieldId: "onboarding_done",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "comp_map",
-                                      fieldId: "comp_map",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "propclass",
-                                      fieldId: "propclass",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "propsubtype",
-                                      fieldId: "propsubtype",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "done",
-                                      fieldId: "done",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "contactId",
-                                      fieldId: "contactId",
-                                      isHidden: null
-                                    },
-                                    {
-                                      key: "offer_requested",
-                                      fieldId: "offer_requested",
-                                      isHidden: null
-                                    }
-                                  ];
-                                  __composite["0"]["isHidden"] = true;
-                                  __composite["1"]["disableSorting"] = true;
-                                  __composite["1"]["title"] = "City";
-                                  __composite["2"]["disableSorting"] = true;
-                                  __composite["2"]["title"] = "Bed";
-                                  __composite["3"]["disableSorting"] = true;
-                                  __composite["3"]["title"] = "Bath";
-                                  __composite["4"]["disableSorting"] = true;
-                                  __composite["4"]["title"] = "Sq. F";
-                                  __composite["5"]["disableSorting"] = true;
-                                  __composite["5"]["title"] = "Rooms";
-                                  __composite["6"]["title"] = "Lot";
-                                  __composite["6"]["disableSorting"] = true;
-                                  __composite["7"]["isHidden"] = true;
-                                  __composite["8"]["isHidden"] = true;
-                                  __composite["9"]["isHidden"] = true;
-                                  __composite["10"]["title"] = "Address";
-                                  __composite["10"]["disableSorting"] = true;
-                                  __composite["10"]["isHidden"] = true;
-                                  __composite["11"]["isHidden"] = true;
-                                  __composite["12"]["isHidden"] = true;
-                                  __composite["13"]["isHidden"] = true;
-                                  __composite["14"]["isHidden"] = true;
-                                  __composite["15"]["isHidden"] = true;
-                                  __composite["16"]["isHidden"] = true;
-                                  __composite["17"]["isHidden"] = true;
-                                  __composite["18"]["disableSorting"] = true;
-                                  __composite["18"]["title"] = "State";
-                                  __composite["18"]["isHidden"] = true;
-                                  __composite["19"]["isHidden"] = true;
-                                  __composite["20"]["isHidden"] = true;
-                                  __composite["21"]["isHidden"] = true;
-                                  __composite["22"]["isHidden"] = true;
-                                  __composite["23"]["isHidden"] = true;
-                                  __composite["24"]["isHidden"] = true;
-                                  __composite["25"]["isHidden"] = true;
-                                  __composite["26"]["isHidden"] = true;
-                                  __composite["27"]["isHidden"] = true;
-                                  __composite["28"]["isHidden"] = true;
-                                  __composite["29"]["isHidden"] = true;
-                                  __composite["30"]["isHidden"] = true;
-                                  __composite["31"]["isHidden"] = true;
-                                  __composite["32"]["isHidden"] = true;
-                                  __composite["33"]["disableSorting"] = true;
-                                  __composite["33"]["dataType"] = "string";
-                                  __composite["33"]["title"] = "Year";
-                                  __composite["34"]["isHidden"] = true;
-                                  __composite["35"]["isHidden"] = true;
-                                  __composite["36"]["isHidden"] = true;
-                                  __composite["37"]["isHidden"] = true;
-                                  __composite["38"]["isHidden"] = true;
-                                  __composite["39"]["isHidden"] = true;
-                                  __composite["40"]["isHidden"] = true;
-                                  __composite["41"]["isHidden"] = true;
-                                  __composite["42"]["isHidden"] = true;
-                                  __composite["43"]["isHidden"] = true;
-                                  __composite["44"]["isHidden"] = true;
-                                  __composite["45"]["isHidden"] = true;
-                                  __composite["46"]["isHidden"] = true;
-                                  __composite["47"]["isHidden"] = true;
-                                  __composite["48"]["isHidden"] = true;
-                                  __composite["49"]["isHidden"] = true;
-                                  __composite["50"]["isHidden"] = true;
-                                  __composite["51"]["isHidden"] = true;
-                                  return __composite;
-                                })(),
+                                })()}
+                              />
 
-                                hideColumnPicker: true,
-                                hideExports: true,
-                                hideSearch: true,
-                                onRowSelectionChanged: async (
-                                  ...eventArgs: any
-                                ) => {
-                                  generateStateOnChangePropForCodeComponents(
-                                    $state,
-                                    "selectedRowKey",
-                                    ["table3", "selectedRowKey"],
-                                    RichTable_Helpers
-                                  ).apply(null, eventArgs);
-                                  generateStateOnChangePropForCodeComponents(
-                                    $state,
-                                    "selectedRow",
-                                    ["table3", "selectedRow"],
-                                    RichTable_Helpers
-                                  ).apply(null, eventArgs);
-                                  generateStateOnChangePropForCodeComponents(
-                                    $state,
-                                    "selectedRows",
-                                    ["table3", "selectedRows"],
-                                    RichTable_Helpers
-                                  ).apply(null, eventArgs);
-                                  generateStateOnChangePropForCodeComponents(
-                                    $state,
-                                    "selectedRowKeys",
-                                    ["table3", "selectedRowKeys"],
-                                    RichTable_Helpers
-                                  ).apply(null, eventArgs);
-                                },
-                                pagination: false,
-                                scopeClassName: sty["table3__instance"],
-                                selectedRowKey: generateStateValueProp($state, [
-                                  "table3",
-                                  "selectedRowKey"
-                                ]),
-                                selectedRowKeys: generateStateValueProp(
-                                  $state,
-                                  ["table3", "selectedRowKeys"]
-                                ),
-                                themeResetClassName: classNames(
+                              <AntdModal
+                                data-plasmic-name={"modal"}
+                                data-plasmic-override={overrides.modal}
+                                className={classNames(
+                                  "__wab_instance",
+                                  sty.modal
+                                )}
+                                defaultStylesClassName={classNames(
                                   projectcss.root_reset,
-                                  projectcss.root_reset_tags,
                                   projectcss.plasmic_default_styles,
                                   projectcss.plasmic_mixins,
                                   projectcss.plasmic_tokens,
                                   plasmic_antd_5_hostless_css.plasmic_tokens,
                                   plasmic_plasmic_rich_components_css.plasmic_tokens
-                                )
-                              };
-                              initializeCodeComponentStates(
-                                $state,
-                                [
-                                  {
-                                    name: "selectedRowKey",
-                                    plasmicStateName: "table3.selectedRowKey"
-                                  },
-                                  {
-                                    name: "selectedRow",
-                                    plasmicStateName: "table3.selectedRow"
-                                  },
-                                  {
-                                    name: "selectedRows",
-                                    plasmicStateName: "table3.selectedRows"
-                                  },
-                                  {
-                                    name: "selectedRowKeys",
-                                    plasmicStateName: "table3.selectedRowKeys"
-                                  }
-                                ],
-                                [],
-                                RichTable_Helpers ?? {},
-                                child$Props
-                              );
+                                )}
+                                hideFooter={true}
+                                modalScopeClassName={sty["modal__modal"]}
+                                onOpenChange={generateStateOnChangeProp(
+                                  $state,
+                                  ["modal", "open"]
+                                )}
+                                open={generateStateValueProp($state, [
+                                  "modal",
+                                  "open"
+                                ])}
+                                title={"Edit Home Info"}
+                                trigger={
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      sty.freeBox__kv68
+                                    )}
+                                  >
+                                    <AntdButton
+                                      className={classNames(
+                                        "__wab_instance",
+                                        sty.button__bG7Bh
+                                      )}
+                                      type={"default"}
+                                    >
+                                      <div
+                                        className={classNames(
+                                          projectcss.all,
+                                          projectcss.__wab_text,
+                                          sty.text__ek1Cm
+                                        )}
+                                      >
+                                        {"Edit Info"}
+                                      </div>
+                                    </AntdButton>
+                                  </div>
+                                }
+                              >
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.form4
+                                    ),
+                                    data: {
+                                      sourceId: "33LCJKUUYeeeZEYXFqVtgQ",
+                                      opId: "186a6867-5ac4-453b-98fd-15ba95372a28",
+                                      userArgs: {
+                                        filters: [
+                                          $queries.getProperties.data.find(
+                                            entry =>
+                                              entry.address1 ===
+                                              $state.select8.value
+                                          ).id
+                                        ]
+                                      },
+                                      cacheKey: `plasmic.$.${(() => {
+                                        try {
+                                          return "getOne";
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return "";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}.$.186a6867-5ac4-453b-98fd-15ba95372a28.$.`,
+                                      invalidatedKeys: null,
+                                      roleId: null
+                                    },
+                                    dataFormItems: (() => {
+                                      const __composite = [
+                                        {
+                                          key: "address1",
+                                          inputType: "Text",
+                                          fieldId: "address1",
+                                          label: null,
+                                          name: "address1",
+                                          initialValue: "123 W Main ST"
+                                        },
+                                        {
+                                          key: "state",
+                                          inputType: "Text",
+                                          fieldId: "state",
+                                          label: null,
+                                          name: "state",
+                                          initialValue: "UT"
+                                        },
+                                        {
+                                          key: "city",
+                                          inputType: "Text",
+                                          fieldId: "city",
+                                          label: null,
+                                          name: "city",
+                                          initialValue: "West Jordan"
+                                        },
+                                        {
+                                          key: "zipCode",
+                                          inputType: "Text",
+                                          fieldId: "zipCode",
+                                          label: null,
+                                          name: "zipCode",
+                                          initialValue: "84081"
+                                        },
+                                        {
+                                          key: "county",
+                                          inputType: null,
+                                          fieldId: "county",
+                                          label: null,
+                                          name: "county",
+                                          initialValue: "Salt Lake"
+                                        },
+                                        {
+                                          key: "id",
+                                          inputType: "Number",
+                                          fieldId: "id",
+                                          label: "id",
+                                          name: "id",
+                                          initialValue: null,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "BedroomsTotal",
+                                          inputType: "Number",
+                                          fieldId: "BedroomsTotal",
+                                          label: "BedroomsTotal",
+                                          name: "BedroomsTotal",
+                                          initialValue: "3"
+                                        },
+                                        {
+                                          key: "BathroomsTotal",
+                                          inputType: "Number",
+                                          fieldId: "BathroomsTotal",
+                                          label: "BathroomsTotal",
+                                          name: "BathroomsTotal",
+                                          initialValue: "2"
+                                        },
+                                        {
+                                          key: "RoomsTotal",
+                                          inputType: "Number",
+                                          fieldId: "RoomsTotal",
+                                          label: "RoomsTotal",
+                                          name: "RoomsTotal",
+                                          initialValue: "9"
+                                        },
+                                        {
+                                          key: "lotSize",
+                                          inputType: "Number",
+                                          fieldId: "lotSize",
+                                          label: null,
+                                          name: "lotSize",
+                                          initialValue: null
+                                        },
+                                        {
+                                          key: "clientId",
+                                          inputType: "Number",
+                                          fieldId: "clientId",
+                                          label: "clientId",
+                                          name: "clientId",
+                                          initialValue: null,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "pricePerSqFoot",
+                                          inputType: "Number",
+                                          fieldId: "pricePerSqFoot",
+                                          label: "pricePerSqFoot",
+                                          name: "pricePerSqFoot",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "addressFull",
+                                          inputType: "Text",
+                                          fieldId: "addressFull",
+                                          label: "addressFull",
+                                          name: "addressFull",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "stories",
+                                          inputType: "Number",
+                                          fieldId: "stories",
+                                          label: null,
+                                          name: "stories",
+                                          initialValue: null
+                                        },
+                                        {
+                                          key: "year_built",
+                                          inputType: "Number",
+                                          fieldId: "year_built",
+                                          label: null,
+                                          name: "year_built",
+                                          initialValue: null
+                                        },
+                                        {
+                                          key: "created_at",
+                                          inputType: "Text",
+                                          fieldId: "created_at",
+                                          label: "created_at",
+                                          name: "created_at",
+                                          initialValue:
+                                            "2024-07-15T15:12:05.070Z",
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "neighborhood_code",
+                                          inputType: "Text",
+                                          fieldId: "neighborhood_code",
+                                          label: "neighborhood_code",
+                                          name: "neighborhood_code",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "ListingKeyNumeric",
+                                          inputType: "Number",
+                                          fieldId: "ListingKeyNumeric",
+                                          label: "ListingKeyNumeric",
+                                          name: "ListingKeyNumeric",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "latitude",
+                                          inputType: "Number",
+                                          fieldId: "latitude",
+                                          label: "latitude",
+                                          name: "latitude",
+                                          initialValue: null,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "atommId",
+                                          inputType: "Number",
+                                          fieldId: "atommId",
+                                          label: "atommId",
+                                          name: "atommId",
+                                          initialValue: null,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "property_type",
+                                          inputType: "Text",
+                                          fieldId: "property_type",
+                                          label: "property_type",
+                                          name: "property_type",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "client_email",
+                                          inputType: "Text",
+                                          fieldId: "client_email",
+                                          label: "client_email",
+                                          name: "client_email",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "parcel_number",
+                                          inputType: "Text",
+                                          fieldId: "parcel_number",
+                                          label: "parcel_number",
+                                          name: "parcel_number",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "StreetType",
+                                          inputType: "Text",
+                                          fieldId: "StreetType",
+                                          label: "StreetType",
+                                          name: "StreetType",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "PreDir",
+                                          inputType: "Text",
+                                          fieldId: "PreDir",
+                                          label: "PreDir",
+                                          name: "PreDir",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "StreetName",
+                                          inputType: "Text",
+                                          fieldId: "StreetName",
+                                          label: "StreetName",
+                                          name: "StreetName",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "address2",
+                                          inputType: "Text",
+                                          fieldId: "address2",
+                                          label: "address2",
+                                          name: "address2",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "entityId",
+                                          inputType: "Number",
+                                          fieldId: "entityId",
+                                          label: "entityId",
+                                          name: "entityId",
+                                          initialValue: null,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "HouseNum",
+                                          inputType: "Number",
+                                          fieldId: "HouseNum",
+                                          label: "HouseNum",
+                                          name: "HouseNum",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "homeEstimate",
+                                          inputType: "Number",
+                                          fieldId: "homeEstimate",
+                                          label: "homeEstimate",
+                                          name: "homeEstimate",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "StreetDir",
+                                          inputType: "Text",
+                                          fieldId: "StreetDir",
+                                          label: "StreetDir",
+                                          name: "StreetDir",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "longitude",
+                                          inputType: "Number",
+                                          fieldId: "longitude",
+                                          label: "longitude",
+                                          name: "longitude",
+                                          initialValue: null,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "parcel_acres",
+                                          inputType: "Number",
+                                          fieldId: "parcel_acres",
+                                          label: "parcel_acres",
+                                          name: "parcel_acres",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "streetPhoto",
+                                          inputType: "Text",
+                                          fieldId: "streetPhoto",
+                                          label: "streetPhoto",
+                                          name: "streetPhoto",
+                                          initialValue:
+                                            "https://assets.utahrealestate.com/photos/640x480/901698.jpg",
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "taxable_value",
+                                          inputType: "Number",
+                                          fieldId: "taxable_value",
+                                          label: "taxable_value",
+                                          name: "taxable_value",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "total_assessed",
+                                          inputType: "Number",
+                                          fieldId: "total_assessed",
+                                          label: null,
+                                          name: "total_assessed",
+                                          initialValue: null
+                                        },
+                                        {
+                                          key: "total_sq_ft",
+                                          inputType: "Number",
+                                          fieldId: "total_sq_ft",
+                                          label: "total_sq_ft",
+                                          name: "total_sq_ft",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "pageViews",
+                                          inputType: "Number",
+                                          fieldId: "pageViews",
+                                          label: "pageViews",
+                                          name: "pageViews",
+                                          initialValue: null,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "prop_status_other",
+                                          inputType: "Text",
+                                          fieldId: "prop_status_other",
+                                          label: "prop_status_other",
+                                          name: "prop_status_other",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "notif_2",
+                                          inputType: "Checkbox",
+                                          fieldId: "notif_2",
+                                          label: "notif_2",
+                                          name: "notif_2",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "propsubtype",
+                                          inputType: "Text",
+                                          fieldId: "propsubtype",
+                                          label: "propsubtype",
+                                          name: "propsubtype",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "propclass",
+                                          inputType: "Text",
+                                          fieldId: "propclass",
+                                          label: "propclass",
+                                          name: "propclass",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "done",
+                                          inputType: "Checkbox",
+                                          fieldId: "done",
+                                          label: "done",
+                                          name: "done",
+                                          initialValue: true,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "contactId",
+                                          inputType: "Text",
+                                          fieldId: "contactId",
+                                          label: "contactId",
+                                          name: "contactId",
+                                          initialValue: "WkIxUxhQfUy9e7NKe0my",
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "offer_requested",
+                                          inputType: "Checkbox",
+                                          fieldId: "offer_requested",
+                                          label: "offer_requested",
+                                          name: "offer_requested",
+                                          initialValue: false,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "notif_3",
+                                          inputType: "Checkbox",
+                                          fieldId: "notif_3",
+                                          label: "notif_3",
+                                          name: "notif_3",
+                                          initialValue: {},
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "prop_next_move",
+                                          inputType: "Text",
+                                          fieldId: "prop_next_move",
+                                          label: "prop_next_move",
+                                          name: "prop_next_move",
+                                          initialValue: [2],
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "comp_map",
+                                          inputType: "Text",
+                                          fieldId: "comp_map",
+                                          label: "comp_map",
+                                          name: "comp_map",
+                                          initialValue:
+                                            "https://maps.googleapis.com/maps/api/staticmap?size=640x640&maptype=roadmap&markers=color:red%7C40.588606,-112.019422%7C40.588218,-112.016419%7C40.587636,-112.014368%7C40.59324,-112.016033%7C40.588962,-112.011582%7C40.593067,-112.013783%7C40.582813,-112.014281%7C40.593314,-112.013784%7C40.581953,-112.013404%7C40.585847,-112.009393&markers=color:yellow%7C40.588203,-112.019619&key=AIzaSyATfwK78rrMglC2UiaomrD7lij1j_AQ_IU",
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "onboarding_done",
+                                          inputType: "Checkbox",
+                                          fieldId: "onboarding_done",
+                                          label: "onboarding_done",
+                                          name: "onboarding_done",
+                                          initialValue: true,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "prop_next_move_other",
+                                          inputType: "Text",
+                                          fieldId: "prop_next_move_other",
+                                          label: "prop_next_move_other",
+                                          name: "prop_next_move_other",
+                                          initialValue: "",
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "prop_status",
+                                          inputType: "Text",
+                                          fieldId: "prop_status",
+                                          label: "prop_status",
+                                          name: "prop_status",
+                                          initialValue: [0],
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "notif_1",
+                                          inputType: "Checkbox",
+                                          fieldId: "notif_1",
+                                          label: "notif_1",
+                                          name: "notif_1",
+                                          initialValue: true,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "executionId",
+                                          inputType: "Number",
+                                          fieldId: "executionId",
+                                          label: "executionId",
+                                          name: "executionId",
+                                          initialValue: null,
+                                          hidden: null
+                                        },
+                                        {
+                                          key: "n8n_resumeUrl",
+                                          inputType: "Text",
+                                          fieldId: "n8n_resumeUrl",
+                                          label: "n8n_resumeUrl",
+                                          name: "n8n_resumeUrl",
+                                          initialValue: {},
+                                          hidden: null
+                                        }
+                                      ];
+                                      __composite["0"]["label"] = "Address";
+                                      __composite["1"]["label"] = "State";
+                                      __composite["2"]["label"] = "City";
+                                      __composite["3"]["label"] = "Zip Code";
+                                      __composite["4"]["inputType"] = "Select";
+                                      __composite["4"]["label"] = "County";
+                                      __composite["5"]["initialValue"] = 2;
+                                      __composite["5"]["hidden"] = true;
+                                      __composite["9"]["label"] = "Lot Size";
+                                      __composite["9"][
+                                        "initialValue"
+                                      ] = 0.1899908;
+                                      __composite["10"]["initialValue"] = 1;
+                                      __composite["10"]["hidden"] = true;
+                                      __composite["11"]["hidden"] = true;
+                                      __composite["12"]["hidden"] = true;
+                                      __composite["13"]["label"] = "Stories";
+                                      __composite["13"]["initialValue"] = 2;
+                                      __composite["14"]["label"] = "Year Built";
+                                      __composite["14"]["initialValue"] = 2004;
+                                      __composite["15"]["hidden"] = true;
+                                      __composite["16"]["hidden"] = true;
+                                      __composite["17"]["hidden"] = true;
+                                      __composite["18"][
+                                        "initialValue"
+                                      ] = 40.588203;
+                                      __composite["18"]["hidden"] = true;
+                                      __composite["19"][
+                                        "initialValue"
+                                      ] = 35868754;
+                                      __composite["19"]["hidden"] = true;
+                                      __composite["20"]["hidden"] = true;
+                                      __composite["21"]["hidden"] = true;
+                                      __composite["22"]["hidden"] = true;
+                                      __composite["23"]["hidden"] = true;
+                                      __composite["24"]["hidden"] = true;
+                                      __composite["25"]["hidden"] = true;
+                                      __composite["26"]["hidden"] = true;
+                                      __composite["27"]["initialValue"] = 1;
+                                      __composite["27"]["hidden"] = true;
+                                      __composite["28"]["hidden"] = true;
+                                      __composite["29"]["hidden"] = true;
+                                      __composite["30"]["hidden"] = true;
+                                      __composite["31"]["initialValue"] =
+                                        -112.019619;
+                                      __composite["31"]["hidden"] = true;
+                                      __composite["32"]["hidden"] = true;
+                                      __composite["33"]["hidden"] = true;
+                                      __composite["34"]["hidden"] = true;
+                                      __composite["35"]["label"] =
+                                        "Home Estimate";
+                                      __composite["35"][
+                                        "initialValue"
+                                      ] = 552000;
+                                      __composite["36"]["hidden"] = true;
+                                      __composite["37"]["initialValue"] = 3;
+                                      __composite["37"]["hidden"] = true;
+                                      __composite["38"]["hidden"] = true;
+                                      __composite["39"]["hidden"] = true;
+                                      __composite["40"]["hidden"] = true;
+                                      __composite["41"]["hidden"] = true;
+                                      __composite["42"]["hidden"] = true;
+                                      __composite["43"]["hidden"] = true;
+                                      __composite["44"]["hidden"] = true;
+                                      __composite["45"]["hidden"] = true;
+                                      __composite["46"]["hidden"] = true;
+                                      __composite["47"]["hidden"] = true;
+                                      __composite["48"]["hidden"] = true;
+                                      __composite["49"]["hidden"] = true;
+                                      __composite["50"]["hidden"] = true;
+                                      __composite["51"]["hidden"] = true;
+                                      __composite["52"]["initialValue"] = 2987;
+                                      __composite["52"]["hidden"] = true;
+                                      __composite["53"]["hidden"] = true;
+                                      return __composite;
+                                    })(),
 
-                              return (
-                                <RichTable
-                                  data-plasmic-name={"table3"}
-                                  data-plasmic-override={overrides.table3}
-                                  {...child$Props}
-                                />
-                              );
-                            })()}
+                                    extendedOnValuesChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "value",
+                                        ["form4", "value"],
+                                        FormWrapper_Helpers
+                                      ),
+                                    formItems: [],
+                                    labelCol: { span: 8, horizontalOnly: true },
+                                    layout: "inline",
+                                    mode: "simplified",
+                                    onFinish: async values => {
+                                      const $steps = {};
+
+                                      $steps["defaultSubmit"] = true
+                                        ? (() => {
+                                            const actionArgs = {
+                                              dataOp: {
+                                                sourceId:
+                                                  "33LCJKUUYeeeZEYXFqVtgQ",
+                                                opId: "d37cbf5e-0080-4937-acb2-0091c4ef7573",
+                                                userArgs: {
+                                                  conditions: [
+                                                    $queries.getProperties.data.find(
+                                                      entry =>
+                                                        entry.address1 ===
+                                                        $state.select8.value
+                                                    ).id
+                                                  ],
+                                                  variables: [
+                                                    $state.form4.value
+                                                  ]
+                                                },
+                                                cacheKey: null,
+                                                invalidatedKeys: [
+                                                  "0ad393b6-1014-49e2-a60d-b3e519be84ed"
+                                                ],
+                                                roleId: null
+                                              }
+                                            };
+                                            return (async ({
+                                              dataOp,
+                                              continueOnError
+                                            }) => {
+                                              try {
+                                                const response =
+                                                  await executePlasmicDataOp(
+                                                    dataOp,
+                                                    {
+                                                      userAuthToken:
+                                                        dataSourcesCtx?.userAuthToken,
+                                                      user: dataSourcesCtx?.user
+                                                    }
+                                                  );
+                                                await plasmicInvalidate(
+                                                  dataOp.invalidatedKeys
+                                                );
+                                                return response;
+                                              } catch (e) {
+                                                if (!continueOnError) {
+                                                  throw e;
+                                                }
+                                                return e;
+                                              }
+                                            })?.apply(null, [actionArgs]);
+                                          })()
+                                        : undefined;
+                                      if (
+                                        $steps["defaultSubmit"] != null &&
+                                        typeof $steps["defaultSubmit"] ===
+                                          "object" &&
+                                        typeof $steps["defaultSubmit"].then ===
+                                          "function"
+                                      ) {
+                                        $steps["defaultSubmit"] = await $steps[
+                                          "defaultSubmit"
+                                        ];
+                                      }
+                                    },
+                                    onFinishFailed: async data => {
+                                      const $steps = {};
+
+                                      $steps["updateDrawerNotificationsOpen"] =
+                                        true
+                                          ? (() => {
+                                              const actionArgs = {
+                                                variable: {
+                                                  objRoot: $state,
+                                                  variablePath: [
+                                                    "drawerNotifications",
+                                                    "open"
+                                                  ]
+                                                },
+                                                operation: 0
+                                              };
+                                              return (({
+                                                variable,
+                                                value,
+                                                startIndex,
+                                                deleteCount
+                                              }) => {
+                                                if (!variable) {
+                                                  return;
+                                                }
+                                                const {
+                                                  objRoot,
+                                                  variablePath
+                                                } = variable;
+
+                                                $stateSet(
+                                                  objRoot,
+                                                  variablePath,
+                                                  value
+                                                );
+                                                return value;
+                                              })?.apply(null, [actionArgs]);
+                                            })()
+                                          : undefined;
+                                      if (
+                                        $steps[
+                                          "updateDrawerNotificationsOpen"
+                                        ] != null &&
+                                        typeof $steps[
+                                          "updateDrawerNotificationsOpen"
+                                        ] === "object" &&
+                                        typeof $steps[
+                                          "updateDrawerNotificationsOpen"
+                                        ].then === "function"
+                                      ) {
+                                        $steps[
+                                          "updateDrawerNotificationsOpen"
+                                        ] = await $steps[
+                                          "updateDrawerNotificationsOpen"
+                                        ];
+                                      }
+                                    },
+                                    onIsSubmittingChange:
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "isSubmitting",
+                                        ["form4", "isSubmitting"],
+                                        FormWrapper_Helpers
+                                      ),
+                                    ref: ref => {
+                                      $refs["form4"] = ref;
+                                    },
+                                    submitSlot: (
+                                      <AntdButton
+                                        className={classNames(
+                                          "__wab_instance",
+                                          sty.button__yFjxc
+                                        )}
+                                        submitsForm={true}
+                                        type={"primary"}
+                                      >
+                                        <div
+                                          className={classNames(
+                                            projectcss.all,
+                                            projectcss.__wab_text,
+                                            sty.text__zNouY
+                                          )}
+                                        >
+                                          {"Submit"}
+                                        </div>
+                                      </AntdButton>
+                                    ),
+                                    wrapperCol: {
+                                      span: 16,
+                                      horizontalOnly: true
+                                    }
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "value",
+                                        plasmicStateName: "form4.value"
+                                      },
+                                      {
+                                        name: "isSubmitting",
+                                        plasmicStateName: "form4.isSubmitting"
+                                      }
+                                    ],
+                                    [],
+                                    FormWrapper_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <FormWrapper
+                                      data-plasmic-name={"form4"}
+                                      data-plasmic-override={overrides.form4}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </AntdModal>
+                            </div>
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                sty.freeBox__yPvpI
+                              )}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__tdnsJ
+                                )}
+                              >
+                                <React.Fragment>
+                                  {(() => {
+                                    try {
+                                      return (
+                                        $queries.getProperties.data.find(
+                                          entry =>
+                                            entry.address1 ===
+                                            $state.select8.value
+                                        ).address1 +
+                                        " " +
+                                        $queries.getProperties.data.find(
+                                          entry =>
+                                            entry.address1 ===
+                                            $state.select8.value
+                                        ).city +
+                                        " " +
+                                        $queries.getProperties.data.find(
+                                          entry =>
+                                            entry.address1 ===
+                                            $state.select8.value
+                                        ).state +
+                                        " " +
+                                        $queries.getProperties.data.find(
+                                          entry =>
+                                            entry.address1 ===
+                                            $state.select8.value
+                                        ).zipCode
+                                      );
+                                    } catch (e) {
+                                      if (
+                                        e instanceof TypeError ||
+                                        e?.plasmicType ===
+                                          "PlasmicUndefinedDataError"
+                                      ) {
+                                        return "";
+                                      }
+                                      throw e;
+                                    }
+                                  })()}
+                                </React.Fragment>
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__gt4I
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__pmFXq
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__rgCdu
+                                    )}
+                                  >
+                                    {"Property Status: "}
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__sdYfH
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return (() => {
+                                            const checkbox2 =
+                                              $queries.getProperties.data.find(
+                                                entry =>
+                                                  entry.address1 ===
+                                                  $state.select8.value
+                                              ).prop_status;
+                                            const keyValuePairs = [
+                                              {
+                                                key: "Open to receiving a cash offer",
+                                                value: 0
+                                              },
+                                              {
+                                                key: "Willing to sell if price and timing is right",
+                                                value: 1
+                                              },
+                                              {
+                                                key: "Looking to sell in 0-2 years",
+                                                value: 2
+                                              },
+                                              {
+                                                key: "Looking to sell in 2+ years",
+                                                value: 3
+                                              },
+                                              {
+                                                key: $state.input2,
+                                                value: 4
+                                              }
+                                            ];
+
+                                            function listTrues(checkboxArray) {
+                                              const checkedItems = checkboxArray
+                                                .map((item, index) =>
+                                                  item
+                                                    ? keyValuePairs[index].key
+                                                    : null
+                                                )
+                                                .filter(Boolean);
+                                              if (checkedItems.length === 0) {
+                                                return "---";
+                                              } else if (
+                                                checkedItems.length === 1
+                                              ) {
+                                                return checkedItems[0];
+                                              } else if (
+                                                checkedItems.length === 2
+                                              ) {
+                                                return checkedItems.join(
+                                                  " and "
+                                                );
+                                              } else {
+                                                const lastItem =
+                                                  checkedItems.pop();
+                                                return `${checkedItems.join(
+                                                  ", "
+                                                )}, and ${lastItem}`;
+                                              }
+                                            }
+                                            const result = listTrues(checkbox2);
+                                            return result;
+                                          })();
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return "";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </div>
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.freeBox__n1PiG
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__hxWoL
+                                    )}
+                                  >
+                                    {"Next Real Estate Step:"}
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__iQtun
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return (() => {
+                                            const checkbox2 =
+                                              $queries.getProperties.data.find(
+                                                entry =>
+                                                  entry.address1 ===
+                                                  $state.select8.value
+                                              ).prop_next_move;
+                                            const keyValuePairs = [
+                                              {
+                                                key: "Upgrading to a larger home",
+                                                label: 0
+                                              },
+                                              {
+                                                key: "Downsizing to a smaller home",
+                                                label: 1
+                                              },
+                                              {
+                                                key: "Purchasing an investment property",
+                                                label: 2
+                                              },
+                                              {
+                                                key: "Purchasing another property",
+                                                label: 3
+                                              },
+                                              {
+                                                key: $state.input2,
+                                                label: 4
+                                              }
+                                            ];
+
+                                            function listTrues(checkboxArray) {
+                                              const checkedItems = checkboxArray
+                                                .map((item, index) =>
+                                                  item
+                                                    ? keyValuePairs[index].key
+                                                    : null
+                                                )
+                                                .filter(Boolean);
+                                              if (checkedItems.length === 0) {
+                                                return "No items checked";
+                                              } else if (
+                                                checkedItems.length === 1
+                                              ) {
+                                                return checkedItems[0];
+                                              } else if (
+                                                checkedItems.length === 2
+                                              ) {
+                                                return checkedItems.join(
+                                                  " and "
+                                                );
+                                              } else {
+                                                const lastItem =
+                                                  checkedItems.pop();
+                                                return `${checkedItems.join(
+                                                  ", "
+                                                )}, and ${lastItem}`;
+                                              }
+                                            }
+                                            const result = listTrues(checkbox2);
+                                            return result;
+                                          })();
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return "";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                data-plasmic-name={"columns"}
+                                data-plasmic-override={overrides.columns}
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.columns
+                                )}
+                              >
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.column__y2GoM
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__rEKC
+                                    )}
+                                  >
+                                    {"Valuation:"}
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__nyCk
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return (() => {
+                                            function getHighestYearFormatted(
+                                              data
+                                            ) {
+                                              data.sort(
+                                                (a, b) => b.year - a.year
+                                              );
+                                              const highestYearValue =
+                                                data[0]?.mktTtlValue;
+                                              return highestYearValue
+                                                ? "$" +
+                                                    Number(
+                                                      highestYearValue
+                                                    ).toLocaleString()
+                                                : undefined;
+                                            }
+                                            const result =
+                                              getHighestYearFormatted(
+                                                $queries.getValuation.data
+                                              );
+                                            return result;
+                                          })();
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return "";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </div>
+                                </div>
+                                <div
+                                  className={classNames(
+                                    projectcss.all,
+                                    sty.column__wg822
+                                  )}
+                                >
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__cet6K
+                                    )}
+                                  >
+                                    {"Page Views:"}
+                                  </div>
+                                  <div
+                                    className={classNames(
+                                      projectcss.all,
+                                      projectcss.__wab_text,
+                                      sty.text__x5JwB
+                                    )}
+                                  >
+                                    <React.Fragment>
+                                      {(() => {
+                                        try {
+                                          return $queries.getProperties.data.find(
+                                            entry =>
+                                              entry.address1 ===
+                                              $state.select8.value
+                                          ).pageViews;
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return "";
+                                          }
+                                          throw e;
+                                        }
+                                      })()}
+                                    </React.Fragment>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  sty.freeBox__ohoPo
+                                )}
+                              >
+                                {(() => {
+                                  const child$Props = {
+                                    className: classNames(
+                                      "__wab_instance",
+                                      sty.table3
+                                    ),
+                                    data: (() => {
+                                      try {
+                                        return $queries.getProperties.data.find(
+                                          entry =>
+                                            entry.address1 ===
+                                            $state.select8.value
+                                        );
+                                      } catch (e) {
+                                        if (
+                                          e instanceof TypeError ||
+                                          e?.plasmicType ===
+                                            "PlasmicUndefinedDataError"
+                                        ) {
+                                          return undefined;
+                                        }
+                                        throw e;
+                                      }
+                                    })(),
+                                    fields: (() => {
+                                      const __composite = [
+                                        {
+                                          key: "id",
+                                          fieldId: "id",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "city",
+                                          fieldId: "city",
+                                          disableSorting: null,
+                                          title: null
+                                        },
+                                        {
+                                          key: "BedroomsTotal",
+                                          fieldId: "BedroomsTotal",
+                                          disableSorting: null,
+                                          title: null
+                                        },
+                                        {
+                                          key: "BathroomsTotal",
+                                          fieldId: "BathroomsTotal",
+                                          disableSorting: null,
+                                          title: null
+                                        },
+                                        {
+                                          key: "stories",
+                                          fieldId: "stories",
+                                          disableSorting: null,
+                                          title: null
+                                        },
+                                        {
+                                          key: "RoomsTotal",
+                                          fieldId: "RoomsTotal",
+                                          disableSorting: null,
+                                          title: null
+                                        },
+                                        {
+                                          key: "lotSize",
+                                          fieldId: "lotSize",
+                                          title: null,
+                                          disableSorting: null
+                                        },
+                                        {
+                                          key: "clientId",
+                                          fieldId: "clientId",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "pricePerSqFoot",
+                                          fieldId: "pricePerSqFoot",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "addressFull",
+                                          fieldId: "addressFull",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "address1",
+                                          fieldId: "address1",
+                                          title: null,
+                                          disableSorting: null,
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "created_at",
+                                          fieldId: "created_at",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "neighborhood_code",
+                                          fieldId: "neighborhood_code",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "ListingKeyNumeric",
+                                          fieldId: "ListingKeyNumeric",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "latitude",
+                                          fieldId: "latitude",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "atommId",
+                                          fieldId: "atommId",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "property_type",
+                                          fieldId: "property_type",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "client_email",
+                                          fieldId: "client_email",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "state",
+                                          fieldId: "state",
+                                          disableSorting: null,
+                                          title: null,
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "parcel_number",
+                                          fieldId: "parcel_number",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "StreetType",
+                                          fieldId: "StreetType",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "PreDir",
+                                          fieldId: "PreDir",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "zipCode",
+                                          fieldId: "zipCode",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "StreetName",
+                                          fieldId: "StreetName",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "address2",
+                                          fieldId: "address2",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "entityId",
+                                          fieldId: "entityId",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "HouseNum",
+                                          fieldId: "HouseNum",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "county",
+                                          fieldId: "county",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "homeEstimate",
+                                          fieldId: "homeEstimate",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "StreetDir",
+                                          fieldId: "StreetDir",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "longitude",
+                                          fieldId: "longitude",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "parcel_acres",
+                                          fieldId: "parcel_acres",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "streetPhoto",
+                                          fieldId: "streetPhoto",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "year_built",
+                                          fieldId: "year_built",
+                                          disableSorting: null,
+                                          dataType: null,
+                                          title: null
+                                        },
+                                        {
+                                          key: "taxable_value",
+                                          fieldId: "taxable_value",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "total_assessed",
+                                          fieldId: "total_assessed",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "total_sq_ft",
+                                          fieldId: "total_sq_ft",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "pageViews",
+                                          fieldId: "pageViews",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "notif_1",
+                                          fieldId: "notif_1",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "notif_2",
+                                          fieldId: "notif_2",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "notif_3",
+                                          fieldId: "notif_3",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "prop_status",
+                                          fieldId: "prop_status",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "prop_next_move",
+                                          fieldId: "prop_next_move",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "prop_status_other",
+                                          fieldId: "prop_status_other",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "prop_next_move_other",
+                                          fieldId: "prop_next_move_other",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "onboarding_done",
+                                          fieldId: "onboarding_done",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "comp_map",
+                                          fieldId: "comp_map",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "propclass",
+                                          fieldId: "propclass",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "propsubtype",
+                                          fieldId: "propsubtype",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "done",
+                                          fieldId: "done",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "contactId",
+                                          fieldId: "contactId",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "offer_requested",
+                                          fieldId: "offer_requested",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "executionId",
+                                          fieldId: "executionId",
+                                          isHidden: null
+                                        },
+                                        {
+                                          key: "n8n_resumeUrl",
+                                          fieldId: "n8n_resumeUrl",
+                                          isHidden: null
+                                        }
+                                      ];
+                                      __composite["0"]["isHidden"] = true;
+                                      __composite["1"]["disableSorting"] = true;
+                                      __composite["1"]["title"] = "City";
+                                      __composite["2"]["disableSorting"] = true;
+                                      __composite["2"]["title"] = "Bed";
+                                      __composite["3"]["disableSorting"] = true;
+                                      __composite["3"]["title"] = "Bath";
+                                      __composite["4"]["disableSorting"] = true;
+                                      __composite["4"]["title"] = "Sq. F";
+                                      __composite["5"]["disableSorting"] = true;
+                                      __composite["5"]["title"] = "Rooms";
+                                      __composite["6"]["title"] = "Lot";
+                                      __composite["6"]["disableSorting"] = true;
+                                      __composite["7"]["isHidden"] = true;
+                                      __composite["8"]["isHidden"] = true;
+                                      __composite["9"]["isHidden"] = true;
+                                      __composite["10"]["title"] = "Address";
+                                      __composite["10"]["disableSorting"] =
+                                        true;
+                                      __composite["10"]["isHidden"] = true;
+                                      __composite["11"]["isHidden"] = true;
+                                      __composite["12"]["isHidden"] = true;
+                                      __composite["13"]["isHidden"] = true;
+                                      __composite["14"]["isHidden"] = true;
+                                      __composite["15"]["isHidden"] = true;
+                                      __composite["16"]["isHidden"] = true;
+                                      __composite["17"]["isHidden"] = true;
+                                      __composite["18"]["disableSorting"] =
+                                        true;
+                                      __composite["18"]["title"] = "State";
+                                      __composite["18"]["isHidden"] = true;
+                                      __composite["19"]["isHidden"] = true;
+                                      __composite["20"]["isHidden"] = true;
+                                      __composite["21"]["isHidden"] = true;
+                                      __composite["22"]["isHidden"] = true;
+                                      __composite["23"]["isHidden"] = true;
+                                      __composite["24"]["isHidden"] = true;
+                                      __composite["25"]["isHidden"] = true;
+                                      __composite["26"]["isHidden"] = true;
+                                      __composite["27"]["isHidden"] = true;
+                                      __composite["28"]["isHidden"] = true;
+                                      __composite["29"]["isHidden"] = true;
+                                      __composite["30"]["isHidden"] = true;
+                                      __composite["31"]["isHidden"] = true;
+                                      __composite["32"]["isHidden"] = true;
+                                      __composite["33"]["disableSorting"] =
+                                        true;
+                                      __composite["33"]["dataType"] = "string";
+                                      __composite["33"]["title"] = "Year";
+                                      __composite["34"]["isHidden"] = true;
+                                      __composite["35"]["isHidden"] = true;
+                                      __composite["36"]["isHidden"] = true;
+                                      __composite["37"]["isHidden"] = true;
+                                      __composite["38"]["isHidden"] = true;
+                                      __composite["39"]["isHidden"] = true;
+                                      __composite["40"]["isHidden"] = true;
+                                      __composite["41"]["isHidden"] = true;
+                                      __composite["42"]["isHidden"] = true;
+                                      __composite["43"]["isHidden"] = true;
+                                      __composite["44"]["isHidden"] = true;
+                                      __composite["45"]["isHidden"] = true;
+                                      __composite["46"]["isHidden"] = true;
+                                      __composite["47"]["isHidden"] = true;
+                                      __composite["48"]["isHidden"] = true;
+                                      __composite["49"]["isHidden"] = true;
+                                      __composite["50"]["isHidden"] = true;
+                                      __composite["51"]["isHidden"] = true;
+                                      __composite["52"]["isHidden"] = true;
+                                      __composite["53"]["isHidden"] = true;
+                                      return __composite;
+                                    })(),
+
+                                    hideColumnPicker: true,
+                                    hideExports: true,
+                                    hideSearch: true,
+                                    onRowSelectionChanged: async (
+                                      ...eventArgs: any
+                                    ) => {
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "selectedRowKey",
+                                        ["table3", "selectedRowKey"],
+                                        RichTable_Helpers
+                                      ).apply(null, eventArgs);
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "selectedRow",
+                                        ["table3", "selectedRow"],
+                                        RichTable_Helpers
+                                      ).apply(null, eventArgs);
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "selectedRows",
+                                        ["table3", "selectedRows"],
+                                        RichTable_Helpers
+                                      ).apply(null, eventArgs);
+                                      generateStateOnChangePropForCodeComponents(
+                                        $state,
+                                        "selectedRowKeys",
+                                        ["table3", "selectedRowKeys"],
+                                        RichTable_Helpers
+                                      ).apply(null, eventArgs);
+                                    },
+                                    pagination: false,
+                                    scopeClassName: sty["table3__instance"],
+                                    selectedRowKey: generateStateValueProp(
+                                      $state,
+                                      ["table3", "selectedRowKey"]
+                                    ),
+                                    selectedRowKeys: generateStateValueProp(
+                                      $state,
+                                      ["table3", "selectedRowKeys"]
+                                    ),
+                                    themeResetClassName: classNames(
+                                      projectcss.root_reset,
+                                      projectcss.root_reset_tags,
+                                      projectcss.plasmic_default_styles,
+                                      projectcss.plasmic_mixins,
+                                      projectcss.plasmic_tokens,
+                                      plasmic_antd_5_hostless_css.plasmic_tokens,
+                                      plasmic_plasmic_rich_components_css.plasmic_tokens
+                                    )
+                                  };
+                                  initializeCodeComponentStates(
+                                    $state,
+                                    [
+                                      {
+                                        name: "selectedRowKey",
+                                        plasmicStateName:
+                                          "table3.selectedRowKey"
+                                      },
+                                      {
+                                        name: "selectedRow",
+                                        plasmicStateName: "table3.selectedRow"
+                                      },
+                                      {
+                                        name: "selectedRows",
+                                        plasmicStateName: "table3.selectedRows"
+                                      },
+                                      {
+                                        name: "selectedRowKeys",
+                                        plasmicStateName:
+                                          "table3.selectedRowKeys"
+                                      }
+                                    ],
+                                    [],
+                                    RichTable_Helpers ?? {},
+                                    child$Props
+                                  );
+
+                                  return (
+                                    <RichTable
+                                      data-plasmic-name={"table3"}
+                                      data-plasmic-override={overrides.table3}
+                                      {...child$Props}
+                                    />
+                                  );
+                                })()}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          sty.freeBox__cyvS
-                        )}
-                      >
-                        <div
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__clzgn
-                          )}
-                        >
-                          {"Nearby Comparables"}
-                        </div>
-                      </div>
-                      {(() => {
-                        const child$Props = {
-                          className: classNames("__wab_instance", sty.table2),
-                          data: (() => {
-                            try {
-                              return (() => {
-                                const propid = $queries.getProperties.data.find(
-                                  entry =>
-                                    entry.address1 === $state.select8.value
-                                ).id;
-                                return $queries.getComps.data.filter(
-                                  entry => entry.property_Id == propid
-                                );
-                              })();
-                            } catch (e) {
-                              if (
-                                e instanceof TypeError ||
-                                e?.plasmicType === "PlasmicUndefinedDataError"
-                              ) {
-                                return undefined;
-                              }
-                              throw e;
-                            }
-                          })(),
-                          fields: (() => {
-                            const __composite = [
-                              {
-                                key: "Distance",
-                                fieldId: "Distance",
-                                disableSorting: null,
-                                dataType: null,
-                                maximumFractionDigits: null
-                              },
-                              {
-                                key: "address1",
-                                fieldId: "address1",
-                                disableSorting: null,
-                                title: null,
-                                dataType: null
-                              },
-                              {
-                                key: "city",
-                                fieldId: "city",
-                                disableSorting: null,
-                                title: null
-                              },
-                              {
-                                key: "state",
-                                fieldId: "state",
-                                disableSorting: null,
-                                title: null,
-                                isHidden: null
-                              },
-                              { key: "id", fieldId: "id", isHidden: null },
-                              {
-                                key: "created_at",
-                                fieldId: "created_at",
-                                isHidden: null
-                              },
-                              {
-                                key: "BedroomsTotal",
-                                fieldId: "BedroomsTotal",
-                                disableSorting: null,
-                                title: null
-                              },
-                              {
-                                key: "BathroomsTotal",
-                                fieldId: "BathroomsTotal",
-                                disableSorting: null,
-                                title: null
-                              },
-                              {
-                                key: "stories",
-                                fieldId: "stories",
-                                title: null,
-                                disableSorting: null
-                              },
-                              {
-                                key: "RoomsTotal",
-                                fieldId: "RoomsTotal",
-                                title: null,
-                                disableSorting: null
-                              },
-                              {
-                                key: "lotSize",
-                                fieldId: "lotSize",
-                                dataType: null,
-                                maximumFractionDigits: null,
-                                disableSorting: null,
-                                title: null
-                              },
-                              {
-                                key: "addressFull",
-                                fieldId: "addressFull",
-                                isHidden: null
-                              },
-                              {
-                                key: "pricePerSqFoot",
-                                fieldId: "pricePerSqFoot",
-                                isHidden: null
-                              },
-                              {
-                                key: "clientId",
-                                fieldId: "clientId",
-                                isHidden: null
-                              },
-                              {
-                                key: "parcel_number",
-                                fieldId: "parcel_number",
-                                isHidden: null
-                              },
-                              {
-                                key: "property_type",
-                                fieldId: "property_type",
-                                isHidden: null
-                              },
-                              {
-                                key: "property_Id",
-                                fieldId: "property_Id",
-                                isHidden: null
-                              },
-                              {
-                                key: "StreetName",
-                                fieldId: "StreetName",
-                                isHidden: null
-                              },
-                              {
-                                key: "zipCode",
-                                fieldId: "zipCode",
-                                isHidden: null
-                              },
-                              {
-                                key: "PreDir",
-                                fieldId: "PreDir",
-                                isHidden: null
-                              },
-                              {
-                                key: "StreetType",
-                                fieldId: "StreetType",
-                                isHidden: null
-                              },
-                              {
-                                key: "neighborhood_code",
-                                fieldId: "neighborhood_code",
-                                isHidden: null
-                              },
-                              {
-                                key: "ListingKeyNumeric",
-                                fieldId: "ListingKeyNumeric",
-                                isHidden: null
-                              },
-                              {
-                                key: "latitude",
-                                fieldId: "latitude",
-                                isHidden: null
-                              },
-                              {
-                                key: "atommId",
-                                fieldId: "atommId",
-                                isHidden: null
-                              },
-                              {
-                                key: "streetPhoto",
-                                fieldId: "streetPhoto",
-                                isHidden: null
-                              },
-                              {
-                                key: "parcel_acres",
-                                fieldId: "parcel_acres",
-                                isHidden: null
-                              },
-                              {
-                                key: "address2",
-                                fieldId: "address2",
-                                isHidden: null
-                              },
-                              {
-                                key: "homeEstimate",
-                                fieldId: "homeEstimate",
-                                disableSorting: null,
-                                isHidden: null
-                              },
-                              {
-                                key: "longitude",
-                                fieldId: "longitude",
-                                isHidden: null
-                              },
-                              {
-                                key: "StreetDir",
-                                fieldId: "StreetDir",
-                                isHidden: null
-                              },
-                              {
-                                key: "HouseNum",
-                                fieldId: "HouseNum",
-                                isHidden: null
-                              },
-                              {
-                                key: "county",
-                                fieldId: "county",
-                                isHidden: null
-                              },
-                              {
-                                key: "year_built",
-                                fieldId: "year_built",
-                                dataType: null,
-                                disableSorting: null,
-                                title: null,
-                                isHidden: null
-                              },
-                              {
-                                key: "total_sq_ft",
-                                fieldId: "total_sq_ft",
-                                isHidden: null
-                              },
-                              {
-                                key: "total_assessed",
-                                fieldId: "total_assessed",
-                                isHidden: null,
-                                disableSorting: null,
-                                dataType: null,
-                                maximumFractionDigits: null,
-                                title: null
-                              },
-                              {
-                                key: "taxable_value",
-                                fieldId: "taxable_value",
-                                isHidden: null
-                              }
-                            ];
-                            __composite["0"]["disableSorting"] = true;
-                            __composite["0"]["dataType"] = "number";
-                            __composite["0"]["maximumFractionDigits"] = 2;
-                            __composite["1"]["disableSorting"] = true;
-                            __composite["1"]["title"] = "Address";
-                            __composite["1"]["dataType"] = "string";
-                            __composite["2"]["disableSorting"] = true;
-                            __composite["2"]["title"] = "City";
-                            __composite["3"]["disableSorting"] = true;
-                            __composite["3"]["title"] = "State";
-                            __composite["3"]["isHidden"] = true;
-                            __composite["4"]["isHidden"] = true;
-                            __composite["5"]["isHidden"] = true;
-                            __composite["6"]["disableSorting"] = true;
-                            __composite["6"]["title"] = "Bed";
-                            __composite["7"]["disableSorting"] = true;
-                            __composite["7"]["title"] = "Bath";
-                            __composite["8"]["title"] = "Stories";
-                            __composite["8"]["disableSorting"] = true;
-                            __composite["9"]["title"] = "Rooms";
-                            __composite["9"]["disableSorting"] = true;
-                            __composite["10"]["dataType"] = "number";
-                            __composite["10"]["maximumFractionDigits"] = 2;
-                            __composite["10"]["disableSorting"] = true;
-                            __composite["10"]["title"] = "Lot";
-                            __composite["11"]["isHidden"] = true;
-                            __composite["12"]["isHidden"] = true;
-                            __composite["13"]["isHidden"] = true;
-                            __composite["14"]["isHidden"] = true;
-                            __composite["15"]["isHidden"] = true;
-                            __composite["16"]["isHidden"] = true;
-                            __composite["17"]["isHidden"] = true;
-                            __composite["18"]["isHidden"] = true;
-                            __composite["19"]["isHidden"] = true;
-                            __composite["20"]["isHidden"] = true;
-                            __composite["21"]["isHidden"] = true;
-                            __composite["22"]["isHidden"] = true;
-                            __composite["23"]["isHidden"] = true;
-                            __composite["24"]["isHidden"] = true;
-                            __composite["25"]["isHidden"] = true;
-                            __composite["26"]["isHidden"] = true;
-                            __composite["27"]["isHidden"] = true;
-                            __composite["28"]["disableSorting"] = true;
-                            __composite["28"]["isHidden"] = true;
-                            __composite["29"]["isHidden"] = true;
-                            __composite["30"]["isHidden"] = true;
-                            __composite["31"]["isHidden"] = true;
-                            __composite["32"]["isHidden"] = true;
-                            __composite["33"]["dataType"] = "string";
-                            __composite["33"]["disableSorting"] = true;
-                            __composite["33"]["title"] = "Year";
-                            __composite["33"]["isHidden"] = false;
-                            __composite["34"]["isHidden"] = true;
-                            __composite["35"]["isHidden"] = false;
-                            __composite["35"]["disableSorting"] = true;
-                            __composite["35"]["dataType"] = "currency";
-                            __composite["35"]["maximumFractionDigits"] = 0;
-                            __composite["35"]["title"] = "Valuation";
-                            __composite["36"]["isHidden"] = true;
-                            return __composite;
-                          })(),
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              sty.freeBox__cyvS
+                            )}
+                          >
+                            <div
+                              className={classNames(
+                                projectcss.all,
+                                projectcss.__wab_text,
+                                sty.text__clzgn
+                              )}
+                            >
+                              {"Nearby Comparables"}
+                            </div>
+                          </div>
+                          {(() => {
+                            const child$Props = {
+                              className: classNames(
+                                "__wab_instance",
+                                sty.table2
+                              ),
+                              data: (() => {
+                                try {
+                                  return (() => {
+                                    const propid =
+                                      $queries.getProperties.data.find(
+                                        entry =>
+                                          entry.address1 ===
+                                          $state.select8.value
+                                      ).id;
+                                    return $queries.getComps.data.filter(
+                                      entry => entry.property_Id == propid
+                                    );
+                                  })();
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return undefined;
+                                  }
+                                  throw e;
+                                }
+                              })(),
+                              fields: (() => {
+                                const __composite = [
+                                  {
+                                    key: "Distance",
+                                    fieldId: "Distance",
+                                    disableSorting: null,
+                                    dataType: null,
+                                    maximumFractionDigits: null
+                                  },
+                                  {
+                                    key: "address1",
+                                    fieldId: "address1",
+                                    disableSorting: null,
+                                    title: null,
+                                    dataType: null
+                                  },
+                                  {
+                                    key: "city",
+                                    fieldId: "city",
+                                    disableSorting: null,
+                                    title: null
+                                  },
+                                  {
+                                    key: "state",
+                                    fieldId: "state",
+                                    disableSorting: null,
+                                    title: null,
+                                    isHidden: null
+                                  },
+                                  { key: "id", fieldId: "id", isHidden: null },
+                                  {
+                                    key: "created_at",
+                                    fieldId: "created_at",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "BedroomsTotal",
+                                    fieldId: "BedroomsTotal",
+                                    disableSorting: null,
+                                    title: null
+                                  },
+                                  {
+                                    key: "BathroomsTotal",
+                                    fieldId: "BathroomsTotal",
+                                    disableSorting: null,
+                                    title: null
+                                  },
+                                  {
+                                    key: "stories",
+                                    fieldId: "stories",
+                                    title: null,
+                                    disableSorting: null,
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "RoomsTotal",
+                                    fieldId: "RoomsTotal",
+                                    title: null,
+                                    disableSorting: null
+                                  },
+                                  {
+                                    key: "lotSize",
+                                    fieldId: "lotSize",
+                                    dataType: null,
+                                    maximumFractionDigits: null,
+                                    disableSorting: null,
+                                    title: null
+                                  },
+                                  {
+                                    key: "addressFull",
+                                    fieldId: "addressFull",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "pricePerSqFoot",
+                                    fieldId: "pricePerSqFoot",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "clientId",
+                                    fieldId: "clientId",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "parcel_number",
+                                    fieldId: "parcel_number",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "property_type",
+                                    fieldId: "property_type",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "property_Id",
+                                    fieldId: "property_Id",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "StreetName",
+                                    fieldId: "StreetName",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "zipCode",
+                                    fieldId: "zipCode",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "PreDir",
+                                    fieldId: "PreDir",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "StreetType",
+                                    fieldId: "StreetType",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "neighborhood_code",
+                                    fieldId: "neighborhood_code",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "ListingKeyNumeric",
+                                    fieldId: "ListingKeyNumeric",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "latitude",
+                                    fieldId: "latitude",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "atommId",
+                                    fieldId: "atommId",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "streetPhoto",
+                                    fieldId: "streetPhoto",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "parcel_acres",
+                                    fieldId: "parcel_acres",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "address2",
+                                    fieldId: "address2",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "homeEstimate",
+                                    fieldId: "homeEstimate",
+                                    disableSorting: null,
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "longitude",
+                                    fieldId: "longitude",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "StreetDir",
+                                    fieldId: "StreetDir",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "HouseNum",
+                                    fieldId: "HouseNum",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "county",
+                                    fieldId: "county",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "year_built",
+                                    fieldId: "year_built",
+                                    dataType: null,
+                                    disableSorting: null,
+                                    title: null,
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "total_sq_ft",
+                                    fieldId: "total_sq_ft",
+                                    isHidden: null
+                                  },
+                                  {
+                                    key: "total_assessed",
+                                    fieldId: "total_assessed",
+                                    isHidden: null,
+                                    disableSorting: null,
+                                    dataType: null,
+                                    maximumFractionDigits: null,
+                                    title: null
+                                  },
+                                  {
+                                    key: "taxable_value",
+                                    fieldId: "taxable_value",
+                                    isHidden: null
+                                  }
+                                ];
+                                __composite["0"]["disableSorting"] = true;
+                                __composite["0"]["dataType"] = "number";
+                                __composite["0"]["maximumFractionDigits"] = 2;
+                                __composite["1"]["disableSorting"] = true;
+                                __composite["1"]["title"] = "Address";
+                                __composite["1"]["dataType"] = "string";
+                                __composite["2"]["disableSorting"] = true;
+                                __composite["2"]["title"] = "City";
+                                __composite["3"]["disableSorting"] = true;
+                                __composite["3"]["title"] = "State";
+                                __composite["3"]["isHidden"] = true;
+                                __composite["4"]["isHidden"] = true;
+                                __composite["5"]["isHidden"] = true;
+                                __composite["6"]["disableSorting"] = true;
+                                __composite["6"]["title"] = "Bed";
+                                __composite["7"]["disableSorting"] = true;
+                                __composite["7"]["title"] = "Bath";
+                                __composite["8"]["title"] = "Stories";
+                                __composite["8"]["disableSorting"] = true;
+                                __composite["8"]["isHidden"] = true;
+                                __composite["9"]["title"] = "Rooms";
+                                __composite["9"]["disableSorting"] = true;
+                                __composite["10"]["dataType"] = "number";
+                                __composite["10"]["maximumFractionDigits"] = 2;
+                                __composite["10"]["disableSorting"] = true;
+                                __composite["10"]["title"] = "Lot";
+                                __composite["11"]["isHidden"] = true;
+                                __composite["12"]["isHidden"] = true;
+                                __composite["13"]["isHidden"] = true;
+                                __composite["14"]["isHidden"] = true;
+                                __composite["15"]["isHidden"] = true;
+                                __composite["16"]["isHidden"] = true;
+                                __composite["17"]["isHidden"] = true;
+                                __composite["18"]["isHidden"] = true;
+                                __composite["19"]["isHidden"] = true;
+                                __composite["20"]["isHidden"] = true;
+                                __composite["21"]["isHidden"] = true;
+                                __composite["22"]["isHidden"] = true;
+                                __composite["23"]["isHidden"] = true;
+                                __composite["24"]["isHidden"] = true;
+                                __composite["25"]["isHidden"] = true;
+                                __composite["26"]["isHidden"] = true;
+                                __composite["27"]["isHidden"] = true;
+                                __composite["28"]["disableSorting"] = true;
+                                __composite["28"]["isHidden"] = true;
+                                __composite["29"]["isHidden"] = true;
+                                __composite["30"]["isHidden"] = true;
+                                __composite["31"]["isHidden"] = true;
+                                __composite["32"]["isHidden"] = true;
+                                __composite["33"]["dataType"] = "string";
+                                __composite["33"]["disableSorting"] = true;
+                                __composite["33"]["title"] = "Year";
+                                __composite["33"]["isHidden"] = false;
+                                __composite["34"]["isHidden"] = true;
+                                __composite["35"]["isHidden"] = false;
+                                __composite["35"]["disableSorting"] = true;
+                                __composite["35"]["dataType"] = "currency";
+                                __composite["35"]["maximumFractionDigits"] = 0;
+                                __composite["35"]["title"] = "Valuation";
+                                __composite["36"]["isHidden"] = true;
+                                return __composite;
+                              })(),
 
-                          hideColumnPicker: true,
-                          hideExports: true,
-                          hideSearch: true,
-                          onRowSelectionChanged: async (...eventArgs: any) => {
-                            generateStateOnChangePropForCodeComponents(
+                              hideColumnPicker: true,
+                              hideExports: true,
+                              hideSearch: true,
+                              onRowSelectionChanged: async (
+                                ...eventArgs: any
+                              ) => {
+                                generateStateOnChangePropForCodeComponents(
+                                  $state,
+                                  "selectedRowKey",
+                                  ["table2", "selectedRowKey"],
+                                  RichTable_Helpers
+                                ).apply(null, eventArgs);
+                                generateStateOnChangePropForCodeComponents(
+                                  $state,
+                                  "selectedRow",
+                                  ["table2", "selectedRow"],
+                                  RichTable_Helpers
+                                ).apply(null, eventArgs);
+                                generateStateOnChangePropForCodeComponents(
+                                  $state,
+                                  "selectedRows",
+                                  ["table2", "selectedRows"],
+                                  RichTable_Helpers
+                                ).apply(null, eventArgs);
+                                generateStateOnChangePropForCodeComponents(
+                                  $state,
+                                  "selectedRowKeys",
+                                  ["table2", "selectedRowKeys"],
+                                  RichTable_Helpers
+                                ).apply(null, eventArgs);
+                              },
+                              pageSize: 8,
+                              pagination: true,
+                              scopeClassName: sty["table2__instance"],
+                              selectedRowKey: generateStateValueProp($state, [
+                                "table2",
+                                "selectedRowKey"
+                              ]),
+                              selectedRowKeys: generateStateValueProp($state, [
+                                "table2",
+                                "selectedRowKeys"
+                              ]),
+                              themeResetClassName: classNames(
+                                projectcss.root_reset,
+                                projectcss.root_reset_tags,
+                                projectcss.plasmic_default_styles,
+                                projectcss.plasmic_mixins,
+                                projectcss.plasmic_tokens,
+                                plasmic_antd_5_hostless_css.plasmic_tokens,
+                                plasmic_plasmic_rich_components_css.plasmic_tokens
+                              )
+                            };
+                            initializeCodeComponentStates(
                               $state,
-                              "selectedRowKey",
-                              ["table2", "selectedRowKey"],
-                              RichTable_Helpers
-                            ).apply(null, eventArgs);
-                            generateStateOnChangePropForCodeComponents(
-                              $state,
-                              "selectedRow",
-                              ["table2", "selectedRow"],
-                              RichTable_Helpers
-                            ).apply(null, eventArgs);
-                            generateStateOnChangePropForCodeComponents(
-                              $state,
-                              "selectedRows",
-                              ["table2", "selectedRows"],
-                              RichTable_Helpers
-                            ).apply(null, eventArgs);
-                            generateStateOnChangePropForCodeComponents(
-                              $state,
-                              "selectedRowKeys",
-                              ["table2", "selectedRowKeys"],
-                              RichTable_Helpers
-                            ).apply(null, eventArgs);
-                          },
-                          pagination: false,
-                          scopeClassName: sty["table2__instance"],
-                          selectedRowKey: generateStateValueProp($state, [
-                            "table2",
-                            "selectedRowKey"
-                          ]),
-                          selectedRowKeys: generateStateValueProp($state, [
-                            "table2",
-                            "selectedRowKeys"
-                          ]),
-                          themeResetClassName: classNames(
-                            projectcss.root_reset,
-                            projectcss.root_reset_tags,
-                            projectcss.plasmic_default_styles,
-                            projectcss.plasmic_mixins,
-                            projectcss.plasmic_tokens,
-                            plasmic_antd_5_hostless_css.plasmic_tokens,
-                            plasmic_plasmic_rich_components_css.plasmic_tokens
-                          )
-                        };
-                        initializeCodeComponentStates(
-                          $state,
-                          [
-                            {
-                              name: "selectedRowKey",
-                              plasmicStateName: "table2.selectedRowKey"
-                            },
-                            {
-                              name: "selectedRow",
-                              plasmicStateName: "table2.selectedRow"
-                            },
-                            {
-                              name: "selectedRows",
-                              plasmicStateName: "table2.selectedRows"
-                            },
-                            {
-                              name: "selectedRowKeys",
-                              plasmicStateName: "table2.selectedRowKeys"
-                            }
-                          ],
-                          [],
-                          RichTable_Helpers ?? {},
-                          child$Props
-                        );
+                              [
+                                {
+                                  name: "selectedRowKey",
+                                  plasmicStateName: "table2.selectedRowKey"
+                                },
+                                {
+                                  name: "selectedRow",
+                                  plasmicStateName: "table2.selectedRow"
+                                },
+                                {
+                                  name: "selectedRows",
+                                  plasmicStateName: "table2.selectedRows"
+                                },
+                                {
+                                  name: "selectedRowKeys",
+                                  plasmicStateName: "table2.selectedRowKeys"
+                                }
+                              ],
+                              [],
+                              RichTable_Helpers ?? {},
+                              child$Props
+                            );
 
-                        return (
-                          <RichTable
-                            data-plasmic-name={"table2"}
-                            data-plasmic-override={overrides.table2}
-                            {...child$Props}
-                          />
-                        );
-                      })()}
-                    </section>
+                            return (
+                              <RichTable
+                                data-plasmic-name={"table2"}
+                                data-plasmic-override={overrides.table2}
+                                {...child$Props}
+                              />
+                            );
+                          })()}
+                        </section>
+                      ) : null}
+                    </div>
                   ) : null}
                   {(() => {
                     try {
-                      return $state.radioGroup?.value == "2";
+                      return (
+                        $state.radioGroup?.value == "2" &&
+                        $state.table.selectedRowKey != undefined
+                      );
                     } catch (e) {
                       if (
                         e instanceof TypeError ||
@@ -4924,6 +5352,33 @@ function PlasmicAdminDash__RenderFunc(props: {
                       className={classNames(projectcss.all, sty.section__o8Bld)}
                     />
                   ) : null}
+                  <section
+                    className={classNames(projectcss.all, sty.section__ueEzF)}
+                  >
+                    {(() => {
+                      try {
+                        return $state.select8.value == undefined;
+                      } catch (e) {
+                        if (
+                          e instanceof TypeError ||
+                          e?.plasmicType === "PlasmicUndefinedDataError"
+                        ) {
+                          return true;
+                        }
+                        throw e;
+                      }
+                    })() ? (
+                      <div
+                        className={classNames(
+                          projectcss.all,
+                          projectcss.__wab_text,
+                          sty.text__wPj52
+                        )}
+                      >
+                        {"No Properties Yet"}
+                      </div>
+                    ) : null}
+                  </section>
                 </div>
               </div>
             </div>
@@ -4956,11 +5411,11 @@ const PlasmicDescendants = {
     "table",
     "select8",
     "radioGroup",
-    "modal",
-    "form4",
     "drawer",
     "iframe",
     "img",
+    "modal",
+    "form4",
     "columns",
     "table3",
     "table2",
@@ -4999,11 +5454,11 @@ const PlasmicDescendants = {
   table: ["table"],
   select8: ["select8"],
   radioGroup: ["radioGroup"],
-  modal: ["modal", "form4"],
-  form4: ["form4"],
   drawer: ["drawer", "iframe"],
   iframe: ["iframe"],
   img: ["img"],
+  modal: ["modal", "form4"],
+  form4: ["form4"],
   columns: ["columns"],
   table3: ["table3"],
   table2: ["table2"],
@@ -5035,11 +5490,11 @@ type NodeDefaultElementType = {
   table: typeof RichTable;
   select8: typeof AntdSelect;
   radioGroup: typeof AntdRadioGroup;
-  modal: typeof AntdModal;
-  form4: typeof FormWrapper;
   drawer: typeof Drawer;
   iframe: typeof Iframe;
   img: typeof PlasmicImg__;
+  modal: typeof AntdModal;
+  form4: typeof FormWrapper;
   columns: "div";
   table3: typeof RichTable;
   table2: typeof RichTable;
@@ -5152,11 +5607,11 @@ export const PlasmicAdminDash = Object.assign(
     table: makeNodeComponent("table"),
     select8: makeNodeComponent("select8"),
     radioGroup: makeNodeComponent("radioGroup"),
-    modal: makeNodeComponent("modal"),
-    form4: makeNodeComponent("form4"),
     drawer: makeNodeComponent("drawer"),
     iframe: makeNodeComponent("iframe"),
     img: makeNodeComponent("img"),
+    modal: makeNodeComponent("modal"),
+    form4: makeNodeComponent("form4"),
     columns: makeNodeComponent("columns"),
     table3: makeNodeComponent("table3"),
     table2: makeNodeComponent("table2"),
